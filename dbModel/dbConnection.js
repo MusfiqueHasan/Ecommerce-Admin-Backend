@@ -1,11 +1,11 @@
 const { createPool } = require("mysql");
-
+const {HOST,USER,PASSWORD,DATABASE,CONNECTION_LIMIT} = require('../config')
 const pool = createPool({
-	host: "localhost",
-	user: "root",
-	password: "",
-	database: "ecommerce",
-	connectionLimit: 25,
+	host: HOST,
+	user: USER,
+	password: PASSWORD,
+	database: DATABASE,
+	connectionLimit: CONNECTION_LIMIT,
 });
 
 module.exports = pool;
