@@ -1,17 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotEnv = require("dotenv");
+const {PORT} = require('./config')
 
 const apis = require('./routes/allApiRoutes')
-
-dotEnv.config({ path: "./.config.env" });
 
 const app = express();
 
 app.use(bodyParser.json({ type: "application/json" }));
 app.use(bodyParser.urlencoded({ extended: true }));
-const port = process.env.PORT || 5000;
+const port = PORT || 5000;
 app.use(cors());
 app.use(apis)
 

@@ -5,5 +5,6 @@ module.exports = {
   USER: process.env.API_USER,
   PASSWORD: process.env.API_PASSWORD,
   DATABASE: process.env.API_DATABASE,
-  CONNECTION_LIMIT: process.env.API_CONNECTION_LIMIT
+  CONNECTION_LIMIT: process.env.API_CONNECTION_LIMIT,
+  PORT: process.env.API_PORT
 };
