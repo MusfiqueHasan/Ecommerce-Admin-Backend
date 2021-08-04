@@ -3,7 +3,7 @@ const routes = express.Router();
 const Categories = require("../../../dbModel/Product/Categories");
 const Utils = require("../../../Utils/Utils");
 
-routes.post("/add-category", async (req, res) => {
+routes.post("/category", async (req, res) => {
   const { categoryData } = req.body;
   const { name, description, parent_id } = categoryData;
   try {
@@ -43,10 +43,12 @@ routes.get("/categories", async (req, res) => {
   }
 });
 
-routes.post("/remove-a-category", async (req, res) => {
+
+routes.delete("/categories/:id", async (req, res) => {
   try {
-    const { category_id } = req.body;
-    const response = await Categories.removeACategory(category_id);
+    const { id } = req.params;
+    console.log(id)
+    const response = await Categories.removeACategory(id);
     return res.status(200).json({
       status: "success",
       msg: "Successfully remove item"

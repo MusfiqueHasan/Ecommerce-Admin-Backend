@@ -1,48 +1,51 @@
 const PromiseModule = require("../Promise/PromiseModule");
 const Utils = require("../../Utils/Utils");
 
-const LIMIT_THRESHOLD = 15
+const LIMIT_THRESHOLD = 15;
 const Products = {
   addProducts,
   addProductToCategories,
   addProductGallery,
   getProducts,
   getFeaturedProducts,
-  getPopularProducts
+  getPopularProducts,
+  addProductDetails,
+  addProductToAttributes,
+  addProductToVariants
 };
 
-async function addProducts(productDetails, inserted_at) {
+async function addProducts(productDetails) {
   const sqlInsert =
-    "Insert into products (sku,	name,	description,	product_status_id,	regular_price,	discount_price,	quantity,	inserted_at,	updated_at,	view_on_website,	featured_img,featured_product,popular_product) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    "Insert Into product (sku,parent_id,product_status_id,view_on_website,featured_product,popular_product,isTaxable,isDisableDiscount,featured_img,regular_price,discount_price, inserted_at, updated_at) Values ?";
+
+  return PromiseModule.createUpdateDelete(sqlInsert, productDetails);
+}
+
+async function addProductDetails(productDetails) {
   const {
-    sku,
-    name,
-    description,
-    productStatusId,
-    regular_price,
-    discount_price,
-    quantity,
-    view_on_website,
-    featured_img,
-    featured_product,
-    popular_product
+    product_id,
+    product_name,
+    short_description,
+    long_description,
+    product_gallery,
+    inserted_at,
+    updated_at
   } = productDetails;
-  const productData = [
-    sku,
-    name,
-    description,
-    productStatusId,
-    regular_price,
-    discount_price,
-    quantity,
+
+  const sqlInsert =
+    "Insert into product_details (product_id, product_name,short_description,long_description,product_gallery,inserted_at,updated_at) Values (?,?,?,?,?,?,?)";
+
+  const productDetailsData = [
+    product_id,
+    product_name,
+    short_description,
+    long_description,
+    product_gallery,
     inserted_at,
-    inserted_at,
-    view_on_website,
-    JSON.stringify({ featured_img: featured_img }),
-    featured_product || false,
-    popular_product || false
+    updated_at
   ];
-  return PromiseModule.createUpdateDelete(sqlInsert, productData);
+
+  return PromiseModule.createUpdateDelete(sqlInsert, productDetailsData);
 }
 
 async function addProductToCategories(categories) {
@@ -52,6 +55,19 @@ async function addProductToCategories(categories) {
   return PromiseModule.createUpdateDelete(sqlInsert, categories);
 }
 
+async function addProductToAttributes(attributes) {
+  const sqlInsert =
+    "Insert into product_attribute(product_id,attribute_id) Values ?";
+  return PromiseModule.createUpdateDelete(sqlInsert, attributes);
+}
+
+async function addProductToVariants(product_variants) {
+  const sqlInsert =
+    "Insert into product_variants(product_variant_id,product_variant_combinations) Values ?";
+
+  return PromiseModule.createUpdateDelete(sqlInsert, product_variants);
+}
+
 async function addProductGallery(product_gallery) {
   const sqlInsert =
     "Insert Into product_details (product_id,product_gallery) values (?,?)";
@@ -59,7 +75,7 @@ async function addProductGallery(product_gallery) {
   return PromiseModule.createUpdateDelete(sqlInsert, product_gallery);
 }
 
-async function getProducts(pageNumber,productLimit) {
+async function getProducts(pageNumber, productLimit) {
   let sqlSearch = "";
 
   if (pageNumber) {
@@ -73,7 +89,7 @@ async function getProducts(pageNumber,productLimit) {
   }
   return PromiseModule.readData(sqlSearch);
 }
-async function getFeaturedProducts(type, pageNumber,productLimit) {
+async function getFeaturedProducts(type, pageNumber, productLimit) {
   let sqlSearch = "";
 
   if (pageNumber) {
@@ -88,7 +104,7 @@ async function getFeaturedProducts(type, pageNumber,productLimit) {
   return PromiseModule.readData(sqlSearch);
 }
 
-async function getPopularProducts(type, pageNumber,productLimit) {
+async function getPopularProducts(type, pageNumber, productLimit) {
   let sqlSearch = "";
 
   if (pageNumber) {
