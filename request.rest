@@ -71,7 +71,7 @@ DELETE http://localhost:5000/api/options/2
 
 ///products
 ###
-GET http://localhost:5000/api/products?page=1&limit=30
+GET http://localhost:5000/api/products
 
 ###
 GET http://localhost:5000/api/products/128
