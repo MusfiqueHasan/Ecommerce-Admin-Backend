@@ -1,11 +1,11 @@
 const express = require("express");
 const routes = express.Router();
 const Utils = require("../../../Utils/Utils");
-const Attributes = require("../../../dbModel/Product/Attributes");
+const AttributesQuery = require("../../../Querry/Product/Attributes");
 // get attributes
 routes.get("/attributes", async (req, res) => {
   try {
-    const response = await Attributes.getAttributes();
+    const response = await AttributesQuery.getAttributes();
     const jsonObject = {
       massage: "success",
       results: [...response]
@@ -22,7 +22,7 @@ routes.post("/attribute", async (req, res) => {
   const inserted_at = Utils.getTimeStamp();
   const updated_at = inserted_at;
   try {
-    const response = await Attributes.addAttribute(
+    const response = await AttributesQuery.addAttribute(
       attribute_name,
       inserted_at,
       updated_at
@@ -44,7 +44,7 @@ routes.post("/attribute", async (req, res) => {
 routes.delete("/attributes/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await Attributes.removeAttribute(id);
+    const response = await AttributesQuery.removeAttribute(id);
     const jsonObject = {
       massage: "Attribute has been removed"
     };

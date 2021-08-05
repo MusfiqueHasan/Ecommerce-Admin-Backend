@@ -1,4 +1,4 @@
-const PromiseModule = require("../Promise/PromiseModule");
+const PromiseModule = require("../../dbModel/Promise/PromiseModule");
 
 const Options = {
   getOptions,

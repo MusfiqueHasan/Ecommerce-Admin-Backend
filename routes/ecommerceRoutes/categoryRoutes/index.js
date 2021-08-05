@@ -1,6 +1,6 @@
 const express = require("express");
 const routes = express.Router();
-const Categories = require("../../../dbModel/Product/Categories");
+const CategoriesQuery = require("../../../Querry/Product/Categories");
 const Utils = require("../../../Utils/Utils");
 
 routes.post("/category", async (req, res) => {
@@ -8,7 +8,7 @@ routes.post("/category", async (req, res) => {
   const { name, description, parent_id } = categoryData;
   try {
     const inserted_at = Utils.getTimeStamp();
-    const response = await Categories.addCategories(
+    const response = await CategoriesQuery.addCategories(
       name,
       parent_id,
       description,
@@ -30,7 +30,7 @@ routes.post("/category", async (req, res) => {
 
 routes.get("/categories", async (req, res) => {
   try {
-    const response = await Categories.getCategories();
+    const response = await CategoriesQuery.getCategories();
     return res.status(200).json({
       status: "success",
       data: {
@@ -43,12 +43,11 @@ routes.get("/categories", async (req, res) => {
   }
 });
 
-
 routes.delete("/categories/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id)
-    const response = await Categories.removeACategory(id);
+    console.log(id);
+    const response = await CategoriesQuery.removeACategory(id);
     return res.status(200).json({
       status: "success",
       msg: "Successfully remove item"

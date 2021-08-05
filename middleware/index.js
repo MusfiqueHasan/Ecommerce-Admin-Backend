@@ -1,5 +1,5 @@
 const Utils = require("../Utils/Utils");
-const Products = require("../dbModel/Product/Products");
+const Products = require("../Querry/Product/Products");
 const { ProductModel } = require("../Modles/Products");
 
 

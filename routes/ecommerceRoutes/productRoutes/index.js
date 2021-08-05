@@ -1,12 +1,14 @@
 const express = require("express");
 const routes = express.Router();
-const Product = require("../../../dbModel/Product/Products");
-const Inventory = require("../../../dbModel/Product/Inventory");
+const ProductQuery = require("../../../Querry/Product/Products");
+const InventoryQuery = require("../../../Querry/Product/Inventory");
 const Utils = require("../../../Utils/Utils");
 
 const {
   ProductModel,
-  ProductInventoryModel
+  ProductInventoryModel,
+  ProductResponseModel,
+  ParentProductModel
 } = require("../../../Modles/Products");
 
 const { parentProduct } = require("../../../middleware");
@@ -14,7 +16,7 @@ const { parentProduct } = require("../../../middleware");
 routes.get("/get-products", async (req, res) => {
   const { page, limit } = req.query;
   try {
-    const response = await Product.getProducts(page, limit);
+    const response = await ProductQuery.getProducts(page, limit);
     const jsonData = {
       status: "success",
       data: {
@@ -33,7 +35,7 @@ routes.get("/get-featured-product", async (req, res) => {
   const { page, limit } = req.query;
   const type = req.body.type || 1;
   try {
-    const response = await Product.getFeaturedProducts(type, page, limit);
+    const response = await ProductQuery.getFeaturedProducts(type, page, limit);
     const jsonData = {
       status: "success",
       data: {
@@ -57,7 +59,7 @@ routes.get("/get-popular-product", async (req, res) => {
   const type = req.body.type || 1;
 
   try {
-    const response = await Product.getPopularProducts(type, page, limit);
+    const response = await ProductQuery.getPopularProducts(type, page, limit);
     const jsonData = {
       status: "success",
       data: {
@@ -73,7 +75,52 @@ routes.get("/get-popular-product", async (req, res) => {
 });
 
 routes.get("/products", async (req, res) => {
-  console.log(req.body);
+  const { page, limit } = req.query;
+  ///here is some problem when pagination
+  try {
+    const response = await ProductQuery.getProducts(page, limit);
+    const product_data_response = [];
+
+    for (let i = 0; i < response.length; i++) {
+      const data = response.filter(
+        item => item.product_id === response[i].product_id
+      );
+      product_data_response.push(ParentProductModel(data));
+      i = i + data.length;
+    }
+    const jsonObject = {
+      massage: "success",
+      total_products: product_data_response.length,
+      products: [...product_data_response]
+    };
+    res.status(200).json(jsonObject);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+routes.get("/products/:id", async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    const response = await ProductQuery.getSingleProductDetails(id);
+    
+    const parentProduct = ParentProductModel(response);  
+    
+    const response_of_vairants = await ProductQuery.getProductVariants(id);
+    
+    const variants = [...response_of_vairants];
+    parentProduct["variants"] = variants;
+
+    const jsonObject = {
+      massage: "success",
+      product: parentProduct
+    };
+
+    res.status(200).json(jsonObject);
+  } catch (error) {
+    res.status(500).json({ massage: error.massage });
+  }
 });
 
 routes.post("/product", parentProduct, async (req, res) => {
@@ -112,6 +159,7 @@ routes.post("/product", parentProduct, async (req, res) => {
     product_id,
     item.attribute_id
   ]);
+
   // product inventory data
   const inventory = [
     Object.values(
@@ -137,11 +185,12 @@ routes.post("/product", parentProduct, async (req, res) => {
 
   try {
     //// HAVE TO OPTIMIZE HERE
-    await Product.addProductToCategories([productsToCategories]);
-    await Product.addProductToAttributes([productsToAttributes]);
-    await Product.addProductDetails(product_details);
-    await Inventory.addInventory([inventory]);
-    const response = await Product.addProducts([product_variants]);
+    await ProductQuery.addProductToCategories([productsToCategories]);
+    await ProductQuery.addProductToAttributes([productsToAttributes]);
+    await ProductQuery.addProductDetails(product_details);
+    await InventoryQuery.addInventory([inventory]);
+
+    const response = await ProductQuery.addProducts([product_variants]);
     const startingInsertedIndex = response.insertId;
 
     // product variations combination
@@ -165,9 +214,9 @@ routes.post("/product", parentProduct, async (req, res) => {
           )
         )
       );
-    await Inventory.addInventory([variants_Inventory]);
-    await Product.addProductToVariants([product_attributes_combination]);
-    console.log("final", response);
+
+    await InventoryQuery.addInventory([variants_Inventory]);
+    await ProductQuery.addProductToVariants([product_attributes_combination]);
 
     const jsonObject = {
       massage: "success",

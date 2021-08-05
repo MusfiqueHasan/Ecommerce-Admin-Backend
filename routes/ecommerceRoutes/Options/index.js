@@ -1,11 +1,11 @@
 const express = require("express");
 const routes = express.Router();
-const Options = require("../../../dbModel/Product/Options");
+const OptionsQuery = require("../../../Querry/Product/Options");
 const Utils = require("../../../Utils/Utils");
 // get options
 routes.get("/options", async (req, res) => {
   try {
-    const response = await Options.getOptions();
+    const response = await OptionsQuery.getOptions();
     const jsonObject = {
       massage: "success",
       results: [...response]
@@ -22,7 +22,7 @@ routes.post("/option", async (req, res) => {
   const inserted_at = Utils.getTimeStamp();
   const updated_at = inserted_at;
   try {
-    const response = await Options.addOption(
+    const response = await OptionsQuery.addOption(
       attribute_id,
       option_name,
       inserted_at,
@@ -46,7 +46,7 @@ routes.post("/option", async (req, res) => {
 routes.delete("/options/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await Options.removeOption(id);
+    const response = await OptionsQuery.removeOption(id);
     const jsonObject = {
       massage: "Option has been removed"
     };

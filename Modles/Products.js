@@ -42,4 +42,26 @@ const ProductInventoryModel = (data, product_id, inserted_at, updated_at) => {
   };
   return inventory;
 };
-module.exports = { ProductModel, ProductInventoryModel };
+
+const ProductResponseModel = product => {
+  const new_product = { ...product };
+  delete new_product.attribute_id;
+  delete new_product.attribute_name;
+  delete new_product.option_id;
+  delete new_product.option_name;
+  return new_product;
+};
+
+const ParentProductModel = data => {
+  const att = {};
+  data.map(item => {
+    att[item.attribute_name] = [];
+  });
+
+  data.map(item => {
+    att[item.attribute_name].push(item.option_name);
+  });
+  const product = { ...data[0], ...att };
+  return ProductResponseModel(product)
+};
+module.exports = { ProductModel, ProductInventoryModel, ProductResponseModel,ParentProductModel };

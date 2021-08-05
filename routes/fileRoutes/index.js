@@ -1,6 +1,6 @@
 const express = require("express");
 const routes = express.Router();
-const Files = require("../../dbModel/Files/Files");
+const FilesQuery = require("../../Querry/Files/Files");
 const Utils = require("../../Utils/Utils");
 const multer = require("multer");
 const fs = require("fs");
@@ -35,7 +35,7 @@ routes.post("/file-upload", upload.single("file"), async (req, res) => {
   const inserted_at = Utils.getTimeStamp();
   const size = req.file.size;
   try {
-    const response = await Files.insertFile(
+    const response = await FilesQuery.insertFile(
       originalname,
       mimetype,
       inserted_at,

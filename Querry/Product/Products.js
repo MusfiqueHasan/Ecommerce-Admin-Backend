@@ -1,4 +1,4 @@
-const PromiseModule = require("../Promise/PromiseModule");
+const PromiseModule = require("../../dbModel/Promise/PromiseModule");
 const Utils = require("../../Utils/Utils");
 
 const LIMIT_THRESHOLD = 15;
@@ -11,7 +11,9 @@ const Products = {
   getPopularProducts,
   addProductDetails,
   addProductToAttributes,
-  addProductToVariants
+  addProductToVariants,
+  getSingleProductDetails,
+  getProductVariants
 };
 
 async function addProducts(productDetails) {
@@ -76,19 +78,33 @@ async function addProductGallery(product_gallery) {
 }
 
 async function getProducts(pageNumber, productLimit) {
-  let sqlSearch = "";
+  let sqlSearch =
+    "SELECT * FROM product INNER JOIN product_details ON product.product_id = product_details.product_id INNER JOIN ( SELECT product_attribute.attribute_id, product_attribute.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute, attributes,options WHERE product_attribute.attribute_id = attributes.attribute_id AND options.attribute_id = attributes.attribute_id ) as Product_attribute On Product_attribute.product_id = product.product_id ORDER BY `product`.`product_id`";
 
   if (pageNumber) {
     // limit
     const page = parseInt(pageNumber);
     const limit = productLimit ? parseInt(productLimit) : LIMIT_THRESHOLD;
     const offset = (page - 1) * limit;
-    sqlSearch = `Select * from products LIMIT  ${limit} OFFSET  ${offset}`;
-  } else {
-    sqlSearch = "Select * from products";
+    sqlSearch = `${sqlSearch} LIMIT  ${limit} OFFSET  ${offset}`;
   }
   return PromiseModule.readData(sqlSearch);
 }
+
+// SELECT * FROM product,product_variants,prduct_inventory WHERE product_variants.product_variant_id = product.product_id And product.parent_id = 128 And prduct_inventory.product_id = product.product_id
+
+async function getSingleProductDetails(product_id) {
+  const sqlSearch = `SELECT * FROM product INNER JOIN product_details ON product.product_id = product_details.product_id INNER JOIN ( SELECT product_attribute.attribute_id, product_attribute.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute, attributes,options WHERE product_attribute.attribute_id = attributes.attribute_id AND options.attribute_id = attributes.attribute_id ) as Product_attribute On Product_attribute.product_id = product.product_id AND product.product_id = ${product_id} INNER JOIN prduct_inventory ON prduct_inventory.product_id = product.product_id ORDER BY product.product_id`;
+
+  return PromiseModule.readData(sqlSearch);
+}
+
+async function getProductVariants(product_id) {
+  const sqlSearch = `SELECT * FROM product,product_variants,prduct_inventory WHERE product_variants.product_variant_id = product.product_id And product.parent_id = ${product_id} And prduct_inventory.product_id = product.product_id`;
+
+  return PromiseModule.readData(sqlSearch);
+}
+
 async function getFeaturedProducts(type, pageNumber, productLimit) {
   let sqlSearch = "";
 
@@ -97,9 +113,9 @@ async function getFeaturedProducts(type, pageNumber, productLimit) {
     const page = parseInt(pageNumber);
     const limit = productLimit ? parseInt(productLimit) : LIMIT_THRESHOLD;
     const offset = (page - 1) * limit;
-    sqlSearch = `Select * from products where featured_product = ${type} LIMIT  ${limit} OFFSET  ${offset}`;
+    sqlSearch = `Select * from product where featured_product = ${type} LIMIT  ${limit} OFFSET  ${offset}`;
   } else {
-    sqlSearch = `Select * from products where featured_product = ${type}`;
+    sqlSearch = `Select * from product where featured_product = ${type}`;
   }
   return PromiseModule.readData(sqlSearch);
 }
@@ -112,9 +128,9 @@ async function getPopularProducts(type, pageNumber, productLimit) {
     const page = parseInt(pageNumber);
     const limit = productLimit ? parseInt(productLimit) : LIMIT_THRESHOLD;
     const offset = (page - 1) * limit;
-    sqlSearch = `Select * from products where popular_product = ${type} LIMIT  ${limit} OFFSET  ${offset}`;
+    sqlSearch = `Select * from product where popular_product = ${type} LIMIT  ${limit} OFFSET  ${offset}`;
   } else {
-    sqlSearch = `Select * from products where popular_product = ${type}`;
+    sqlSearch = `Select * from product where popular_product = ${type}`;
   }
   return PromiseModule.readData(sqlSearch);
 }

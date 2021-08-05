@@ -1,5 +1,4 @@
-const pool = require("../dbConnection");
-const PromiseModule = require("../Promise/PromiseModule");
+const PromiseModule = require("../../dbModel/Promise/PromiseModule");
 const Categories = {
   getCategories,
   addCategories,
