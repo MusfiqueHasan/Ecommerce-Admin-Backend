@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 03, 2021 at 08:40 PM
+-- Generation Time: Aug 05, 2021 at 02:46 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -35,6 +35,14 @@ CREATE TABLE `attributes` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `attributes`
+--
+
+INSERT INTO `attributes` (`attribute_id`, `attribute_name`, `inserted_at`, `updated_at`) VALUES
+(6, 'Color', '2021-08-04 07:40:47', '2021-08-04 07:40:47'),
+(7, 'Size', '2021-08-04 07:49:40', '2021-08-04 07:49:40');
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +63,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`category_id`, `name`, `parent_id`, `inserted_at`, `updated_at`, `description`) VALUES
-(76, 'Bags', NULL, '2021-07-15 19:41:08', '2021-07-15 19:41:08', '');
+(77, 'Shoes', NULL, '2021-08-04 05:08:18', '2021-08-04 05:08:18', ''),
+(79, 'Bags', NULL, '2021-08-04 05:34:03', '2021-08-04 05:34:03', '');
 
 -- --------------------------------------------------------
 
@@ -166,6 +175,16 @@ CREATE TABLE `options` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `options`
+--
+
+INSERT INTO `options` (`option_id`, `attribute_id`, `option_name`, `inserted_at`, `updated_at`) VALUES
+(1, 7, 'M', '2021-08-04 07:54:49', '2021-08-04 07:54:49'),
+(3, 6, 'Red', '2021-08-04 17:32:15', '2021-08-04 17:32:15'),
+(4, 6, 'Green', '2021-08-04 17:32:28', '2021-08-04 17:32:28'),
+(5, 6, 'Blue', '2021-08-04 17:32:34', '2021-08-04 17:32:34');
+
 -- --------------------------------------------------------
 
 --
@@ -175,35 +194,171 @@ CREATE TABLE `options` (
 CREATE TABLE `prduct_inventory` (
   `inventory_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `inventory_status` enum('In Stock','Out Of Stock') NOT NULL,
   `quantity` int(11) NOT NULL,
+  `stock_threshold` int(11) DEFAULT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `prduct_inventory`
+--
+
+INSERT INTO `prduct_inventory` (`inventory_id`, `product_id`, `inventory_status`, `quantity`, `stock_threshold`, `inserted_at`, `updated_at`) VALUES
+(1, 75, 'In Stock', 12, NULL, '2021-08-04 20:41:09', '2021-08-04 20:41:09'),
+(2, 87, 'In Stock', 3, NULL, '2021-08-04 20:46:57', '2021-08-04 20:46:57'),
+(3, 88, 'In Stock', 1, NULL, '2021-08-04 20:46:57', '2021-08-04 20:46:57'),
+(4, 89, 'In Stock', 12, NULL, '2021-08-04 20:55:24', '2021-08-04 20:55:24'),
+(5, 90, 'In Stock', 12, NULL, '2021-08-04 20:55:44', '2021-08-04 20:55:44'),
+(6, 91, 'In Stock', 12, NULL, '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(7, 92, 'In Stock', 3, NULL, '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(8, 93, 'In Stock', 1, NULL, '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(9, 94, 'In Stock', 12, NULL, '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(10, 95, 'In Stock', 3, NULL, '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(11, 96, 'In Stock', 1, NULL, '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(12, 97, 'In Stock', 12, NULL, '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(13, 98, 'In Stock', 3, NULL, '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(14, 99, 'In Stock', 1, NULL, '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(15, 100, 'In Stock', 12, NULL, '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(16, 101, 'In Stock', 3, NULL, '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(17, 102, 'In Stock', 1, NULL, '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(18, 104, 'In Stock', 12, NULL, '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(19, 105, 'In Stock', 3, NULL, '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(20, 106, 'In Stock', 1, NULL, '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(21, 107, 'In Stock', 12, NULL, '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(22, 108, 'In Stock', 3, NULL, '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(23, 109, 'In Stock', 1, NULL, '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(24, 110, 'In Stock', 12, NULL, '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(25, 111, 'In Stock', 3, NULL, '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(26, 112, 'In Stock', 1, NULL, '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(27, 113, 'In Stock', 12, NULL, '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(28, 114, 'In Stock', 3, NULL, '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(29, 115, 'In Stock', 1, NULL, '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(30, 116, 'In Stock', 12, NULL, '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(31, 117, 'In Stock', 3, NULL, '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(32, 118, 'In Stock', 1, NULL, '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(33, 119, 'In Stock', 12, NULL, '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(34, 120, 'In Stock', 3, NULL, '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(35, 121, 'In Stock', 1, NULL, '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(36, 122, 'In Stock', 12, NULL, '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(37, 123, 'In Stock', 3, NULL, '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(38, 124, 'In Stock', 1, NULL, '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(39, 125, 'In Stock', 12, NULL, '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(40, 126, 'In Stock', 3, NULL, '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(41, 127, 'In Stock', 1, NULL, '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(42, 128, 'In Stock', 12, NULL, '2021-08-05 11:30:17', '2021-08-05 11:30:17'),
+(43, 129, 'In Stock', 3, NULL, '2021-08-05 11:30:17', '2021-08-05 11:30:17'),
+(44, 130, 'In Stock', 1, NULL, '2021-08-05 11:30:17', '2021-08-05 11:30:17');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Table structure for table `product`
 --
 
-CREATE TABLE `products` (
+CREATE TABLE `product` (
   `product_id` int(11) NOT NULL,
-  `parent_id` int(11) NOT NULL,
-  `sku` varchar(255) DEFAULT NULL,
-  `product_status_id` int(11) NOT NULL,
-  `inventory_id` int(11) NOT NULL,
-  `regular_price` decimal(10,0) NOT NULL,
-  `discount_price` decimal(10,0) NOT NULL,
-  `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `view_on_website` tinyint(1) NOT NULL,
-  `featured_img` text,
+  `parent_id` int(11) DEFAULT NULL,
+  `sku` varchar(255) NOT NULL,
+  `product_status_id` int(11) DEFAULT NULL,
+  `view_on_website` tinyint(1) NOT NULL DEFAULT '0',
   `featured_product` tinyint(1) NOT NULL DEFAULT '0',
   `popular_product` tinyint(1) NOT NULL DEFAULT '0',
-  `hasFreeShipping` tinyint(1) NOT NULL,
-  `isTaxable` tinyint(1) NOT NULL DEFAULT '0',
-  `isDisableDiscount` tinyint(1) NOT NULL DEFAULT '0'
+  `isTaxable` tinyint(1) NOT NULL DEFAULT '1',
+  `isDisableDiscount` tinyint(1) NOT NULL DEFAULT '0',
+  `featured_img` text,
+  `regular_price` decimal(10,0) NOT NULL,
+  `discount_price` decimal(10,0) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `inserted_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`product_id`, `parent_id`, `sku`, `product_status_id`, `view_on_website`, `featured_product`, `popular_product`, `isTaxable`, `isDisableDiscount`, `featured_img`, `regular_price`, `discount_price`, `updated_at`, `inserted_at`) VALUES
+(51, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:14:16', '2021-08-04 20:14:16'),
+(52, 51, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:14:16', '2021-08-04 20:14:16'),
+(53, 51, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:14:16', '2021-08-04 20:14:16'),
+(54, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:17:49', '2021-08-04 20:17:49'),
+(55, 54, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:17:49', '2021-08-04 20:17:49'),
+(56, 54, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:17:49', '2021-08-04 20:17:49'),
+(57, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:18:25', '2021-08-04 20:18:25'),
+(58, 57, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:18:25', '2021-08-04 20:18:25'),
+(59, 57, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:18:25', '2021-08-04 20:18:25'),
+(60, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:19:10', '2021-08-04 20:19:10'),
+(61, 60, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:19:10', '2021-08-04 20:19:10'),
+(62, 60, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:19:10', '2021-08-04 20:19:10'),
+(63, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:20:00', '2021-08-04 20:20:00'),
+(64, 63, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:20:00', '2021-08-04 20:20:00'),
+(65, 63, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:20:00', '2021-08-04 20:20:00'),
+(66, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:25:08', '2021-08-04 20:25:08'),
+(67, 66, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:25:08', '2021-08-04 20:25:08'),
+(68, 66, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:25:08', '2021-08-04 20:25:08'),
+(69, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:31:37', '2021-08-04 20:31:37'),
+(70, 69, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:31:37', '2021-08-04 20:31:37'),
+(71, 69, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:31:37', '2021-08-04 20:31:37'),
+(72, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:32:25', '2021-08-04 20:32:25'),
+(73, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:39:17', '2021-08-04 20:39:17'),
+(74, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:40:41', '2021-08-04 20:40:41'),
+(75, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:41:09', '2021-08-04 20:41:09'),
+(76, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:45:07', '2021-08-04 20:45:07'),
+(77, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:45:21', '2021-08-04 20:45:21'),
+(78, 77, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:45:21', '2021-08-04 20:45:21'),
+(79, 77, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:45:21', '2021-08-04 20:45:21'),
+(80, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:45:52', '2021-08-04 20:45:52'),
+(81, 80, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:45:52', '2021-08-04 20:45:52'),
+(82, 80, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:45:52', '2021-08-04 20:45:52'),
+(83, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:46:19', '2021-08-04 20:46:19'),
+(84, 83, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:46:19', '2021-08-04 20:46:19'),
+(85, 83, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:46:19', '2021-08-04 20:46:19'),
+(86, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:46:57', '2021-08-04 20:46:57'),
+(87, 86, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:46:57', '2021-08-04 20:46:57'),
+(88, 86, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:46:57', '2021-08-04 20:46:57'),
+(89, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:55:24', '2021-08-04 20:55:24'),
+(90, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:55:44', '2021-08-04 20:55:44'),
+(91, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(92, 91, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(93, 91, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(94, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(95, 94, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(96, 94, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(97, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(98, 97, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(99, 97, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(100, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(101, 100, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(102, 100, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(103, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 21:07:29', '2021-08-04 21:07:29'),
+(104, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(105, 104, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(106, 104, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(107, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(108, 107, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(109, 107, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(110, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(111, 110, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(112, 110, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(113, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(114, 113, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(115, 113, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(116, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(117, 116, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(118, 116, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(119, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(120, 119, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(121, 119, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(122, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(123, 122, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(124, 122, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(125, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(126, 125, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(127, 125, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(128, NULL, 'WTCH-GR-GD2', 1, 1, 1, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:30:17', '2021-08-05 11:30:17'),
+(129, 128, 'WTCH-GR-GD2', NULL, 0, 0, 0, 0, 0, NULL, '1990', '1200', '2021-08-05 11:30:17', '2021-08-05 11:30:17'),
+(130, 128, 'WTCH-GB-GD1', NULL, 0, 0, 0, 0, 0, NULL, '1900', '1100', '2021-08-05 11:30:17', '2021-08-05 11:30:17');
 
 -- --------------------------------------------------------
 
@@ -215,6 +370,42 @@ CREATE TABLE `product_attribute` (
   `product_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_attribute`
+--
+
+INSERT INTO `product_attribute` (`product_id`, `attribute_id`) VALUES
+(89, 6),
+(89, 7),
+(90, 6),
+(90, 7),
+(91, 6),
+(91, 7),
+(94, 6),
+(94, 7),
+(97, 6),
+(97, 7),
+(100, 6),
+(100, 7),
+(104, 6),
+(104, 7),
+(107, 6),
+(107, 7),
+(110, 6),
+(110, 7),
+(113, 6),
+(113, 7),
+(116, 6),
+(116, 7),
+(119, 6),
+(119, 7),
+(122, 6),
+(122, 7),
+(125, 6),
+(125, 7),
+(128, 6),
+(128, 7);
 
 -- --------------------------------------------------------
 
@@ -235,9 +426,38 @@ CREATE TABLE `product_categories` (
 --
 
 INSERT INTO `product_categories` (`id`, `category_id`, `product_id`, `inserted_at`, `updated_at`) VALUES
-(11, 76, 23, '2021-07-17 14:30:26', '2021-07-17 14:30:26'),
-(12, 76, 24, '2021-07-17 14:42:20', '2021-07-17 14:42:20'),
-(13, 76, 25, '2021-07-29 09:14:12', '2021-07-29 09:14:12');
+(16, 77, 89, '2021-08-04 20:55:24', '2021-08-04 20:55:24'),
+(17, 79, 89, '2021-08-04 20:55:24', '2021-08-04 20:55:24'),
+(18, 77, 90, '2021-08-04 20:55:44', '2021-08-04 20:55:44'),
+(19, 79, 90, '2021-08-04 20:55:44', '2021-08-04 20:55:44'),
+(20, 77, 91, '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(21, 79, 91, '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(22, 77, 94, '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(23, 79, 94, '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(24, 77, 97, '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(25, 79, 97, '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(26, 77, 100, '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(27, 79, 100, '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(28, 77, 103, '2021-08-04 21:07:29', '2021-08-04 21:07:29'),
+(29, 79, 103, '2021-08-04 21:07:29', '2021-08-04 21:07:29'),
+(30, 77, 104, '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(31, 79, 104, '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(32, 77, 107, '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(33, 79, 107, '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(34, 77, 110, '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(35, 79, 110, '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(36, 77, 113, '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(37, 79, 113, '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(38, 77, 116, '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(39, 79, 116, '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(40, 77, 119, '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(41, 79, 119, '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(42, 77, 122, '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(43, 79, 122, '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(44, 77, 125, '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(45, 79, 125, '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(46, 77, 128, '2021-08-05 11:30:17', '2021-08-05 11:30:17'),
+(47, 79, 128, '2021-08-05 11:30:17', '2021-08-05 11:30:17');
 
 -- --------------------------------------------------------
 
@@ -262,10 +482,34 @@ CREATE TABLE `product_charges` (
 CREATE TABLE `product_details` (
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
-  `short_description` text NOT NULL,
-  `long_description` text NOT NULL,
-  `product_gallery` text NOT NULL
+  `short_description` text,
+  `long_description` text,
+  `product_gallery` text,
+  `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_details`
+--
+
+INSERT INTO `product_details` (`product_id`, `product_name`, `short_description`, `long_description`, `product_gallery`, `inserted_at`, `updated_at`) VALUES
+(30, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 19:39:05', '2021-08-04 19:39:05'),
+(89, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 20:55:24', '2021-08-04 20:55:24'),
+(90, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 20:55:44', '2021-08-04 20:55:44'),
+(91, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 20:57:42', '2021-08-04 20:57:42'),
+(94, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 20:58:14', '2021-08-04 20:58:14'),
+(97, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 20:58:36', '2021-08-04 20:58:36'),
+(100, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 21:03:46', '2021-08-04 21:03:46'),
+(104, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-04 21:08:00', '2021-08-04 21:08:00'),
+(107, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 05:57:44', '2021-08-05 05:57:44'),
+(110, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 10:09:18', '2021-08-05 10:09:18'),
+(113, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 11:00:32', '2021-08-05 11:00:32'),
+(116, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 11:29:00', '2021-08-05 11:29:00'),
+(119, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 11:29:19', '2021-08-05 11:29:19'),
+(122, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 11:30:14', '2021-08-05 11:30:14'),
+(125, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 11:30:15', '2021-08-05 11:30:15'),
+(128, 'Watch Golden', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae', NULL, '2021-08-05 11:30:17', '2021-08-05 11:30:17');
 
 -- --------------------------------------------------------
 
@@ -329,6 +573,44 @@ CREATE TABLE `product_variants` (
   `product_variant_combinations` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `product_variants`
+--
+
+INSERT INTO `product_variants` (`product_variant_id`, `product_variant_combinations`) VALUES
+(64, '13'),
+(65, '15'),
+(67, '13'),
+(68, '15'),
+(70, '13'),
+(71, '15'),
+(92, '13'),
+(93, '15'),
+(95, '13'),
+(96, '15'),
+(98, '13'),
+(99, '15'),
+(101, '13'),
+(102, '15'),
+(105, '13'),
+(106, '15'),
+(108, '13'),
+(109, '15'),
+(111, '13'),
+(112, '15'),
+(114, '13'),
+(115, '15'),
+(117, '13'),
+(118, '15'),
+(120, '13'),
+(121, '15'),
+(123, '13'),
+(124, '15'),
+(126, '13'),
+(127, '15'),
+(129, '13'),
+(130, '15');
+
 -- --------------------------------------------------------
 
 --
@@ -377,10 +659,16 @@ ALTER TABLE `prduct_inventory`
   ADD PRIMARY KEY (`inventory_id`);
 
 --
--- Indexes for table `products`
+-- Indexes for table `product`
 --
-ALTER TABLE `products`
+ALTER TABLE `product`
   ADD PRIMARY KEY (`product_id`);
+
+--
+-- Indexes for table `product_attribute`
+--
+ALTER TABLE `product_attribute`
+  ADD PRIMARY KEY (`product_id`,`attribute_id`);
 
 --
 -- Indexes for table `product_categories`
@@ -413,6 +701,12 @@ ALTER TABLE `product_tags`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `product_variants`
+--
+ALTER TABLE `product_variants`
+  ADD PRIMARY KEY (`product_variant_id`,`product_variant_combinations`);
+
+--
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
@@ -426,13 +720,13 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `attributes`
 --
 ALTER TABLE `attributes`
-  MODIFY `attribute_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `attribute_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `files`
@@ -444,25 +738,25 @@ ALTER TABLE `files`
 -- AUTO_INCREMENT for table `options`
 --
 ALTER TABLE `options`
-  MODIFY `option_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `option_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `prduct_inventory`
 --
 ALTER TABLE `prduct_inventory`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT for table `product`
 --
-ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+ALTER TABLE `product`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
