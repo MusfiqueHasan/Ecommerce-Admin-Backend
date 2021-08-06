@@ -1,3 +1,7 @@
+const Utils = require("../Utils/Utils");
+
+const INDEX_THRESHOLD = -1;
+
 const ProductModel = (productData, inserted_at, updated_at) => {
   const {
     sku,
@@ -7,7 +11,9 @@ const ProductModel = (productData, inserted_at, updated_at) => {
     featured_product,
     popular_product,
     isTaxable,
+    hasFreeShipping,
     isDisableDiscount,
+    manageStock,
     featured_img,
     regular_price,
     discount_price
@@ -20,7 +26,9 @@ const ProductModel = (productData, inserted_at, updated_at) => {
     featured_product: featured_product || false,
     popular_product: popular_product || false,
     isTaxable: isTaxable || false,
+    hasFreeShipping: hasFreeShipping || false,
     isDisableDiscount: isDisableDiscount || false,
+    manageStock: manageStock || false,
     featured_img: featured_img || null,
     regular_price: regular_price || 0,
     discount_price: discount_price || null,
@@ -53,15 +61,41 @@ const ProductResponseModel = product => {
 };
 
 const ParentProductModel = data => {
-  const att = {};
-  data.map(item => {
-    att[item.attribute_name] = [];
-  });
+  const attributeArray = [];
+  if (data.length < 2) return ProductResponseModel(data[0]);
 
   data.map(item => {
-    att[item.attribute_name].push(item.option_name);
+    const index = Utils.findInArray(
+      attributeArray,
+      item.attribute_id,
+      "attribute_id"
+    );
+
+    if (index === INDEX_THRESHOLD) {
+      const attributeObject = {
+        attribute_name: item.attribute_name,
+        attribute_id: item.attribute_id,
+        options: []
+      };
+      attributeArray.push(attributeObject);
+    }
+    const optionsObject = {
+      option_id: item.option_id,
+      option_name: item.option_name
+    };
+    const idx = Utils.findInArray(
+      attributeArray,
+      item.attribute_id,
+      "attribute_id"
+    );
+    attributeArray[idx]["options"].push(optionsObject);
   });
-  const product = { ...data[0], ...att };
-  return ProductResponseModel(product)
+  const product = { ...data[0], attributes: attributeArray };
+  return ProductResponseModel(product);
 };
-module.exports = { ProductModel, ProductInventoryModel, ProductResponseModel,ParentProductModel };
+module.exports = {
+  ProductModel,
+  ProductInventoryModel,
+  ProductResponseModel,
+  ParentProductModel
+};

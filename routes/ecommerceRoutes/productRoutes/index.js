@@ -80,11 +80,10 @@ routes.get("/products", async (req, res) => {
   try {
     const response = await ProductQuery.getProducts(page, limit);
     const product_data_response = [];
-
-    for (let i = 0; i < response.length; i++) {
-      const data = response.filter(
-        item => item.product_id === response[i].product_id
-      );
+    for (let i = 0; i < response.length; ) {
+      const data = response.filter(item => {
+        return item.product_id === response[i].product_id;
+      });
       product_data_response.push(ParentProductModel(data));
       i = i + data.length;
     }
@@ -101,15 +100,17 @@ routes.get("/products", async (req, res) => {
 
 routes.get("/products/:id", async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     const response = await ProductQuery.getSingleProductDetails(id);
-    
-    const parentProduct = ParentProductModel(response);  
-    
+    const parentProduct = ParentProductModel(response);
+    if (Object.entries(parentProduct).length === 0)
+      return res.status(404).json({ massage: "Product is not found" });
     const response_of_vairants = await ProductQuery.getProductVariants(id);
-    
-    const variants = [...response_of_vairants];
+
+    const variants =
+      response_of_vairants.length > 0 ? [...response_of_vairants] : null;
+
     parentProduct["variants"] = variants;
 
     const jsonObject = {
@@ -154,70 +155,74 @@ routes.post("/product", parentProduct, async (req, res) => {
     updated_at
   ]);
 
-  // product and attribute table data
-  const productsToAttributes = attribute_id.map(item => [
-    product_id,
-    item.attribute_id
-  ]);
-
   // product inventory data
-  const inventory = [
-    Object.values(
-      ProductInventoryModel(req.body, product_id, inserted_at, updated_at)
-    )
-  ];
+  const inventory = product_info.manageStock
+    ? [
+        Object.values(
+          ProductInventoryModel(req.body, product_id, inserted_at, updated_at)
+        )
+      ]
+    : null;
+
+  // product and attribute table data
+  const productsToAttributes = attribute_id
+    ? attribute_id.map(item => [product_id, item.attribute_id])
+    : null;
 
   // product variants
-  const product_variants =
-    variants &&
-    variants.map(item =>
-      Object.values(
-        ProductModel(
-          {
-            ...item,
-            parent_id: product_id
-          },
-          inserted_at,
-          updated_at
-        )
-      )
-    );
-
-  try {
-    //// HAVE TO OPTIMIZE HERE
-    await ProductQuery.addProductToCategories([productsToCategories]);
-    await ProductQuery.addProductToAttributes([productsToAttributes]);
-    await ProductQuery.addProductDetails(product_details);
-    await InventoryQuery.addInventory([inventory]);
-
-    const response = await ProductQuery.addProducts([product_variants]);
-    const startingInsertedIndex = response.insertId;
-
-    // product variations combination
-    const product_attributes_combination =
-      variants &&
-      variants.map((item, index) => [
-        index + startingInsertedIndex,
-        item.combinations
-      ]);
-
-    // variants inventory data
-    const variants_Inventory =
-      variants &&
-      variants.map((item, index) =>
+  const product_variants = variants
+    ? variants &&
+      variants.map(item =>
         Object.values(
-          ProductInventoryModel(
-            item,
-            index + startingInsertedIndex,
+          ProductModel(
+            {
+              ...item,
+              parent_id: product_id
+            },
             inserted_at,
             updated_at
           )
         )
-      );
+      )
+    : null;
 
-    await InventoryQuery.addInventory([variants_Inventory]);
-    await ProductQuery.addProductToVariants([product_attributes_combination]);
+  try {
+    //// HAVE TO OPTIMIZE HERE
+    await ProductQuery.addProductToCategories([productsToCategories]);
+    await ProductQuery.addProductDetails(product_details);
+    productsToAttributes &&
+      (await ProductQuery.addProductToAttributes([productsToAttributes]));
+    inventory && (await InventoryQuery.addInventory([inventory]));
 
+    if (variants) {
+      const response = await ProductQuery.addProducts([product_variants]);
+      const startingInsertedIndex = response.insertId;
+
+      // product variations combination
+      const product_attributes_combination =
+        variants &&
+        variants.map((item, index) => [
+          index + startingInsertedIndex,
+          item.combinations
+        ]);
+
+      // variants inventory data
+      const variants_Inventory =
+        variants &&
+        variants.map((item, index) =>
+          Object.values(
+            ProductInventoryModel(
+              item,
+              index + startingInsertedIndex,
+              inserted_at,
+              updated_at
+            )
+          )
+        );
+
+      await InventoryQuery.addInventory([variants_Inventory]);
+      await ProductQuery.addProductToVariants([product_attributes_combination]);
+    }
     const jsonObject = {
       massage: "success",
       product: {

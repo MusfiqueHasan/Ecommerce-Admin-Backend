@@ -18,7 +18,7 @@ const Products = {
 
 async function addProducts(productDetails) {
   const sqlInsert =
-    "Insert Into product (sku,parent_id,product_status_id,view_on_website,featured_product,popular_product,isTaxable,isDisableDiscount,featured_img,regular_price,discount_price, inserted_at, updated_at) Values ?";
+    "Insert Into product (sku,parent_id,product_status_id,view_on_website,featured_product,popular_product,isTaxable,isDisableDiscount,manageStock,featured_img,regular_price,discount_price, inserted_at, updated_at) Values ?";
 
   return PromiseModule.createUpdateDelete(sqlInsert, productDetails);
 }
@@ -79,7 +79,7 @@ async function addProductGallery(product_gallery) {
 
 async function getProducts(pageNumber, productLimit) {
   let sqlSearch =
-    "SELECT * FROM product INNER JOIN product_details ON product.product_id = product_details.product_id INNER JOIN ( SELECT product_attribute.attribute_id, product_attribute.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute, attributes,options WHERE product_attribute.attribute_id = attributes.attribute_id AND options.attribute_id = attributes.attribute_id ) as Product_attribute On Product_attribute.product_id = product.product_id ORDER BY `product`.`product_id`";
+    "SELECT p.product_id,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.regular_price,p.discount_price,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name, Product_attribute.option_id, Product_attribute.attribute_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options WHERE pa.attribute_id = attributes.attribute_id AND options.attribute_id = attributes.attribute_id ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.product_id";
 
   if (pageNumber) {
     // limit
@@ -94,7 +94,7 @@ async function getProducts(pageNumber, productLimit) {
 // SELECT * FROM product,product_variants,prduct_inventory WHERE product_variants.product_variant_id = product.product_id And product.parent_id = 128 And prduct_inventory.product_id = product.product_id
 
 async function getSingleProductDetails(product_id) {
-  const sqlSearch = `SELECT * FROM product INNER JOIN product_details ON product.product_id = product_details.product_id INNER JOIN ( SELECT product_attribute.attribute_id, product_attribute.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute, attributes,options WHERE product_attribute.attribute_id = attributes.attribute_id AND options.attribute_id = attributes.attribute_id ) as Product_attribute On Product_attribute.product_id = product.product_id AND product.product_id = ${product_id} INNER JOIN prduct_inventory ON prduct_inventory.product_id = product.product_id ORDER BY product.product_id`;
+  const sqlSearch = `SELECT * FROM product INNER JOIN product_details ON product.product_id = product_details.product_id  AND product.product_id = ${product_id} LEFT JOIN ( SELECT product_attribute.attribute_id, product_attribute.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute, attributes,options WHERE product_attribute.attribute_id = attributes.attribute_id AND options.attribute_id = attributes.attribute_id ) as Product_attribute On Product_attribute.product_id = product.product_id LEFT JOIN prduct_inventory ON prduct_inventory.product_id = product.product_id ORDER BY product.product_id`;
 
   return PromiseModule.readData(sqlSearch);
 }

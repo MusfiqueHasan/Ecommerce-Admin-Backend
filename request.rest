@@ -74,21 +74,20 @@ DELETE http://localhost:5000/api/options/2
 GET http://localhost:5000/api/products
 
 ###
-GET http://localhost:5000/api/products/128
+GET http://localhost:5000/api/products/1343
 
 ###
 POST http://localhost:5000/api/product
 Content-Type: application/json
 
 {
-    "sku": "WTCH-GR-GD2",
+    "sku": "WTCH-GR-GD5",
     "product_name": "Watch Golden",
     "view_on_website":true,
     "featured_product": true,
     "popular_product": false,
      "regular_price":1990,
      "discount_price":1200,
-     "quantity":12,
      "product_status_id":1,
      "short_description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae",
     "long_description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae",
@@ -101,34 +100,7 @@ Content-Type: application/json
                 "value": 79,
                 "label": "Bags"
             }
-    ],
-    "attribute_id":[
-        {
-            "attribute_id":6,
-            "attribute_name":"Color"
-        },
-        {
-            "attribute_id":7,
-            "attribute_name":"Size"
-        }
-    ],
-    "variants":[
-        {
-            "sku": "WTCH-GR-GD2",
-            "regular_price":1990,
-            "discount_price":1200,
-            "quantity": 3,
-            "combinations":"13"
-            
-        },
-        {
-            "sku": "WTCH-GB-GD1",
-            "regular_price":1900,
-            "discount_price":1100,
-            "quantity": 1,
-            "combinations":"15"
-        }
     ]
-
+   
 }
 
