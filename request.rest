@@ -49,7 +49,7 @@ POST  http://localhost:5000/api/attribute
 Content-Type: application/json
 
 {
-    "attribute_name": "Size"
+    "attribute_name": "Type"
 }
 
 ###
@@ -65,8 +65,8 @@ POST  http://localhost:5000/api/option
 Content-Type: application/json
 
 {
-    "option_name": "Blue",
-    "attribute_id": 6
+    "option_name": "Half",
+    "attribute_id": 8
 }
 
 ###
@@ -104,7 +104,33 @@ Content-Type: application/json
                 "value": 79,
                 "label": "Bags"
             }
+    ],
+    "attribute_id":[
+        {
+            "attribute_id":6,
+            "attribute_name":"Color"
+        },
+        {
+            "attribute_id":7,
+            "attribute_name":"Size"
+        }
+    ],
+    "variants":[
+        {
+            "sku": "WTCH-GR-GD2",
+            "regular_price":1990,
+            "discount_price":1200,
+            "quantity": 3,
+            "combinations":"13"
+            
+        },
+        {
+            "sku": "WTCH-GB-GD1",
+            "regular_price":1900,
+            "discount_price":1100,
+            "quantity": 1,
+            "combinations":"15"
+        }
     ]
-   
 }
 

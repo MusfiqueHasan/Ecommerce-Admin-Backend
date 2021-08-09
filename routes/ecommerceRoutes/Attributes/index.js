@@ -19,7 +19,7 @@ routes.get("/attributes", async (req, res) => {
 		}
 		const jsonObject = {
 			massage: "success",
-			results: [...attribute_option_response]
+			results: [...attribute_option_response],
 		};
 		res.status(200).json(jsonObject);
 	} catch (error) {
@@ -42,8 +42,8 @@ routes.post("/attribute", async (req, res) => {
 			massage: "success",
 			results: {
 				attribute_id: response.insertId,
-				attribute_name: attribute_name
-			}
+				attribute_name: attribute_name,
+			},
 		};
 		res.status(201).json(jsonObject);
 	} catch (error) {
@@ -60,7 +60,7 @@ routes.get("/attributes/:id", async (req, res) => {
 		}
 		const jsonObject = {
 			massage: "success",
-			results: [...response]
+			results: [...response],
 		};
 
 		res.status(200).json(jsonObject);
@@ -74,7 +74,7 @@ routes.delete("/attributes/:id", async (req, res) => {
 	try {
 		const response = await AttributesQuery.removeAttribute(id);
 		const jsonObject = {
-			massage: "Attribute has been removed"
+			massage: "Attribute has been removed",
 		};
 		if (response.affectedRows < 1) {
 			return res.status(404).json({ massage: "Attribute is not found" });
