@@ -8,9 +8,9 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    const dir = `/home/rat/Desktop/multikart/EcommerceAdminPanel/full-version/src/assets/uploads/`;
+    const dir = `/home/rat/Desktop/AllFiles/multikart/EcommerceAdminPanel/full-version/src/assets/uploads/`;
     const absPath = path.resolve(
-      "/home/rat/Desktop/multikart/EcommerceAdminPanel/full-version/src/assets/",
+      "/home/rat/Desktop/AllFiles/multikart/EcommerceAdminPanel/full-version/src/assets/",
       "../..",
       "uploads"
     );

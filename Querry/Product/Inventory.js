@@ -5,7 +5,7 @@ const Inventory = {
 };
 async function addInventory(inventoryData) {
   const sqlInsert =
-    "Insert into prduct_inventory (product_id,inventory_status,quantity,stock_threshold,inserted_at, updated_at) values ?";
+    "Insert into prduct_inventory (product_id,allowBackOrders,quantity,stock_threshold,inserted_at, updated_at) values ?";
   return PromiseModule.createUpdateDelete(sqlInsert, inventoryData);
 }
 

@@ -7,6 +7,7 @@ const ProductModel = (productData, inserted_at, updated_at) => {
     sku,
     parent_id,
     product_status_id,
+    productType,
     view_on_website,
     featured_product,
     popular_product,
@@ -14,14 +15,16 @@ const ProductModel = (productData, inserted_at, updated_at) => {
     hasFreeShipping,
     isDisableDiscount,
     manageStock,
+    inventory_status,
     featured_img,
     regular_price,
-    discount_price
+    discount_price,
   } = productData;
   const productInfo = {
     sku: sku || null,
     parent_id: parent_id || null,
     product_status_id: product_status_id || null,
+    productType:productType||null,
     view_on_website: view_on_website || false,
     featured_product: featured_product || false,
     popular_product: popular_product || false,
@@ -29,24 +32,25 @@ const ProductModel = (productData, inserted_at, updated_at) => {
     hasFreeShipping: hasFreeShipping || false,
     isDisableDiscount: isDisableDiscount || false,
     manageStock: manageStock || false,
+    inventory_status: inventory_status || 1,
     featured_img: featured_img || null,
     regular_price: regular_price || 0,
     discount_price: discount_price || null,
     inserted_at: inserted_at,
-    updated_at: updated_at
+    updated_at: updated_at,
   };
   return productInfo;
 };
 const ProductInventoryModel = (data, product_id, inserted_at, updated_at) => {
-  const { quantity, stock_threshold, inventory_status } = data;
+  const { quantity, stock_threshold, allowBackOrders } = data;
 
   const inventory = {
     product_id: product_id,
-    inventory_status: inventory_status || 1, // 1-> In Stock 2-> Out Of Stock
+    allowBackOrders: allowBackOrders || 1, //('Do not allow', 'Allow, but notify customer', 'Allow')
     quantity: quantity || 0,
     stock_threshold: stock_threshold || null,
     inserted_at: inserted_at,
-    updated_at: updated_at
+    updated_at: updated_at,
   };
   return inventory;
 };
@@ -75,13 +79,13 @@ const ParentProductModel = data => {
       const attributeObject = {
         attribute_name: item.attribute_name,
         attribute_id: item.attribute_id,
-        options: []
+        options: [],
       };
       attributeArray.push(attributeObject);
     }
     const optionsObject = {
       option_id: item.option_id,
-      option_name: item.option_name
+      option_name: item.option_name,
     };
     const idx = Utils.findInArray(
       attributeArray,
@@ -97,5 +101,5 @@ module.exports = {
   ProductModel,
   ProductInventoryModel,
   ProductResponseModel,
-  ParentProductModel
+  ParentProductModel,
 };

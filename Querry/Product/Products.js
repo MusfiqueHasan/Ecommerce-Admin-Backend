@@ -18,7 +18,7 @@ const Products = {
 
 async function addProducts(productDetails) {
 	const sqlInsert =
-		"Insert Into product (sku,parent_id,product_status_id,view_on_website,featured_product,popular_product,isTaxable,isDisableDiscount,manageStock,featured_img,regular_price,discount_price, inserted_at, updated_at) Values ?";
+		"Insert Into product (sku,parent_id,product_status_id, productType, view_on_website,featured_product,popular_product,isTaxable,hasFreeShipping,isDisableDiscount,manageStock,inventory_status,featured_img,regular_price,discount_price, inserted_at, updated_at) Values ?";
 
 	return PromiseModule.createUpdateDelete(sqlInsert, productDetails);
 }

@@ -133,7 +133,7 @@ routes.post("/product", parentProduct, async (req, res) => {
 		product_name,
 		short_description,
 		long_description,
-		attribute_id,
+		attributesList,
 		product_gallery
 	} = req.body;
 
@@ -165,8 +165,8 @@ routes.post("/product", parentProduct, async (req, res) => {
 		: null;
 
 	// product and attribute table data
-	const productsToAttributes = attribute_id
-		? attribute_id.map((item) => [product_id, item.attribute_id])
+	const productsToAttributes = attributesList
+		? attributesList.map((item) => [product_id, item.attributesList])
 		: null;
 
 	// product variants
