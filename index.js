@@ -8,8 +8,8 @@ const { PORT } = require("./config");
 
 const app = express();
 const apis = require("./routes/allApiRoutes");
-app.use(bodyParser.json({ type: "application/json" }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ type: "application/json" }));
+app.use(express.urlencoded({ extended: true }));
 
 const port = PORT || 5000;
 app.use(cors());

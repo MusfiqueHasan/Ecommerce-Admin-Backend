@@ -14,6 +14,8 @@ const Products = {
   addProductToVariants,
   getSingleProductDetails,
   getProductVariants,
+  addProductToOptions,
+  addProductToShipping
 };
 
 async function addProducts(productDetails) {
@@ -37,12 +39,25 @@ async function addProductToCategories(categories) {
   return PromiseModule.createUpdateDelete(sqlInsert, categories);
 }
 
+async function addProductToShipping(shipping) {
+  const sqlInsert =
+    "Insert into product_shipping(product_id,shipping_cost,	shipping_details,updated_at,inserted_at) Values ?";
+
+  return PromiseModule.createUpdateDelete(sqlInsert, shipping);
+}
+
 async function addProductToAttributes(attributes) {
   const sqlInsert =
     "Insert into product_attribute(product_id,attribute_id) Values ?";
   return PromiseModule.createUpdateDelete(sqlInsert, attributes);
 }
 
+async function addProductToOptions(options) {
+	const sqlInsert =
+	  "Insert into product_options(product_id,option_id) Values ?";
+	return PromiseModule.createUpdateDelete(sqlInsert, options);
+  }
+  
 async function addProductToVariants(product_variants) {
   const sqlInsert =
     "Insert into product_variants(product_variant_id,product_variant_combinations) Values ?";
