@@ -9,6 +9,7 @@ const {
   ProductInventoryModel,
   ProductResponseModel,
   ParentProductModel,
+  ProductDetailsModel,
 } = require("../../../Modles/Products");
 
 const { parentProduct } = require("../../../middleware");
@@ -80,6 +81,7 @@ routes.get("/products", async (req, res) => {
   try {
     const response = await ProductQuery.getProducts(page, limit);
     const product_data_response = [];
+   
     for (let i = 0; i < response.length; ) {
       const data = response.filter(item => {
         return item.product_id === response[i].product_id;
@@ -94,7 +96,8 @@ routes.get("/products", async (req, res) => {
     };
     res.status(200).json(jsonObject);
   } catch (error) {
-    console.log(error);
+
+    res.status(500).json({ massage: error.massage });
   }
 });
 
@@ -103,6 +106,7 @@ routes.get("/products/:id", async (req, res) => {
 
   try {
     const response = await ProductQuery.getSingleProductDetails(id);
+    console.log(response)
     const parentProduct = ParentProductModel(response);
     if (Object.entries(parentProduct).length === 0)
       return res.status(404).json({ massage: "Product is not found" });
@@ -131,23 +135,16 @@ routes.post("/product", parentProduct, async (req, res) => {
   const {
     variations,
     categories,
-    name,
-    short_description,
-    long_description,
     attributesList,
-    product_gallery,
     product_options,
     shipping_cost,
   } = product;
 
+  //product details
   const product_details = [
-    product_id,
-    name || "",
-    short_description || "",
-    long_description || "",
-    product_gallery || null,
-    inserted_at,
-    updated_at,
+    Object.values(
+      ProductDetailsModel(product, product_id, inserted_at, updated_at)
+    ),
   ];
 
   //product and categories table data
@@ -197,11 +194,13 @@ routes.post("/product", parentProduct, async (req, res) => {
   // product shipping details
   const shippingDetails = !hasFreeShipping
     ? [
-        product_id,
-        shipping_cost,
-        product.shipping_details || "",
-        updated_at,
-        inserted_at,
+        [
+          product_id,
+          shipping_cost,
+          product.shipping_details || "",
+          updated_at,
+          inserted_at,
+        ],
       ]
     : null;
   try {
@@ -214,7 +213,7 @@ routes.post("/product", parentProduct, async (req, res) => {
       (await ProductQuery.addProductToAttributes([productsToAttributes]));
     inventory && (await InventoryQuery.addInventory([inventory]));
     shippingDetails &&
-      (await ProductQuery.addProductToShipping([[shippingDetails]]));
+      (await ProductQuery.addProductToShipping([shippingDetails]));
 
     if (variations) {
       const response = await ProductQuery.addProducts([product_variations]);
@@ -245,7 +244,6 @@ routes.post("/product", parentProduct, async (req, res) => {
               )
             );
         });
-      console.log(variations_Inventory);
 
       await InventoryQuery.addInventory([variations_Inventory]);
       await ProductQuery.addProductToVariants([product_attributes_combination]);
