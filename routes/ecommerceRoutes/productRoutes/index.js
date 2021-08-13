@@ -81,7 +81,7 @@ routes.get("/products", async (req, res) => {
   try {
     const response = await ProductQuery.getProducts(page, limit);
     const product_data_response = [];
-   
+
     for (let i = 0; i < response.length; ) {
       const data = response.filter(item => {
         return item.product_id === response[i].product_id;
@@ -96,17 +96,15 @@ routes.get("/products", async (req, res) => {
     };
     res.status(200).json(jsonObject);
   } catch (error) {
-
     res.status(500).json({ massage: error.massage });
   }
 });
 
 routes.get("/products/:id", async (req, res) => {
   const { id } = req.params;
-
   try {
     const response = await ProductQuery.getSingleProductDetails(id);
-    console.log(response)
+    console.log(response);
     const parentProduct = ParentProductModel(response);
     if (Object.entries(parentProduct).length === 0)
       return res.status(404).json({ massage: "Product is not found" });
@@ -147,6 +145,9 @@ routes.post("/product", parentProduct, async (req, res) => {
     ),
   ];
 
+  console.log(product_details);
+  if (categories.length === 0)
+    return res.status(401).json({ massage: "Please Select A Category" });
   //product and categories table data
   const productsToCategories = categories.map(item => [
     item.value,

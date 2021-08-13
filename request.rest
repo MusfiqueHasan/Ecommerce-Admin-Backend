@@ -49,11 +49,11 @@ POST  http://localhost:5000/api/attribute
 Content-Type: application/json
 
 {
-    "attribute_name": "Type"
+    "attribute_name": "Val"
 }
 
 ###
-DELETE http://localhost:5000/api/attributes/5
+DELETE http://localhost:5000/api/attributes/12
 
 
 ///options
@@ -66,16 +66,19 @@ Content-Type: application/json
 
 {
     "option_name": "Half",
-    "attribute_id": 8
+    "attribute_id": 11
 }
 
 ###
 DELETE http://localhost:5000/api/options/2
 
 
+
+# for client side
+# GET http://localhost:5000/api/products?view_type=1
 ///products
 ###
-GET http://localhost:5000/api/products
+GET http://localhost:5000/api/products?category=77
 
 ###
 GET http://localhost:5000/api/products/189

@@ -28,9 +28,9 @@ async function addOption(attribute_id, option_name, inserted_at, updated_at) {
 
 // sql query to remove option
 async function removeOption(option_id) {
-	const sqlDelete = "Delete From options where option_id = ?";
+	const sqlDelete = "Delete From options where (option_id) in ?";
 
-	const deleted_data = [option_id];
+	const deleted_data = option_id;
 	return PromiseModule.createUpdateDelete(sqlDelete, deleted_data);
 }
 

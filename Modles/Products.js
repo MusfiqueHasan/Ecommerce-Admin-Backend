@@ -3,52 +3,34 @@ const Utils = require("../Utils/Utils");
 const INDEX_THRESHOLD = -1;
 
 const ProductModel = (productData, inserted_at, updated_at) => {
-  const {
-    sku,
-    parent_id,
-    product_status_id,
-    productType,
-    view_on_website,
-    featured_product,
-    popular_product,
-    isTaxable,
-    hasFreeShipping,
-    isDisableDiscount,
-    manageStock,
-    inventory_status,
-    featured_img,
-    regular_price,
-    discount_price,
-  } = productData;
+ 
   const productInfo = {
-    sku: sku || null,
-    parent_id: parent_id || null,
-    product_status_id: product_status_id || null,
-    productType: productType || null,
-    view_on_website: view_on_website || false,
-    featured_product: featured_product || false,
-    popular_product: popular_product || false,
-    isTaxable: isTaxable || false,
-    hasFreeShipping: hasFreeShipping || false,
-    isDisableDiscount: isDisableDiscount || false,
-    manageStock: manageStock || false,
-    inventory_status: inventory_status || 1,
-    featured_img: featured_img || null,
-    regular_price: regular_price || 0,
-    discount_price: discount_price || null,
+    sku: productData.sku || null,
+    parent_id: productData.parent_id || null,
+    product_status_id: productData.product_status_id || null,
+    productType: productData.productType || null,
+    view_on_website: productData.view_on_website || false,
+    featured_product: productData.featured_product || false,
+    popular_product: productData.popular_product || false,
+    isTaxable: productData.isTaxable || false,
+    hasFreeShipping: productData.hasFreeShipping || false,
+    isDisableDiscount: productData.isDisableDiscount || false,
+    manageStock: productData.manageStock || false,
+    inventory_status: productData.inventory_status || 1,
+    featured_img: productData.featured_img || null,
+    regular_price: productData.regular_price || 0,
+    discount_price: productData.discount_price || null,
     inserted_at: inserted_at,
     updated_at: updated_at,
   };
   return productInfo;
 };
 const ProductInventoryModel = (data, product_id, inserted_at, updated_at) => {
-  const { quantity, stock_threshold, allowBackOrders } = data;
-
   const inventory = {
     product_id: product_id,
-    allowBackOrders: allowBackOrders || 1, //('Do not allow', 'Allow, but notify customer', 'Allow')
-    quantity: quantity || 0,
-    stock_threshold: stock_threshold || null,
+    allowBackOrders: data.allowBackOrders || 1, //('Do not allow', 'Allow, but notify customer', 'Allow')
+    quantity: data.quantity || 0,
+    stock_threshold: data.stock_threshold || null,
     inserted_at: inserted_at,
     updated_at: updated_at,
   };
@@ -67,14 +49,12 @@ const ProductResponseModel = product => {
 };
 
 const ProductDetailsModel = (product, product_id, inserted_at, updated_at) => {
-  const { name, short_description, long_description, product_gallery } =
-    product;
   const product_details = {
     product_id: product_id,
-    product_name: name,
-    short_description: short_description || null,
-    long_description: long_description || null,
-    product_gallery: product_gallery || null,
+    product_name: product.name,
+    short_description: product.short_description || null,
+    long_description: product.long_description || null,
+    product_gallery: product.product_gallery || null,
     inserted_at: inserted_at,
     updated_at: updated_at,
   };

@@ -8,7 +8,6 @@ const { AttributeOptionModel } = require("../../../Modles/Attributes");
 routes.get("/attributes", async (req, res) => {
 	try {
 		const response = await AttributesQuery.getAttributes();
-
 		const attribute_option_response = [];
 		for (let i = 0; i < response.length; ) {
 			const data = response.filter((item) => {

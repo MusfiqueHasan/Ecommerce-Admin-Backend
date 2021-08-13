@@ -29,7 +29,7 @@ async function addProductDetails(productDetails) {
   const sqlInsert =
     "Insert into product_details (product_id, product_name,short_description,long_description,product_gallery,inserted_at,updated_at) Values ?";
 
-  return PromiseModule.createUpdateDelete(sqlInsert, [productDetails]);
+  return PromiseModule.createUpdateDelete(sqlInsert, productDetails);
 }
 
 async function addProductToCategories(categories) {
