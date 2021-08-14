@@ -146,8 +146,6 @@ routes.post("/product", parentProduct, async (req, res) => {
   ];
 
   console.log(product_details);
-  if (categories.length === 0)
-    return res.status(401).json({ massage: "Please Select A Category" });
   //product and categories table data
   const productsToCategories = categories.map(item => [
     item.value,

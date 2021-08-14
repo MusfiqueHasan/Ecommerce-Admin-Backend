@@ -6,6 +6,9 @@ const Utils = require("../../../Utils/Utils");
 routes.post("/category", async (req, res) => {
   const { categoryData } = req.body;
   const { name, description, parent_id } = categoryData;
+
+  if (name.trim() === "" || !name)
+    return res.status(400).json({ massage: "Category name cannot be empty" });
   try {
     const inserted_at = Utils.getTimeStamp();
     const response = await CategoriesQuery.addCategories(
@@ -19,12 +22,11 @@ routes.post("/category", async (req, res) => {
       category_id: response.insertId,
       name: name,
       description: description,
-      parent_id: parent_id
+      parent_id: parent_id,
     };
     return res.status(200).json(jsonData);
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({ msg: "Something Went Wrong" });
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 });
 
@@ -35,8 +37,8 @@ routes.get("/categories", async (req, res) => {
       status: "success",
       data: {
         total_categories: response.length,
-        categories: [...response]
-      }
+        categories: [...response],
+      },
     });
   } catch (error) {
     return res.status(400).json({ msg: "Something Went Wrong" });
@@ -50,10 +52,10 @@ routes.delete("/categories/:id", async (req, res) => {
     const response = await CategoriesQuery.removeACategory(id);
     return res.status(200).json({
       status: "success",
-      msg: "Successfully remove item"
+      msg: "Successfully remove item",
     });
   } catch (error) {
-    return res.status(400).json({ msg: "Something Went Wrong" });
+    return res.status(500).json({ msg: "Something Went Wrong" });
   }
 });
 
