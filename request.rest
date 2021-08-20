@@ -78,13 +78,17 @@ DELETE http://localhost:5000/api/options/2
 # GET http://localhost:5000/api/products?view_type=1
 ///products
 ###
+GET http://localhost:5000/api/admin/products
+
+
+###
 GET http://localhost:5000/api/products
 
 ###
-GET http://localhost:5000/api/products/210
+GET http://localhost:5000/api/admin/products/231
 
 ###
-POST http://localhost:5000/api/product
+POST http://localhost:5000/api/admin/product
 Content-Type: application/json
 
 {
@@ -129,3 +133,48 @@ Content-Type: application/json
     }
 }
 
+### 
+GET http://localhost:5000/api/invoices/clients
+
+###
+GET http://localhost:5000/api/invoices/50005
+
+### 
+GET http://localhost:5000/api/invoices
+
+### 
+DELETE  http://localhost:5000/api/invoices/5
+
+### 
+GET http://localhost:5000/api/invoices/lastId
+
+###
+POST http://localhost:5000/api/invoices/client
+Content-Type: application/json
+
+{
+    "customer_name":"Akashsad asd ",
+    "customer_email":"ratul12sadasd4@gmail.com",
+    "customer_address":"Asadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks d",
+    "customer_country":"Bangladesh",
+    "customer_contact": "0151529018"
+}
+
+###
+GET http://localhost:5000/api/admin/invoice/search?name=w
+
+###
+POST http://localhost:5000/api/rating
+Content-Type: application/json
+
+{
+    "ratings" :2,
+    "comment": "very bad Products",
+    "user_email":"ratulbhowmick65@gmail.com"
+}
+
+###
+GET http://localhost:5000/api/ratings
+
+###
+GET http://localhost:5000/api/rating/total
