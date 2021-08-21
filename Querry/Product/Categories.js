@@ -2,12 +2,12 @@ const PromiseModule = require("../../dbModel/Promise/PromiseModule");
 const Categories = {
   getCategories,
   addCategories,
-  removeACategory
+  removeACategory,
 };
 
 async function getCategories() {
   const sqlSearch =
-    "Select category_id,name,description,parent_id From categories";
+    "Select categories.category_id,name,description,parent_id,pc.count  From categories LEFT JOIN (SELECT category_id, COUNT( category_id) as count from product_categories GROUP By category_id ) as pc on pc.category_id = categories.category_id";
   return PromiseModule.readData(sqlSearch);
 }
 

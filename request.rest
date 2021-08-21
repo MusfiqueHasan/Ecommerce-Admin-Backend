@@ -178,3 +178,6 @@ GET http://localhost:5000/api/ratings
 
 ###
 GET http://localhost:5000/api/rating/total
+
+###
+GET http://localhost:5000/api/calendar/events/1?calendar='Business'
