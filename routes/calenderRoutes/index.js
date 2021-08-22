@@ -101,7 +101,8 @@ routes.patch("/calendar/update-event", async (req, res) => {
     calender,
     location,
     description,
-  ];
+  ];   
+  console.log(calenderEvent)
   try {
     await CalendarQuery.updateEvent(id, calenderEvent);
 
