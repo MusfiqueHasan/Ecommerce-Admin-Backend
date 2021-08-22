@@ -1,10 +1,12 @@
 const dotenv = require("dotenv");
-dotenv.config()
+dotenv.config();
 module.exports = {
-  HOST: process.env.API_HOST,
-  USER: process.env.API_USER,
-  PASSWORD: process.env.API_PASSWORD,
-  DATABASE: process.env.API_DATABASE,
-  CONNECTION_LIMIT: process.env.API_CONNECTION_LIMIT,
-  PORT: process.env.API_PORT
+	HOST: process.env.HOST,
+	USER: process.env.USER,
+	PASSWORD: process.env.PASSWORD,
+	DATABASE: process.env.DATABASE,
+	CONNECTION_LIMIT: process.env.CONNECTION_LIMIT,
+	PORT: process.env.PORT,
+	ACCESS_TOKEN_SECRET:process.env.ACCESS_TOKEN_SECRET,
+	REFRESH_TOKEN_SECRET:process.env.REFRESH_TOKEN_SECRET
 };

@@ -1,0 +1,88 @@
+GET http://localhost:5000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+###
+
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email":"nakib@gmail.com",
+    "password":"1234"
+}
+
+###
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "name":"nakib",
+    "phonenumber":"01311203288",
+    "email":"nakib20@gmail.com",
+    "password":"1234"
+}
+
+###
+POST http://localhost:5000/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDIyMjQwLCJleHAiOjE2MjkwMjIyNzAsImlzcyI6Im91cndlYnNpdGUuY29tIn0.PYbtHADe6YBcjG55jauKERwoxF-XEghsoB9J-_sWH20"
+}
+
+
+###
+POST http://localhost:5000/auth/logout
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNjI0LCJleHAiOjE2MjkwNTA2NTQsImlzcyI6Im91cndlYnNpdGUuY29tIn0.gqb2vwqH3X4nLdRROeSRasU2SOudabJ2b3BAmWicgNM"
+}
+
+###
+GET http://localhost:5000/ecommrece
+
+
+###
+POST http://localhost:5000/ecommrece/order
+Content-Type: application/json
+
+{
+    "email":"nakib2@gmail.com",
+	"fullName":"nakib",
+	"phoneNumber":"017120321",
+	"division":"dhaka",
+	"city":"dhaka",
+	"houseNo":"12A",
+	"landMark":"uttara",
+	"postCode":"1230",
+	"payOption":"1",
+	"payMedium":"1",
+	"message":"order",
+	"payPhnNumber":"01323131",
+	"transId":"afdwad",
+    "orderedItems":[
+     {
+         "productId":1,
+         "qty":2,
+         "price":320,
+         "variants":"[l,red]",
+         "name":"apple watchA"
+     },
+     {
+         "productId":2,
+         "qty":2,
+         "price":320,
+         "name":"apple watchB"
+     }
+    ],
+    "totalCost":1200,
+    "shippingCost":30
+}
+
+###
+GET http://localhost:5000/ecommrece/user-order/all/nakib@gmail.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+
+###
+GET http://localhost:5000/ecommrece/user-order/pending/nakib@gmail.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A

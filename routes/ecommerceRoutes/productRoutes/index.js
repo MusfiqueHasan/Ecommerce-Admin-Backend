@@ -18,11 +18,21 @@ routes.get("/get-products", async (req, res) => {
   const { page, limit } = req.query;
   try {
     const response = await ProductQuery.getProducts(page, limit);
+    const products = response.map((item)=>({
+      id:item.product_id,
+      name:item.product_name,
+      price:item.regular_price,
+      discountPrice:item.discount_price,
+      categorie:item.category_name,
+      images:item.featured_img,
+      rating:item.rating?item.rating:null
+
+    }))
     const jsonData = {
       status: "success",
       data: {
         total_products: response.length,
-        products: [...response],
+        products: [...products],
       },
     };
     res.status(200).json(jsonData);
