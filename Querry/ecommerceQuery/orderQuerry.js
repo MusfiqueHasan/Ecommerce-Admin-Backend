@@ -1,5 +1,5 @@
-const PromiseModule = require("../../helpers/Promise/promiseModule");
-const { getTimeStamp } = require("../../Utils/Utils");
+const PromiseModule = require("../../helpers/Promise/PromiseModule");
+
 const orderQuerry = {
 	saveOrder,
 	saveOrderedItems,
