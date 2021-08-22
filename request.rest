@@ -181,3 +181,103 @@ GET http://localhost:5000/api/rating/total
 
 ###
 GET http://localhost:5000/api/calendar/events/1?calendar='Business'
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+
+
+###
+GET http://localhost:5000/api/ecommrece/pre-order/pending/nakib@gmail.com
+
+###
+GET http://localhost:5000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2Mjk2NTYzMTUsImV4cCI6MTYyOTY1NjMzMCwiaXNzIjoib3Vyd2Vic2l0ZS5jb20ifQ.QgtWgYP0OHZqM3TeTKLP65WOyk9Qhvw_xadmpPNJo-4
+###
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"nakib@gmail.com",
+    "password":"1234"
+}
+
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "name":"nakib",
+    "phonenumber":"09311203288",
+    "email":"akram90@gmail.com",
+    "password":"1234"
+}
+
+###
+POST http://localhost:5000/api/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2Mjk2NTY1ODcsImV4cCI6MTYyOTY1NjYxNywiaXNzIjoib3Vyd2Vic2l0ZS5jb20ifQ.Zg0c1lkPUL7oI0HVBVtXbLq7A81-n4KUl_mhS6k1I1M"
+}
+
+###
+GET http://localhost:5000/api/ecommrece
+
+
+###
+POST http://localhost:5000/api/ecommrece/order
+Content-Type: application/json
+
+{
+    "email":"nakib2@gmail.com",
+	"fullName":"nakib",
+	"phoneNumber":"017120321",
+	"division":"dhaka",
+	"city":"dhaka",
+	"houseNo":"12A",
+	"landMark":"uttara",
+	"postCode":"1230",
+	"payOption":"1",
+	"payMedium":"1",
+	"message":"order",
+	"payPhnNumber":"01323131",
+	"transId":"afdwad",
+    "orderedItems":[
+     {
+         "productId":1,
+         "qty":2,
+         "price":320,
+         "variants":"[l,red]",
+         "name":"apple watchA"
+     },
+     {
+         "productId":2,
+         "qty":2,
+         "price":320,
+         "name":"apple watchB"
+     }
+    ],
+    "totalCost":1200,
+    "shippingCost":30
+}
+
+###
+GET http://localhost:5000/api/ecommrece/user-order/all/nakib@gmail.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+
+###
+GET http://localhost:5000/api/ecommrece/user-order/pending/nakib@gmail.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+
+###
+POST http://localhost:5000/api/ecommrece/pre-order 
+Content-Type: application/json
+
+{
+    "email":"nakib2@gmail.com",
+    "productName":"iphone 11 pro max",
+    "productType":"Mobile",
+    "productDetails":"write something",
+    "brand":"apple",
+    "qty":2,
+    "phoneNumber":"01710203288"
+}
