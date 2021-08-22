@@ -22,6 +22,8 @@ const parentProduct = async (req, res, next) => {
   if (!product.product_status_id)
     return res.status(400).json({ massage: "Please select a product status" });
 
+  if(!product.slug || product.slug === "")return res.status(400).json({ massage: "Slug is empty" });
+
   const basicInfoOfProduct = ProductModel(product, inserted_at, updated_at);
   const productData = [Object.values(basicInfoOfProduct)];
 

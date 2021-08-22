@@ -6,6 +6,7 @@ const ProductModel = (productData, inserted_at, updated_at) => {
  
   const productInfo = {
     sku: productData.sku || null,
+    slug: productData.slug,
     parent_id: productData.parent_id || null,
     product_status_id: productData.product_status_id || null,
     productType: productData.productType || null,
