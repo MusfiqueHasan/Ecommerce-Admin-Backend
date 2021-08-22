@@ -1,4 +1,4 @@
-const PromiseModule = require("../../dbModel/Promise/PromiseModule");
+const PromiseModule = require("../../helpers/Promise/PromiseModule");
 const Utils = require("../../Utils/Utils");
 
 const LIMIT_THRESHOLD = 15;
