@@ -3,11 +3,18 @@ const Categories = {
   getCategories,
   addCategories,
   removeACategory,
+  getCategoriesBy
 };
 
 async function getCategories() {
   const sqlSearch =
     "Select categories.category_id,name,description,parent_id,pc.count  From categories LEFT JOIN (SELECT category_id, COUNT( category_id) as count from product_categories GROUP By category_id ) as pc on pc.category_id = categories.category_id";
+  return PromiseModule.readData(sqlSearch);
+}
+
+async function getCategoriesBy(id) {
+  const sqlSearch =
+    `SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id And product_categories.product_id = ${id}`;
   return PromiseModule.readData(sqlSearch);
 }
 

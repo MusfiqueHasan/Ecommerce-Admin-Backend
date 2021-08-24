@@ -1,7 +1,8 @@
-const pool = require("../dbConnection");
+const { pool, transporter } = require("../dbConnection");
 const PromiseModule = {
   createUpdateDelete,
-  readData
+  readData,
+  sendMail,
 };
 
 async function readData(sqlQuery) {
@@ -28,4 +29,13 @@ async function createUpdateDelete(sqlQuery, sqlValue) {
   });
 }
 
+async function sendMail(mailOptions) {
+  return transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      reject(error);
+    } else {
+      resolve(info);
+    }
+  });
+}
 module.exports = PromiseModule;

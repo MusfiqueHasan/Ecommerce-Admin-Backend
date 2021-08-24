@@ -83,6 +83,7 @@ router.post("/order", async (req, res, next) => {
 			});
 		}
 	} catch (err) {
+		console.log(error)
 		next(err);
 	}
 });

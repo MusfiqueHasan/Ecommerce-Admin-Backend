@@ -1,7 +1,8 @@
 const PromiseModule = require("../../helpers/Promise/PromiseModule");
 
 const Inventory = {
-  addInventory
+  addInventory,
+  getInventoryById
 };
 async function addInventory(inventoryData) {
   const sqlInsert =
@@ -14,6 +15,12 @@ async function updateInventory(quantity, inventory_id) {
     "Update product_inventory Set quantity = ? where inventory_id = ?";
   const data = [quantity, inventory_id];
   return PromiseModule.createUpdateDelete(sqlUpdate, data);
+}
+
+async function getInventoryById(id){
+  const sqlSearch = `Select * from prduct_inventory where prduct_inventory.product_id = ${id}`
+  console.log(sqlSearch)
+  return PromiseModule.readData(sqlSearch)
 }
 
 module.exports = Inventory;

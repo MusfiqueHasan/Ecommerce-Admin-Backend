@@ -2,8 +2,10 @@ const express = require("express");
 const routes = express.Router();
 const ProductQuery = require("../../../Querry/Product/Products");
 const InventoryQuery = require("../../../Querry/Product/Inventory");
+const AttributeQuery = require("../../../Querry/Product/Attributes");
+const CategoriesQuery = require("../../../Querry/Product/Categories");
 const Utils = require("../../../Utils/Utils");
-
+const ShippingQuery = require("../../../Querry/Product/Shipping");
 const {
   ProductModel,
   ProductInventoryModel,
@@ -118,6 +120,59 @@ routes.get("/products/:id", async (req, res) => {
     const jsonObject = {
       massage: "success",
       product: parentProduct,
+    };
+
+    res.status(200).json(jsonObject);
+  } catch (error) {
+    res.status(500).json({ massage: error.massage });
+  }
+});
+routes.get("/edit/products/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const response = await ProductQuery.getSingleProductDetailsAdmin(id);
+    console.log(response);
+    const productDetails = response[0];
+    let shippingDetails = null;
+    let inventoryDetails = null;
+    if (!productDetails.hasFreeShipping) {
+      const shipping_response = await ShippingQuery.getShippingDetails(id);
+      console.log(shipping_response);
+      shippingDetails = shipping_response[0];
+    }
+    if (productDetails.manageStock) {
+      const inventory_response = await InventoryQuery.getInventoryById(id);
+
+      inventoryDetails = inventory_response[0];
+    }
+    const product_categories = await CategoriesQuery.getCategoriesBy(id);
+
+    const attributes = [];
+    const attribute_response = await AttributeQuery.getAttributesById(id);
+    attribute_response.map(item => {
+      if (
+        Utils.findInArray(attributes, item.attribute_id, "value") === -1
+      ) {
+        attributes.push({
+          value: item.attribute_id,
+          label: item.attribute_name,
+        });
+      }
+    });
+    const response_of_vairants = await ProductQuery.getProductVariants(id);
+    const product = {
+      ...productDetails,
+      inventory: inventoryDetails,
+      shipping: shippingDetails,
+      categories: [...product_categories],
+      attributes: attributes.length > 0 ? [...attributes] : null,
+      variants:
+        response_of_vairants.length > 0 ? [...response_of_vairants] : null,
+    };
+    const jsonObject = {
+      massage: "Success",
+      results: product,
     };
 
     res.status(200).json(jsonObject);
@@ -264,8 +319,7 @@ routes.post("/product", parentProduct, async (req, res) => {
 });
 
 routes.get("/invoice/search", async (req, res) => {
- 
-  const name = req.query.name
+  const name = req.query.name;
   // console.log(req);
   try {
     const response = await ProductQuery.getProductsByName(name);
