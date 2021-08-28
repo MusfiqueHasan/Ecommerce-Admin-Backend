@@ -16,7 +16,6 @@ routes.get("/admin-info", async (req, res) => {
         paymentDetails: [...paymentInfo],
       },
     };
-
     res.status(200).json(jsonObject);
   } catch (error) {
     res.status(500).json({ massage: "Internal Server Error!" });

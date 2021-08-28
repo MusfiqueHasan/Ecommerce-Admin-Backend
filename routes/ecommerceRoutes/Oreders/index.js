@@ -2,8 +2,12 @@ const express = require("express");
 const PromiseModule = require("../../../helpers/Promise/PromiseModule");
 const routes = express.Router();
 const OrderQuery = require("../../../Querry/ecommerceQuery/orderQuerry");
+const InventoryQuery = require("../../../Querry/Product/Inventory");
 const Utils = require("../../../Utils/Utils");
 
+const INCREASED = 1;
+const DECREASED = 2;
+const NEUTRAL = 0;
 routes.get("/orders", async (req, res) => {
   try {
     const response = await OrderQuery.getAllOrders();
@@ -47,8 +51,29 @@ routes.patch("/orders/:id", async (req, res) => {
   const { id } = req.params;
 
   const order_status = req.body.order_status || null;
+  const orders = req.body.orders;
   const html = req.body.html;
-  console.log(html);
+  const previous_status = req.body.previous_status;
+
+  const increasedQuantity = ["Completed", "Processing", "Pending Payment"];
+  const decreasedQuantity = ["On hold", "Cancelled", "Failed", "Refund"];
+
+  let quantityTypeStatus = NEUTRAL;
+
+  if (
+    increasedQuantity.findIndex(value => value === order_status) > -1 &&
+    decreasedQuantity.findIndex(value => value === previous_status) > -1
+  ) {
+    quantityTypeStatus = DECREASED;
+  } else if (
+    increasedQuantity.findIndex(value => value === previous_status) > -1 &&
+    decreasedQuantity.findIndex(value => value === order_status) > -1
+  ) {
+    quantityTypeStatus = INCREASED;
+  } else {
+    quantityTypeStatus = NEUTRAL;
+  }
+
   if (!Utils.isIdValid(id))
     return res.status(404).json({ massage: "Order is not found" });
 
@@ -61,10 +86,13 @@ routes.patch("/orders/:id", async (req, res) => {
     html: html,
     text: "TEST MAIL BODY",
   };
+  console.log(quantityTypeStatus,orders);
   try {
-    console.log(order_status);
     const response = await OrderQuery.updateOrderStatus(id, order_status);
-    await PromiseModule.sendMail(mailOptions);
+    quantityTypeStatus !== NEUTRAL &&
+      (await InventoryQuery.updateInventory(orders, quantityTypeStatus));
+    await InventoryQuery.updateStockStatus(orders);
+    // await PromiseModule.sendMail(mailOptions);
     const jsonObject = {
       massage: "Success Updated!",
     };
