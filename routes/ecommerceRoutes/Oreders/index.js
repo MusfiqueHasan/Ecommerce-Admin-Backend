@@ -80,17 +80,19 @@ routes.patch("/orders/:id", async (req, res) => {
   if (!order_status)
     return res.status(404).json({ massage: "Order status is empty" });
 
+  if (orders.length === 0)
+    return res.status(404).json({ massage: "Order item is empty" });
   const mailOptions = {
     to: "ratulbhowmick66@gmail.com",
     subject: "Hello World",
     html: html,
     text: "TEST MAIL BODY",
   };
-  console.log(quantityTypeStatus,orders);
   try {
     const response = await OrderQuery.updateOrderStatus(id, order_status);
     quantityTypeStatus !== NEUTRAL &&
       (await InventoryQuery.updateInventory(orders, quantityTypeStatus));
+
     await InventoryQuery.updateStockStatus(orders);
     // await PromiseModule.sendMail(mailOptions);
     const jsonObject = {

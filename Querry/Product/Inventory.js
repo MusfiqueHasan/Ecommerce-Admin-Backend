@@ -31,13 +31,6 @@ async function updateInventory(ordersItem, stockType) {
         (query += `UPDATE prduct_inventory SET quantity= quantity + ${item.qty} WHERE product_id = ${item.productId};`)
     );
   }
-  // ordersItem.map(
-  //   item =>
-  //     (query =
-  //       query + stockType === DECREASED
-  //         ? `UPDATE prduct_inventory SET quantity= quantity - ${item.qty} WHERE product_id = ${item.productId}; `
-  //         : `UPDATE prduct_inventory SET quantity= quantity + ${item.qty} WHERE product_id = ${item.productId}; `)
-  // );
   console.log(query);
   return PromiseModule.readData(query);
 }
