@@ -94,6 +94,11 @@ router.post("/login", async (req, res, next) => {
 				res.status(200).json({
 					status: "successfull",
 					message: `Wellcome back ${email}`,
+					id:UserExist[0].id,
+					email:email,
+					firstName:UserExist[0].first_name?UserExist[0].first_name:null,
+					lastName:UserExist[0].last_name?UserExist[0].last_name:null,
+					profilePic:UserExist[0].profile_img?UserExist[0].profile_img:null,
 					accessToken: accessToken,
 					refreshToken: refreshToken,
 				});

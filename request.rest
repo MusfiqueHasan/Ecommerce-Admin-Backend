@@ -340,3 +340,47 @@ GET http://localhost:5000/api/users
 
 ###
 GET http://localhost:5000/api/users/1
+
+
+
+# user info 
+###
+POST http://localhost:5000/api/userinfo/update/generalInfo
+Content-Type: application/json
+
+{
+    "userId":12,
+    "firstName":"akram",
+    "lastName":"hossain",
+    "userName":"nakin55",
+    "phoneNumber":"01932345"
+
+}
+###
+POST  http://localhost:5000/api/userinfo/update/password
+Content-Type: application/json
+
+{
+    "userId":10,
+    "email":"nakib16@gmail.com",
+    "password":"1234",
+    "newPassword":"1234"
+}
+
+###
+POST http://localhost:5000/api/userinfo/update/address
+Content-Type: application/json
+
+{
+    "userId":14,
+    "country":"Bangladesh",
+    "city":"Dhaka",
+    "division":"Dhaka",
+    "houseNo":"12D",
+    "landMark":"Apollo",
+    "postCode":"1230"
+}
+
+###
+GET http://localhost:5000/api/userinfo/10
+Authorization: Bearer updateGeneralInfosdadsad

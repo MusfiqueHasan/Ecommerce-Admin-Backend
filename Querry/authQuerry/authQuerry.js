@@ -2,6 +2,8 @@ const PromiseModule = require("../../helpers/Promise/PromiseModule");
 const authQuerry = {
 	saveUser,
 	isUserExist,
+	isUserNameExist,
+	updatePassword
 };
 async function saveUser(name, phoneNumber, eamil, password) {
 	const sqlQuery =
@@ -17,4 +19,15 @@ async function isUserExist(email, phone_Number) {
 	return PromiseModule.readData(sqlQuery);
 }
 
+async function isUserNameExist(userName, phoneNumber, id) {
+	const sqlQuery = `SELECT * FROM user_info WHERE ( user_name = '${userName}' or phone_number = ${phoneNumber} ) and id != ${id}`;
+
+	return PromiseModule.readData(sqlQuery);
+}
+
+async function updatePassword(id, password) {
+	const sqlQuery = `UPDATE user_info SET password = ? , updated_date = ?  WHERE id = ?`;
+	const userData = [password, getTimeStamp(), id];
+	return PromiseModule.createUpdateDelete(sqlQuery, userData);
+}
 module.exports = authQuerry;
