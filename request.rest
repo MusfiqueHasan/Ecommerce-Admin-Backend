@@ -95,6 +95,9 @@ GET http://localhost:5000/api/admin/edit/products/239
 GET http://localhost:5000/api/admin/products/231
 
 ###
+GET http://localhost:5000/api/products/Kurti-
+
+###
 POST http://localhost:5000/api/admin/product
 Content-Type: application/json
 {
