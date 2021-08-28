@@ -339,7 +339,7 @@ GET http://localhost:5000/api/tags/9001
 GET http://localhost:5000/api/users
 
 ###
-GET http://localhost:5000/api/users/1
+GET http://localhost:5000/api/users/12
 
 
 
@@ -384,3 +384,6 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/api/userinfo/10
 Authorization: Bearer updateGeneralInfosdadsad
+
+###
+GET http://localhost:5000/api/admin/admin-info

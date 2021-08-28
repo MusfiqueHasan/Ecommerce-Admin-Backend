@@ -2,6 +2,7 @@ const express = require("express");
 const { UserModel } = require("../../Modles/Users");
 const routes = express.Router();
 const UserQuery = require("../../Querry/User");
+const { getUserInfo } = require("../../Querry/userQuerry/userinfoQuerry");
 const Utils = require("../../Utils/Utils");
 
 routes.get("/users", async (req, res) => {
@@ -24,7 +25,7 @@ routes.get("/users/:id", async (req, res) => {
   if (!Utils.isIdValid(id))
     return res.status(404).json({ massage: "User is not found" });
   try {
-    const response = await UserQuery.getUsersById(id);
+    const response = await getUserInfo(id);
     if (response.length === 0)
       return res.status(404).json({ massage: "User is not found" });
 
