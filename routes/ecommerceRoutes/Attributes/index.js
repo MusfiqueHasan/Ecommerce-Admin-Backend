@@ -52,20 +52,39 @@ routes.post("/attribute", async (req, res) => {
   }
 });
 
-routes.get("/attributes/:id", async (req, res) => {
+routes.get("/product-attributes/:id", async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   try {
-    const response = await OptionsQuery.getOptionsById(id);
-    if (response.length < 1) {
-      return res.status(404).json({ massage: "Attribute is not found" });
-    }
+    const attributes = [];
+    const options = [];
+    const attribute_response = await AttributesQuery.getAttributesById(id);
+    console.log(attribute_response)
+    attribute_response.map(item => {
+      if (Utils.findInArray(attributes, item.attribute_id, "value") === -1) {
+        attributes.push({
+          value: item.attribute_id,
+          label: item.attribute_name,
+        });
+      }
+      if (Utils.findInArray(options, item.option_id, "value") === -1) {
+        options.push({
+          value: item.option_id,
+          label: item.option_name,
+        });
+      }
+    });
     const jsonObject = {
-      massage: "success",
-      results: [...response],
+      massage: "Success",
+      results: {
+        options: options.length > 0 ? [...options] : null,
+        attributes: attributes.length > 0 ? [...attributes] : null,
+      },
     };
 
     res.status(200).json(jsonObject);
   } catch (error) {
+    console.log(error)
     res.status(400).json({ massage: error.massage });
   }
 });

@@ -149,24 +149,16 @@ routes.get("/edit/products/:id", async (req, res) => {
     const product_categories = await CategoriesQuery.getCategoriesBy(id);
 
     const attributes = [];
+    const options = [];
     const attribute_response = await AttributeQuery.getAttributesById(id);
-    attribute_response.map(item => {
-      if (
-        Utils.findInArray(attributes, item.attribute_id, "value") === -1
-      ) {
-        attributes.push({
-          value: item.attribute_id,
-          label: item.attribute_name,
-        });
-      }
-    });
     const response_of_vairants = await ProductQuery.getProductVariants(id);
     const product = {
       ...productDetails,
       inventory: inventoryDetails,
       shipping: shippingDetails,
+      // options: options.length > 0 ? [...options] : null,
       categories: [...product_categories],
-      attributes: attributes.length > 0 ? [...attributes] : null,
+      // attributes: attributes.length > 0 ? [...attributes] : null,
       variants:
         response_of_vairants.length > 0 ? [...response_of_vairants] : null,
     };
@@ -336,6 +328,39 @@ routes.get("/invoice/search", async (req, res) => {
       massage: "success",
       total_products: product_data_response.length,
       products: [...product_data_response],
+    };
+    res.status(200).json(jsonObject);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ massage: "Internal Server Error!" });
+  }
+});
+
+routes.patch("/popular/:id", async (req, res) => {
+  const { id } = req.params;
+  const params = req.body.popular;
+
+  try {
+    const response = await ProductQuery.updatePopularProducts(id, params);
+
+    const jsonObject = {
+      massage: "success",
+    };
+    res.status(200).json(jsonObject);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ massage: "Internal Server Error!" });
+  }
+});
+
+routes.patch("/featured/:id", async (req, res) => {
+  const { id } = req.params;
+  const params = req.body.featured;
+  console.log(params)
+  try {
+    const response = await ProductQuery.updateFeaturedProducts(id, params);
+    const jsonObject = {
+      massage: "success",
     };
     res.status(200).json(jsonObject);
   } catch (error) {

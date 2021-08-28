@@ -3,7 +3,6 @@ const Utils = require("../Utils/Utils");
 const INDEX_THRESHOLD = -1;
 
 const ProductModel = (productData, inserted_at, updated_at) => {
- 
   const productInfo = {
     sku: productData.sku || null,
     slug: productData.slug,
@@ -113,7 +112,15 @@ const ParentProductModel = data => {
         "attribute_id"
       );
 
-      attributeArray[idx]["options"].push(optionsObject);
+      if (
+        Utils.findInArray(
+          attributeArray[idx]["options"],
+          item.option_id,
+          "option_id"
+        ) === INDEX_THRESHOLD
+      ) {
+        attributeArray[idx]["options"].push(optionsObject);
+      }
     }
   });
   const product = {

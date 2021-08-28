@@ -2,19 +2,25 @@ const express = require("express");
 const routes = express.Router();
 const ProductQuery = require("../../../Querry/Product/Products");
 
-const {
-  ParentProductModel,
-} = require("../../../Modles/Products");
+const { ParentProductModel } = require("../../../Modles/Products");
 
 routes.get("/get-products", async (req, res) => {
   const { page, limit } = req.query;
   try {
     const response = await ProductQuery.getProductsForUsers(page, limit);
+    const productData = response.map(item => ({
+      id: item.product_id,
+      name: item.product_name,
+
+      image: item.featured_img,
+      slug: item.slug,
+      price: item.reagular_price,
+    }));
     const jsonData = {
       status: "success",
       data: {
         total_products: response.length,
-        products: [...response],
+        products: [...productData],
       },
     };
     res.status(200).json(jsonData);
@@ -81,10 +87,18 @@ routes.get("/products", async (req, res) => {
       product_data_response.push(ParentProductModel(data));
       i = i + data.length;
     }
+    const productData = product_data_response.map(item => ({
+      id: item.product_id,
+      name: item.product_name,
+      image: item.featured_img,
+      price: item.regular_price,
+      slug: item.slug,
+      shortDescription: item.short_description,
+    }));
     const jsonObject = {
       massage: "success",
       total_products: product_data_response.length,
-      products: [...product_data_response],
+      products: [...productData],
     };
     res.status(200).json(jsonObject);
   } catch (error) {
@@ -92,24 +106,42 @@ routes.get("/products", async (req, res) => {
   }
 });
 
-routes.get("/products/:id", async (req, res) => {
-  const { id } = req.params;
+routes.get("/products/:slug", async (req, res) => {
+  const { slug } = req.params;
   try {
-    const response = await ProductQuery.getSingleProductDetails(id);
-    console.log(response);
+    const response = await ProductQuery.getSingleProductDetailsBySlug(slug);
+
     const parentProduct = ParentProductModel(response);
+
     if (Object.entries(parentProduct).length === 0)
       return res.status(404).json({ massage: "Product is not found" });
-    const response_of_vairants = await ProductQuery.getProductVariants(id);
-
+    const response_of_vairants = await ProductQuery.getProductVariantsBySlug(
+      slug
+    );
     const variants =
       response_of_vairants.length > 0 ? [...response_of_vairants] : null;
 
     parentProduct["variants"] = variants;
+    const productData = {
+      id: parentProduct.product_id,
+      name: parentProduct.product_name,
+      slug: parentProduct.slug,
+      price: parentProduct.discount_price
+        ? parentProduct.discount_price
+        : parentProduct.regular_price,
+      regularPrice: parentProduct.discount_price
+        ? parentProduct.regular_price
+        : null,
+      shortDescription: parentProduct.short_description,
+      longDescription: parentProduct.long_description,
+      images: parentProduct.product_gallery,
+      categories: parentProduct.categories,
+      inventory_status: parentProduct.inventory_status,
+    };
 
     const jsonObject = {
-      massage: "success",
-      product: parentProduct,
+      massage: "Success",
+      product: productData,
     };
 
     res.status(200).json(jsonObject);
@@ -117,6 +149,5 @@ routes.get("/products/:id", async (req, res) => {
     res.status(500).json({ massage: error.massage });
   }
 });
-
 
 module.exports = routes;

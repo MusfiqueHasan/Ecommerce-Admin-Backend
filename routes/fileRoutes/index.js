@@ -7,7 +7,8 @@ const fs = require("fs");
 const path = require("path");
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
+    console.log(path.resolve(__dirname, ".."));
     const dir = `/home/rat/Desktop/AllFiles/multikart/EcommerceAdminPanel/full-version/src/assets/uploads/`;
     const absPath = path.resolve(
       "/home/rat/Desktop/AllFiles/multikart/EcommerceAdminPanel/full-version/src/assets/",
@@ -21,11 +22,26 @@ const storage = multer.diskStorage({
     }
     cb(null, dir);
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
-  }
+  },
 });
 const upload = multer({ storage: storage });
+
+routes.get("/files", async (req, res) => {
+  try {
+    const response = await FilesQuery.getFiles();
+    const jsonData = {
+      massage: "Success",
+      results: [...response],
+    };
+
+    res.status(200).json(jsonData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ massage: "Internal Server Error" });
+  }
+});
 
 routes.post("/file-upload", upload.single("file"), async (req, res) => {
   const { originalname, mimetype } = req.file;
@@ -44,12 +60,26 @@ routes.post("/file-upload", upload.single("file"), async (req, res) => {
       mime_type: mimetype,
       inserted_at: inserted_at,
       size: size,
-      file_id: response.insertId
+      file_id: response.insertId,
     };
     res.status(200).json(jsonData);
   } catch (error) {
     console.log(error);
-    res.status(400).json({ msg: "Something Went Wrong" });
+    res.status(500).json({ msg: "Something Went Wrong" });
+  }
+});
+
+routes.delete("/files/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await FilesQuery.removeFile(id);
+    const jsonData = {
+      massage: "Successfully Removed",
+    };
+    res.status(200).json(jsonData);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ massage: "Internal Server Error" });
   }
 });
 

@@ -84,9 +84,11 @@ DELETE http://localhost:5000/api/options/2
 ###
 GET http://localhost:5000/api/admin/products
 
+###
+GET http://localhost:5000/api/product-attributes/239
 
 ###
-GET http://localhost:5000/api/admin/edit/products/235
+GET http://localhost:5000/api/admin/edit/products/239
 
 
 ###
@@ -158,8 +160,8 @@ Content-Type: application/json
 
 {
     "customer_name":"Akashsad asd ",
-    "customer_email":"ratul12sadasd4@gmail.com",
-    "customer_address":"Asadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks d",
+    "customer_email":"nakib1@gmail.com",
+    "customer_address":"Asadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks d Asadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks dAsadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks d",
     "customer_country":"Bangladesh",
     "customer_contact": "0151529018"
 }
@@ -173,12 +175,20 @@ Content-Type: application/json
 
 {
     "ratings" :2,
-    "comment": "very bad Products",
-    "user_email":"ratulbhowmick65@gmail.com"
+    "comment": "very bad Products very bad Productsvery bad Productsvery bad Productsvery bad Products very bad Products very bad Products very bad Products very bad Products very bad Products very bad Products very bad Products very bad Productsvery bad Productsvery bad Productsvery bad Productsvery bad Productsvery bad Products very bad Productsvery bad Products very bad Products very bad Products very bad Products very bad Products",
+    "user_email":"nakib1@gmail.com",
+    "product_id":233
 }
 
 ###
 GET http://localhost:5000/api/ratings
+
+
+###
+GET  http://localhost:5000/api/ratings/233
+
+###
+DELETE  http://localhost:5000/api/ratings/1
 
 ###
 GET http://localhost:5000/api/rating/total
@@ -311,3 +321,19 @@ Content-Type: application/json
 
 ###
 GET http://localhost:5000/api/pre-orders
+
+
+###
+
+GET http://localhost:5000/api/files
+###
+
+GET http://localhost:5000/api/tags/9001
+
+
+###
+
+GET http://localhost:5000/api/users
+
+###
+GET http://localhost:5000/api/users/1
