@@ -45,6 +45,25 @@ routes.get("/categories", async (req, res) => {
     return res.status(400).json({ msg: "Something Went Wrong" });
   }
 });
+routes.get("/categories/:id", async (req, res) => {
+  const {id} = req.params
+  if (!Utils.isIdValid(id))
+  return res.status(404).json({ massage: "Product is not found" });
+
+  try {
+    const response = await CategoriesQuery.getCategoriesBy(id);
+    return res.status(200).json({
+      status: "success",
+      data: {
+        total_categories: response.length,
+        categories: [...response],
+      },
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({ msg: "Something Went Wrong" });
+  }
+});
 
 routes.delete("/categories/:id", async (req, res) => {
   try {
