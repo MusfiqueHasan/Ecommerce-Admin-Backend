@@ -23,7 +23,8 @@ const Products = {
   updateFeaturedProducts,
   getSingleProductDetailsBySlug,
   getProductVariantsBySlug,
-  updateProductManageStockStatus
+  updateProductManageStockStatus,
+  getProductPriceAndStockStatusById,
 };
 
 async function addProducts(productDetails) {
@@ -183,9 +184,14 @@ async function updateFeaturedProducts(id, params) {
   return PromiseModule.createUpdateDelete(sqlUpdate, [params, id]);
 }
 
-async function updateProductManageStockStatus(updatedData){
-  const sqlUpdate = `Update product Set manageStock = ?, inventory_status = ? where product_id = ?`
-  return PromiseModule.createUpdateDelete(sqlUpdate,updatedData)
+async function updateProductManageStockStatus(updatedData) {
+  const sqlUpdate = `Update product Set manageStock = ?, inventory_status = ? where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlUpdate, updatedData);
+}
+
+async function getProductPriceAndStockStatusById(id) {
+  const sqlSearch = `Select inventory_status, product_id,regular_price,discount_price from product where product_id in (${id})`;
+  return PromiseModule.readData(sqlSearch);
 }
 
 module.exports = Products;

@@ -40,7 +40,7 @@ async function saveOrder(
     email,
     phoneNumber,
     productId,
-    "0",
+    "Pending",
     payOption,
     payMedium,
     payPhnNumber,
@@ -118,7 +118,7 @@ async function pandingPreOrders(email) {
 }
 
 async function getAllOrders() {
-  const sqlSearch = `Select o.id, o.user_id,o.total_price,o.division,o.transactionId,o.order_status, o.pay_phoneNumber, o.user_email, o.user_fullname,o.order_date  from orderdata as o, user_info as uf where o.user_id = uf.id`;
+  const sqlSearch = `Select o.id, o.user_id,o.total_price,o.division,o.transactionId,o.order_status, o.pay_phoneNumber, o.user_email, o.user_fullname,o.order_date  from orderdata as o, user_info as uf where o.user_id = uf.id order by o.id desc`;
   return PromiseModule.readData(sqlSearch);
 }
 
