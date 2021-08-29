@@ -8,6 +8,7 @@ const InvoiceRoute = require("./Invoice");
 const RatingsRoute = require("./Ratings");
 const OrdersRoute = require("./Oreders");
 const TagRoute = require("./TagRoutes");
+const InventoryRoute = require("./Inventory");
 routes.use(ProductRoutes);
 routes.use(CategoryRoutes);
 routes.use(AttributeRoutes);
@@ -16,5 +17,6 @@ routes.use(InvoiceRoute);
 routes.use(RatingsRoute);
 routes.use(OrdersRoute);
 routes.use(TagRoute);
+routes.use(InventoryRoute);
 
 module.exports = routes;

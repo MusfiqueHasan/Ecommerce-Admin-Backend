@@ -12,7 +12,7 @@ routes.get("/options", async (req, res) => {
     };
     res.status(200).json(jsonObject);
   } catch (error) {
-    res.status(404).json({ massage: error.massage });
+    res.status(500).json({ massage: error.massage });
   }
 });
 
@@ -38,7 +38,7 @@ routes.post("/option", async (req, res) => {
     };
     res.status(201).json(jsonObject);
   } catch (error) {
-    res.status(400).json({ massage: error.massage });
+    res.status(500).json({ massage: error.massage });
   }
 });
 
@@ -59,7 +59,7 @@ routes.delete("/options", async (req, res) => {
     res.status(200).json(jsonObject);
   } catch (error) {
     console.log(error)
-    res.status(404).json({ massage: error.massage });
+    res.status(500).json({ massage: error.massage });
   }
 });
 module.exports = routes;

@@ -9,6 +9,9 @@ const Inventory = {
   getInventoryById,
   updateInventory,
   updateStockStatus,
+  getParentProductInventory,
+  updateStock,
+  removeInventory,
 };
 async function addInventory(inventoryData) {
   const sqlInsert =
@@ -47,6 +50,21 @@ async function getInventoryById(id) {
   const sqlSearch = `Select * from prduct_inventory where prduct_inventory.product_id = ${id}`;
   console.log(sqlSearch);
   return PromiseModule.readData(sqlSearch);
+}
+
+async function getParentProductInventory() {
+  const sqlSearch = `SELECT p.product_id,p.manageStock,p.slug,p.inventory_status,pd.product_name,pi.allowBackOrders,pi.quantity,pi.stock_threshold FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id LEFT JOIN prduct_inventory as pi on pi.product_id = p.product_id ORDER BY p.product_id ASC`;
+  return PromiseModule.readData(sqlSearch);
+}
+
+async function updateStock(stockData) {
+  const sqlUpdate = `Update prduct_inventory Set quantity=?,allowBackOrders=?,stock_threshold=? where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlUpdate, stockData);
+}
+
+async function removeInventory(id) {
+  const sqlDelete = `Delete from prduct_inventory where product_id = ?`;
+  return removeInventory(sqlDelete, id);
 }
 
 module.exports = Inventory;

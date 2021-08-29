@@ -387,3 +387,6 @@ Authorization: Bearer updateGeneralInfosdadsad
 
 ###
 GET http://localhost:5000/api/admin/admin-info
+
+###
+GET http://localhost:5000/api/inventories
