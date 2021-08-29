@@ -12,6 +12,7 @@ const Inventory = {
   getParentProductInventory,
   updateStock,
   removeInventory,
+  getVariationsInventory,
 };
 async function addInventory(inventoryData) {
   const sqlInsert =
@@ -57,6 +58,11 @@ async function getParentProductInventory() {
   return PromiseModule.readData(sqlSearch);
 }
 
+async function getVariationsInventory(parentId) {
+  const sqlSearch = `SELECT p.product_id,p.manageStock,p.slug,p.inventory_status,pi.allowBackOrders,pi.quantity,pi.stock_threshold,product_variants.product_variant_combinations FROM product as p INNER JOIN product_variants on product_variants.product_variant_id = p.product_id  And p.parent_id = ${parentId}  LEFT JOIN prduct_inventory as pi on pi.product_id = p.product_id `;
+  return PromiseModule.readData(sqlSearch);
+}
+
 async function updateStock(stockData) {
   const sqlUpdate = `Update prduct_inventory Set quantity=?,allowBackOrders=?,stock_threshold=? where product_id = ?`;
   return PromiseModule.createUpdateDelete(sqlUpdate, stockData);
@@ -64,7 +70,8 @@ async function updateStock(stockData) {
 
 async function removeInventory(id) {
   const sqlDelete = `Delete from prduct_inventory where product_id = ?`;
-  return removeInventory(sqlDelete, id);
+  console.log(id);
+  return PromiseModule.createUpdateDelete(sqlDelete, id);
 }
 
 module.exports = Inventory;

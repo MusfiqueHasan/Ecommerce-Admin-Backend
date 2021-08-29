@@ -18,6 +18,23 @@ routes.get("/inventories", async (req, res) => {
   }
 });
 
+routes.get("/inventories/variations/:id", async (req, res) => {
+    const {id} = req.params
+    try {
+      const response = await InventoryQuery.getVariationsInventory(id);
+      const jsonObject = {
+        massage: "success",
+        results: [...response],
+      };
+      res.status(200).json(jsonObject);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ massage: "Internal Server Error!" });
+    }
+  });
+  
+  
+
 routes.patch("/inventories/:id", async (req, res) => {
   const { id } = req.params;
   const manageStock = req.body.data.manageStock;
