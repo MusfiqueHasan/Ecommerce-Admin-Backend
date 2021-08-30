@@ -63,7 +63,10 @@ routes.post("/register", async (req, res, next) => {
                             message: `New ${newStaffRole} account created`,
                         });
                     }
-					throw createError.BadRequest("Invalid username or email")
+                    else{
+
+                        throw createError.BadRequest("Invalid username or email")
+                    }
 				}
 			} else {
 				throw createError.BadRequest("Invalid Request");
