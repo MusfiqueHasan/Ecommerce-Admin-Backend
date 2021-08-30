@@ -54,7 +54,7 @@ async function getInventoryById(id) {
 }
 
 async function getParentProductInventory() {
-  const sqlSearch = `SELECT p.product_id,p.manageStock,p.slug,p.inventory_status,pd.product_name,pi.allowBackOrders,pi.quantity,pi.stock_threshold FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id LEFT JOIN prduct_inventory as pi on pi.product_id = p.product_id ORDER BY p.product_id ASC`;
+  const sqlSearch = `SELECT p.product_id,p.manageStock,p.slug,p.inventory_status,pd.product_name,pi.allowBackOrders,pi.quantity,pi.stock_threshold FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id LEFT JOIN prduct_inventory as pi on pi.product_id = p.product_id ORDER BY p.product_id DESC`;
   return PromiseModule.readData(sqlSearch);
 }
 

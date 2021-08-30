@@ -1,7 +1,7 @@
 const PromiseModule = require("../../helpers/Promise/PromiseModule");
 
 const getInvoices = () =>{
-  const sqlSearch =  `Select invoice.invoice_id,invoice.total,invoice.reference ,invoice.invoice_date, invoice_client.invoice_client_id,invoice_client.customer_name, invoice_client.customer_email,invoice_client.customer_contact from invoice_client, invoice where invoice.invoice_client_id = invoice_client.invoice_client_id`
+  const sqlSearch =  `Select invoice.invoice_id,invoice.total,invoice.reference ,invoice.invoice_date, invoice_client.invoice_client_id,invoice_client.customer_name, invoice_client.customer_email,invoice_client.customer_contact from invoice_client, invoice where invoice.invoice_client_id = invoice_client.invoice_client_id ORDER BY invoice.invoice_id DESC`
   return PromiseModule.readData(sqlSearch)
 }
 const getInvoicesUsers = () => {

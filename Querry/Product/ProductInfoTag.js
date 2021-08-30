@@ -14,7 +14,7 @@ async function addGeneratedTags(data) {
 }
 
 async function getGeneratedTags() {
-  const sqlSearch = `Select * from product_price_info_tags`;
+  const sqlSearch = `Select * from product_price_info_tags ORDER BY product_price_info_tags.prduct_info_price_tag_id DESC`;
 
   return PromiseModule.readData(sqlSearch);
 }

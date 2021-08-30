@@ -141,7 +141,7 @@ async function updatePreOrderStatus(orderId, status) {
 }
 
 async function getAllPreOrders() {
-  const sqlSearch = `Select * from preorder`;
+  const sqlSearch = `Select * from preorder ORDER BY preorder.id DESC`;
   return PromiseModule.readData(sqlSearch);
 }
 

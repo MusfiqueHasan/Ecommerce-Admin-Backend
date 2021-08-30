@@ -6,7 +6,7 @@ const UserQuery = {
 };
 
 async function getUsers() {
-  const sqlSearch = `Select * from user_info`;
+  const sqlSearch = `Select * from user_info ORDER BY user_info.id DESC`;
   return PromiseModule.readData(sqlSearch);
 }
 

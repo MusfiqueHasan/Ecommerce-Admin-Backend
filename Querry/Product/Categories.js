@@ -8,7 +8,7 @@ const Categories = {
 
 async function getCategories() {
   const sqlSearch =
-    "Select categories.category_id,name,description,parent_id,pc.count  From categories LEFT JOIN (SELECT category_id, COUNT( category_id) as count from product_categories GROUP By category_id ) as pc on pc.category_id = categories.category_id";
+    "Select categories.category_id,name,description,parent_id,pc.count  From categories LEFT JOIN (SELECT category_id, COUNT( category_id) as count from product_categories GROUP By category_id ) as pc on pc.category_id = categories.category_id ORDER BY categories.category_id DESC";
   return PromiseModule.readData(sqlSearch);
 }
 
