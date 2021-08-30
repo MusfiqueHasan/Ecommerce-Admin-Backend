@@ -30,7 +30,7 @@ routes.post("/register", async (req, res, next) => {
 		if (adminRole !== "Admin") {
 			// console.log(adminRole,adminEmail,newStaffEmail,newStaffPassword,newStaffRole,newStaffUsername)
 
-			throw createError.BadRequest("Invalid Request");
+			throw createError.BadRequest("You cannot create new admin account");
 		} else {
 			//    now check is admin is valid
 			const checkAdmin = await AdminAuthQuerry.checkAdmin(
@@ -57,10 +57,13 @@ routes.post("/register", async (req, res, next) => {
 						newStaffRole,
 						hashPassword
 					);
-					res.status(200).json({
-						status: "successfull",
-						message: `New ${newStaffRole} account created`,
-					});
+                    if(resData){
+                        res.status(200).json({
+                            status: "successfull",
+                            message: `New ${newStaffRole} account created`,
+                        });
+                    }
+					throw createError.BadRequest("Invalid username or email")
 				}
 			} else {
 				throw createError.BadRequest("Invalid Request");
@@ -96,6 +99,7 @@ routes.post("/login", async (req, res, next) => {
 						status: "successfull",
 						message: `Wellcome back ${email}`,
                         email:email,
+                        role:adminUserExist[0].role,
                         adminId:adminUserExist[0].id,
 						accessToken: accessToken,
 						refreshToken: refreshToken,

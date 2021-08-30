@@ -404,11 +404,11 @@ Content-Type: application/json
 
 {
     "adminRole":"Admin",
-	"adminEmail":"nakib@gmail.com",
-	"newStaffUsername":"nakib7",
-	"newStaffEmail":"nakib7@gmail.com",
+	"adminEmail":"nakib11@gmail.com",
+	"newStaffUsername":"nakib1132",
+	"newStaffEmail":"nakib1333@gmail.com",
 	"newStaffPassword":"1234",
-	"newStaffRole":"Stsfe"
+	"newStaffRole":"Admin"
 }
 
 ###
