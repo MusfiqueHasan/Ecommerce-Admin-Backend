@@ -40,7 +40,7 @@ async function saveOrder(
     email,
     phoneNumber,
     productId,
-    "Pending",
+    "On hold",
     payOption,
     payMedium,
     payPhnNumber,
@@ -74,7 +74,7 @@ async function saveOrderedItems(
     variants,
     qty,
     price,
-    "0",
+    1,
   ];
   return PromiseModule.createUpdateDelete(sqlQuery, itemsData);
 }
