@@ -397,3 +397,7 @@ GET http://localhost:5000/api/inventories/variations/235
 
 ###
 GET http://localhost:5000/api/products/price/235
+
+
+###
+GET http://localhost:5000/api/ecommerce/analytics/inventory
