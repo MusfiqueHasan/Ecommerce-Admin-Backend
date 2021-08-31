@@ -12,7 +12,7 @@ async function signAccessToken(userId) {
 		console.log("type", typeof userId);
 		const secret = ACCESS_TOKEN_SECRET;
 		const options = {
-			expiresIn: "30s",
+			expiresIn: "1d",
 			issuer: "ourwebsite.com",
 		};
 		JWT.sign(authData, secret, options, (err, token) => {
@@ -51,7 +51,7 @@ async function signRefreshToken(userId) {
 
 		const secret = REFRESH_TOKEN_SECRET;
 		const options = {
-			expiresIn: "30s",
+			expiresIn: "1d",
 			issuer: "ourwebsite.com",
 		};
 		JWT.sign(authData, secret, options, (err, token) => {
