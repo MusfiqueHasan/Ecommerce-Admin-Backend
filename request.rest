@@ -223,8 +223,8 @@ Content-Type: application/json
 
 {
     "name":"nakib",
-    "phonenumber":"09311203288",
-    "email":"akram90@gmail.com",
+    "phonenumber":"093123288",
+    "email":"akram95@gmail.com",
     "password":"1234"
 }
 
@@ -233,7 +233,7 @@ POST http://localhost:5000/api/auth/refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2Mjk2NTY1ODcsImV4cCI6MTYyOTY1NjYxNywiaXNzIjoib3Vyd2Vic2l0ZS5jb20ifQ.Zg0c1lkPUL7oI0HVBVtXbLq7A81-n4KUl_mhS6k1I1M"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2MzAzMjM1ODYsImV4cCI6MTYzMDMyMzYxNiwiaXNzIjoib3Vyd2Vic2l0ZS5jb20ifQ.KatzD0tGauqsG-txmOdyE0W2qyZo9TskiyDcWy33wmE"
 }
 
 ###
@@ -398,6 +398,51 @@ GET http://localhost:5000/api/inventories/variations/235
 ###
 GET http://localhost:5000/api/products/price/235
 
-
 ###
 GET http://localhost:5000/api/ecommerce/analytics/inventory
+
+###
+POST http://localhost:5000/api/adminAuth/register
+Content-Type: application/json
+
+{
+    "adminRole":"Admin",
+	"adminEmail":"nakib11@gmail.com",
+	"newStaffUsername":"nakib124",
+	"newStaffEmail":"nakib1343@gmail.com",
+	"newStaffPassword":"1234",
+	"newStaffRole":"Admin"
+}
+
+###
+POST http://localhost:5000/api/adminAuth/login
+Content-Type: application/json
+
+{
+    "email":"nakib3@gmail.com",
+    "role":"Staff",
+    "password":"1234"
+}
+
+###
+POST  http://localhost:5000/api/adminAuth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjNAZ21haWwuY29tIiwiaWF0IjoxNjMwMzIzNjMwLCJleHAiOjE2MzAzMjM2NjAsImlzcyI6Im91cndlYnNpdGUuY29tIn0.aIWzl_6hCMtrktjkMJkMmUFIEqNaL1t2mOHO0-YLOeE"
+
+}
+
+###
+POST http://localhost:5000/api/adminAuth/logout
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNjI0LCJleHAiOjE2MjkwNTA2NTQsImlzcyI6Im91cndlYnNpdGUuY29tIn0.gqb2vwqH3X4nLdRROeSRasU2SOudabJ2b3BAmWicgNM"
+}
+
+
+###
+GET http://localhost:5000/api/adminAuth/checkadminRoute
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjNAZ21haWwuY29tIiwiaWF0IjoxNjMwMzI0Mzk5LCJleHAiOjE2MzAzMjQ0MjksImlzcyI6Im91cndlYnNpdGUuY29tIn0.MBurN67w5A6GZoN7K5Yid8XLwk1-YMne1RoKnchKdxo
+

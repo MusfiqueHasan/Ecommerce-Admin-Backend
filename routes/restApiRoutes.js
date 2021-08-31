@@ -8,6 +8,7 @@ const FrontEndRoute = require("./frontEndRoute");
 const EmailRoute = require("./emailRoutes");
 const UserRoute = require('./userRoutes') 
 const AdminInfoRoute = require('./AdminInformationRoute')
+const AdminAuthRoute = require('./Admin-auth')
 routes.use(EcommerceRoutes);
 routes.use(FileRoutes);
 routes.use(CalenderRoute);
@@ -15,4 +16,5 @@ routes.use(FrontEndRoute);
 routes.use(EmailRoute);
 routes.use(UserRoute);
 routes.use('/admin',AdminInfoRoute)
+routes.use('/adminAuth',AdminAuthRoute)
 module.exports = routes;
