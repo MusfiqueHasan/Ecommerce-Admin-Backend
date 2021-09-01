@@ -5,6 +5,7 @@ const AdminInfo = {
   getPaymentDetails,
   updateAdminGeneralInfo,
   updateAdminPaymentInfo,
+  getSliderImg,
 };
 
 async function getAdminInfo() {
@@ -30,6 +31,11 @@ async function updateAdminPaymentInfo(paymentInfo) {
   console.log(query);
 
   return PromiseModule.createUpdateDelete(query, paymentInfo);
+}
+
+async function getSliderImg(){
+  const sqlQuerry = `SELECT * FROM theme_config WHERE name='slider-image'`;
+  return PromiseModule.readData(sqlQuerry)
 }
 
 module.exports = AdminInfo;
