@@ -82,7 +82,7 @@ DELETE http://localhost:5000/api/options/2
 # GET http://localhost:5000/api/products?view_type=1
 ///products
 ###
-GET http://localhost:5000/api/admin/products
+GET http://localhost:5000/api/products?page=1&category=-1
 
 ###
 GET http://localhost:5000/api/product-attributes/239
@@ -95,7 +95,7 @@ GET http://localhost:5000/api/admin/edit/products/239
 GET http://localhost:5000/api/admin/products/231
 
 ###
-GET http://localhost:5000/api/products/Kurti-
+GET http://localhost:5000/api/products/watch-golden-ok
 
 ###
 POST http://localhost:5000/api/admin/product

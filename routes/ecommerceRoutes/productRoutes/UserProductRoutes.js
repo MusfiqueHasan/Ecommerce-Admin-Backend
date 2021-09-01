@@ -74,10 +74,10 @@ routes.get("/get-popular-product", async (req, res) => {
 });
 
 routes.get("/products", async (req, res) => {
-  const { page, limit } = req.query;
+  const { page, limit,category } = req.query;
   ///here is some problem when pagination
   try {
-    const response = await ProductQuery.getProductsForUsers(page, limit);
+    const response = await ProductQuery.getProductsForUsers(page, limit,category);
     const product_data_response = [];
 
     for (let i = 0; i < response.length; ) {
@@ -92,7 +92,7 @@ routes.get("/products", async (req, res) => {
       name: item.product_name,
       image: item.featured_img,
       price: item.regular_price,
-
+      discount: item.discount_price,
       slug: item.slug,
       shortDescription: item.short_description,
     }));
@@ -125,8 +125,10 @@ routes.get("/products/:slug", async (req, res) => {
       response_of_vairants.length > 0 ? [...response_of_vairants] : null;
 
     parentProduct["variants"] = variants;
+    
     const productData = {
       id: parentProduct.product_id,
+      featured_img:parentProduct.featured_img,
       name: parentProduct.product_name,
       slug: parentProduct.slug,
       price: parentProduct.discount_price
