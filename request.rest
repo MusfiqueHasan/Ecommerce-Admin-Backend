@@ -439,3 +439,17 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/api/adminAuth/checkadminRoute
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjNAZ21haWwuY29tIiwiaWF0IjoxNjMwMzI0Mzk5LCJleHAiOjE2MzAzMjQ0MjksImlzcyI6Im91cndlYnNpdGUuY29tIn0.MBurN67w5A6GZoN7K5Yid8XLwk1-YMne1RoKnchKdxo
+
+###
+
+GET http://localhost:5000/api/themeConfig/slider-image
+
+###
+GET http://localhost:5000/api/products
+
+###
+GET http://localhost:5000/api/newArrival/
+
+###
+
+GET http://localhost:5000/api/popularProducts
