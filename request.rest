@@ -453,3 +453,6 @@ GET http://localhost:5000/api/newArrival/
 ###
 
 GET http://localhost:5000/api/popularProducts
+
+###
+GET http://localhost:5000/api/featureProducts

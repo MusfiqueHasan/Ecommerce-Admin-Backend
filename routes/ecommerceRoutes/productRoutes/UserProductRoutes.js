@@ -201,7 +201,8 @@ routes.get("/newArrival", async (req, res, next) => {
 		const productData = product_data_response.map((item) => ({
 			id: item.product_id,
 			name: item.product_name,
-			image: item.featured_img,
+			image: JSON.parse( item.featured_img),
+			
 			price: item.discount_price ? item.discount_price : item.regular_price,
 			regularPrice: item.discount_price ? item.regular_price : null,
 
@@ -234,7 +235,8 @@ routes.get("/popularProducts",async(req,res,next)=>{
 		const productData = product_data_response.map((item) => ({
 			id: item.product_id,
 			name: item.product_name,
-			image: item.featured_img,
+			image: JSON.parse( item.featured_img),
+			
 			price: item.discount_price ? item.discount_price : item.regular_price,
 			regularPrice: item.discount_price ? item.regular_price : null,
 
@@ -251,6 +253,40 @@ routes.get("/popularProducts",async(req,res,next)=>{
   res.status(500).json({ massage: error.massage });
 }
 })
+
+routes.get("/featureProducts",async(req,res,next)=>{
+	try {
+	  
+		  const response = await ProductQuery.featuredProducts();
+	  const product_data_response = [];
+  
+		  for (let i = 0; i < response.length; ) {
+			  const data = response.filter((item) => {
+				  return item.product_id === response[i].product_id;
+			  });
+			  product_data_response.push(ParentProductModel(data));
+			  i = i + data.length;
+		  }
+		  const productData = product_data_response.map((item) => ({
+			  id: item.product_id,
+			  name: item.product_name,
+			  image: JSON.parse( item.featured_img),
+			  price: item.discount_price ? item.discount_price : item.regular_price,
+			  regularPrice: item.discount_price ? item.regular_price : null,
+  
+			  slug: item.slug,
+			  shortDescription: item.short_description,
+		  }));
+		  const jsonObject = {
+			  massage: "success",
+			  total_products: product_data_response.length,
+			  products: [...productData],
+		  };
+		  res.status(200).json(jsonObject);
+  } catch (error) {
+	res.status(500).json({ massage: error.massage });
+  }
+  })
 
 
 module.exports = routes;
