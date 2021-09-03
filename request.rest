@@ -463,3 +463,7 @@ GET http://localhost:5000/api/popularProducts
 
 ###
 GET http://localhost:5000/api/featureProducts
+
+
+###
+GET http://localhost:5000/api/discounted-products
