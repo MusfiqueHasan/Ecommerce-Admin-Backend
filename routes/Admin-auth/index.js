@@ -104,6 +104,7 @@ routes.post("/login", async (req, res, next) => {
                         email:email,
                         role:adminUserExist[0].role,
                         adminId:adminUserExist[0].id,
+						userName:adminUserExist[0].userName,
 						accessToken: accessToken,
 						refreshToken: refreshToken,
 					});

@@ -9,6 +9,7 @@ const RatingsRoute = require("./Ratings");
 const OrdersRoute = require("./Oreders");
 const TagRoute = require("./TagRoutes");
 const InventoryRoute = require("./Inventory");
+const EcommerceAnalyticsRoutes = require('./EcommerceAnalyticsRoutes')
 routes.use(ProductRoutes);
 routes.use(CategoryRoutes);
 routes.use(AttributeRoutes);
@@ -18,5 +19,5 @@ routes.use(RatingsRoute);
 routes.use(OrdersRoute);
 routes.use(TagRoute);
 routes.use(InventoryRoute);
-
+routes.use('/ecommerce/analytics',EcommerceAnalyticsRoutes)
 module.exports = routes;

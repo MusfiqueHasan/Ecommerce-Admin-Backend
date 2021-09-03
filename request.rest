@@ -82,7 +82,7 @@ DELETE http://localhost:5000/api/options/2
 # GET http://localhost:5000/api/products?view_type=1
 ///products
 ###
-GET http://localhost:5000/api/admin/products
+GET http://localhost:5000/api/products?page=1&category=-1
 
 ###
 GET http://localhost:5000/api/product-attributes/239
@@ -95,7 +95,7 @@ GET http://localhost:5000/api/admin/edit/products/239
 GET http://localhost:5000/api/admin/products/231
 
 ###
-GET http://localhost:5000/api/products/Kurti-
+GET http://localhost:5000/api/products/watch-golden-ok
 
 ###
 POST http://localhost:5000/api/admin/product
@@ -399,6 +399,9 @@ GET http://localhost:5000/api/inventories/variations/235
 GET http://localhost:5000/api/products/price/235
 
 ###
+GET http://localhost:5000/api/ecommerce/analytics/inventory
+
+###
 POST http://localhost:5000/api/adminAuth/register
 Content-Type: application/json
 
@@ -420,6 +423,7 @@ Content-Type: application/json
     "role":"Staff",
     "password":"1234"
 }
+
 ###
 POST  http://localhost:5000/api/adminAuth/refresh-token
 Content-Type: application/json
@@ -436,12 +440,15 @@ Content-Type: application/json
 {
     "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNjI0LCJleHAiOjE2MjkwNTA2NTQsImlzcyI6Im91cndlYnNpdGUuY29tIn0.gqb2vwqH3X4nLdRROeSRasU2SOudabJ2b3BAmWicgNM"
 }
+
+
 ###
 GET http://localhost:5000/api/adminAuth/checkadminRoute
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjNAZ21haWwuY29tIiwiaWF0IjoxNjMwMzI0Mzk5LCJleHAiOjE2MzAzMjQ0MjksImlzcyI6Im91cndlYnNpdGUuY29tIn0.MBurN67w5A6GZoN7K5Yid8XLwk1-YMne1RoKnchKdxo
 
-###
 
+
+###
 GET http://localhost:5000/api/themeConfig/slider-image
 
 ###
