@@ -10,7 +10,47 @@ const loginSchema = joi.object({
 	email: joi.string().email().lowercase().required(),
 	password: joi.string().min(2).required(),
 });
+const checkOutSchema = joi.object({
+	userId: joi.number().min(1).required(),
+	fullName: joi.string().min(2).max(15).required(),
+	email: joi.string().email().lowercase().required(),
+	phoneNumber: joi.string().min(9).max(11).required(),
+	country: joi.string().min(3).max(15).required(),
+	division: joi.string().min(2).max(14).required(),
+	city: joi.string().min(2).max(14).required(),
+	address: joi.string().min(3).max(40).required(),
+	payOption: joi.string().min(2).max(20).required(),
+	payMedium: joi.string().min(2).max(20).allow(null, ""),
+	message: joi.string().min(4).allow(null, ""),
+	payPhnNumber: joi.string().min(9).max(11).allow(null, ""),
+	transId: joi.string().min(11).max(30).allow(null, ""),
+	orderedItems: joi.array().min(1).required(),
+	totalCost: joi.number().greater(100).required(),
+	shippingCost: joi.number().min(5).greater(5).allow(0),
+});
+const orderdItemsSchema = joi.object({
+	productId: joi.number().min(1).required(),
+	name: joi.string().min(2).max(100).required(),
+	qty: joi.number().greater(1).required(),
+	variants: joi.string().min(2),
+	price: joi.number().greater(10).required(),
+});
+const paymentValidation = (payOption, transId, phoneNumber) => {
+       
+	if (payOption === "Online Payment") {
+		
+		if (transId && phoneNumber) {
+			
+			return true;
+		} else {
+			return false};
+	}
+	return true;
+};
 module.exports = {
 	registerSchema,
 	loginSchema,
+	checkOutSchema,
+	orderdItemsSchema,
+	paymentValidation,
 };

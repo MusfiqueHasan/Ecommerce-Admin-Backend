@@ -26,7 +26,7 @@ router.post("/register", async (req, res, next) => {
 		console.log(req.body);
 		const { name, phonenumber, email, password } =
 			await registerSchema.validateAsync(req.body);
-
+        
 		// if (!email || !password) throw createError.BadRequest();
 
 		// check user exist in database by email

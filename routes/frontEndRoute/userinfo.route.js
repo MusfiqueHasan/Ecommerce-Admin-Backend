@@ -9,7 +9,7 @@ const userQuerry = require("../../Querry/userQuerry/userinfoQuerry");
 const {
 	encryptPassword,
 	decreyptPassword,
-} = require("..//../helpers/ValidationSchema/encrypt");
+} = require("../../helpers/ValidationSchema/encrypt");
 const { date } = require("joi");
 
 const storage = multer.diskStorage({
@@ -99,7 +99,7 @@ router.post("/update/password", async (req, res, next) => {
 					});
 				} else throw createError.InternalServerError();
 			} else {
-				throw createError.NotFound("user not found");
+				throw createError.NotFound("Your current password is wrong.Try agian !");
 			}
 		} else {
 			throw createError.BadRequest("User doesnot exist");
@@ -132,7 +132,7 @@ router.post(
 
 router.post("/update/address", async (req, res, next) => {
 	try {
-		const { userId, country, city, division, houseNo, landMark, postCode } =
+		const { userId, country, city, division, address } =
 			req.body;
 		const user = await userQuerry.findUser(userId);
 		if (user.length > 0) {
@@ -140,13 +140,11 @@ router.post("/update/address", async (req, res, next) => {
 				country,
 				city,
 				division,
-				houseNo,
-				landMark,
-				postCode,
+				address,
 				userId
 			);
 			if (updatedata) {
-				console.log(updatedata);
+				// console.log(updatedata);
 				res.status(200).json({
 					message: "updated successfully",
 				});

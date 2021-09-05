@@ -319,4 +319,31 @@ routes.get('/discounted-products',async(req,res)=>{
     res.status(500).json({ massage: error.massage });
   }
 })
+
+routes.get("/related-products",async(req,res,next)=>{
+   const {categoryId,productId} = req.query
+   try{
+    const response = await ProductQuery.getRelatedProductForUser(categoryId, productId);
+    const productData = response.map(item => ({
+      id: item.product_id,
+      name: item.product_name,
+      image: item.featured_img,
+      slug: item.slug,
+      price:item.discount_price?item.discount_price:item.regular_price,
+      regularPrice:item.discount_price?item.regular_price:null,
+    }));
+    const jsonData = {
+      status: "success",
+      data: {
+        total_products: response.length,
+        products: [...productData],
+      },
+    };
+    res.status(200).json(jsonData); 
+   }
+   catch(err){
+      console.log(err)
+   }
+})
+
 module.exports = routes;

@@ -82,7 +82,7 @@ DELETE http://localhost:5000/api/options/2
 # GET http://localhost:5000/api/products?view_type=1
 ///products
 ###
-GET http://localhost:5000/api/products?page=1&category=-1
+GET http://localhost:5000/api/products?page=1&category=80
 
 ###
 GET http://localhost:5000/api/product-attributes/239
@@ -95,7 +95,7 @@ GET http://localhost:5000/api/admin/edit/products/239
 GET http://localhost:5000/api/admin/products/231
 
 ###
-GET http://localhost:5000/api/products/watch-golden-ok
+GET http://localhost:5000/api/products/kurtiasss
 
 ###
 POST http://localhost:5000/api/admin/product
@@ -201,8 +201,6 @@ GET http://localhost:5000/api/calendar/events/1?calendar='Business'
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
 
 
-###
-GET http://localhost:5000/api/ecommrece/pre-order/pending/nakib@gmail.com
 
 ###
 GET http://localhost:5000
@@ -239,6 +237,43 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/api/ecommrece
 
+###
+POST http://localhost:5000/api/ecommrece/checkout
+Content-Type: application/json
+
+{
+    "userId":12,
+    "email":"nakib@gmail.com",
+	"fullName":"nakib1",
+	"phoneNumber":"0171203211",
+    "country":"Bangladesh",
+	"division":"dhaka",
+	"city":"dhaka",
+	"address":"Dhanmondi Uttara dhaka",
+	"payOption":"Cash on Delivery",
+	"payMedium":"",
+	"message":"qwee",
+	"payPhnNumber":"",
+	"transId":null,
+    "orderedItems":[
+     {
+         "productId":0,
+         "qty":2,
+         "price":320,
+         "variants":"[l,red]",
+         "name":"apple watchA"
+     },
+     {
+         "productId":2,
+         "qty":2,
+         "price":320,
+         "name":"apple watchB"
+     }
+    ],
+    "totalCost":1200,
+    "shippingCost":0
+}
+
 
 ###
 POST http://localhost:5000/api/ecommrece/order
@@ -248,11 +283,10 @@ Content-Type: application/json
     "email":"nakib@gmail.com",
 	"fullName":"nakib",
 	"phoneNumber":"017120321",
+    "country":"Bangladesh",
 	"division":"dhaka",
 	"city":"dhaka",
-	"houseNo":"12A",
-	"landMark":"uttara",
-	"postCode":"1230",
+	"address":"Dhanmondi Uttara dhaka",
 	"payOption":"1",
 	"payMedium":"1",
 	"message":"order",
@@ -278,11 +312,11 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/ecommrece/user-order/all/nakib@gmail.com
+GET http://localhost:5000/api/ecommrece/user-order/all/5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
 
 ###
-GET http://localhost:5000/api/ecommrece/user-order/pending/nakib@gmail.com
+GET http://localhost:5000/api/ecommrece/user-order/pending/5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
 
 ###
@@ -290,15 +324,16 @@ POST http://localhost:5000/api/ecommrece/pre-order
 Content-Type: application/json
 
 {
-    "email":"nakib@gmail.com",
-    "productName":"iphone 11 pro max",
-    "productType":"Mobile",
-    "productDetails":"write something",
-    "brand":"apple",
+    "userId":5,
+    "email":"nakib2@gmail.com",
+    "productName":"iphone 14 pro max",
+    "productDetails":"ordering iphone",
     "qty":2,
     "phoneNumber":"01710203288"
 }
 
+###
+GET http://localhost:5000/api/ecommrece/pre-order/pending/5
 
 
 ###
@@ -350,8 +385,8 @@ Content-Type: application/json
 
 {
     "userId":12,
-    "firstName":"akram",
-    "lastName":"hossain",
+    "firstName":"akram1",
+    "lastName":"hossain1",
     "userName":"nakin55",
     "phoneNumber":"01932345"
 
@@ -376,9 +411,7 @@ Content-Type: application/json
     "country":"Bangladesh",
     "city":"Dhaka",
     "division":"Dhaka",
-    "houseNo":"12D",
-    "landMark":"Apollo",
-    "postCode":"1230"
+    "address":"Uttara Dhaka 12/A"
 }
 
 ###
@@ -467,3 +500,6 @@ GET http://localhost:5000/api/featureProducts
 
 ###
 GET http://localhost:5000/api/discounted-products
+
+###
+GET http://localhost:5000/api/related-products?categoryId=82&productId=231
