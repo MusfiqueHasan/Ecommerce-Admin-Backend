@@ -333,7 +333,7 @@ routes.get("/related-products",async(req,res,next)=>{
       regularPrice:item.discount_price?item.regular_price:null,
     }));
     const jsonData = {
-      status: "success",
+      status: "Success",
       data: {
         total_products: response.length,
         products: [...productData],

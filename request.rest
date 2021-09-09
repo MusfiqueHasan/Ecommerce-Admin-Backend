@@ -204,7 +204,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ
 
 ###
 GET http://localhost:5000
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2Mjk2NTYzMTUsImV4cCI6MTYyOTY1NjMzMCwiaXNzIjoib3Vyd2Vic2l0ZS5jb20ifQ.QgtWgYP0OHZqM3TeTKLP65WOyk9Qhvw_xadmpPNJo-4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2MzEwMjkyOTAsImV4cCI6MTYzMTExNTY5MCwiaXNzIjoiQwemF5T2ZTc3R5bGUuY29tIn0.V8tMYRkQZ1KaLKc6U5yiB9Wuchd6tviMbbXh7-lsRs
 ###
 
 POST http://localhost:5000/api/auth/login
@@ -231,8 +231,13 @@ POST http://localhost:5000/api/auth/refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2MzAzMjM1ODYsImV4cCI6MTYzMDMyMzYxNiwiaXNzIjoib3Vyd2Vic2l0ZS5jb20ifQ.KatzD0tGauqsG-txmOdyE0W2qyZo9TskiyDcWy33wmE"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOjMsImF1ZEVtYWlsIjoibmFraWJAZ21haWwuY29tIiwiaWF0IjoxNjMxMDI5MjY2LCJleHAiOjE2MzExMTU2NjYsImlzcyI6IkJheU9mU3R5bGUuY29tIn0.OdmR_3vR5td5SrxGhMwJpRyqCeQViwjDETMnH2i-T9A"
 }
+
+###
+GET http://localhost:5000/api/auth/testToken/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOjMsImF1ZEVtYWlsIjoibmFraWJAZ21haWwuY29tIiwiaWF0IjoxNjMxMDI5NTU0LCJleHAiOjE2MzExMTU5NTQsImlzcyI6IkJheU9mU3N0eWxlLmNvbSJ9.rvocQgah_vipl9TE6TSlBLIiXUWdwA-GU1IISJFLiYI
+
 
 ###
 GET http://localhost:5000/api/ecommrece
