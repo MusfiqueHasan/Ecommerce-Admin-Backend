@@ -128,8 +128,8 @@ router.post("/refresh-token", async (req, res, next) => {
 		const {userId,userEmail} = await verifyRefreshToken(refreshToken);
 		// create new pair of accessToken and Refresh Token
 		// console.log(email);
-		const newAccessToken = await signAccessToken(userEmail);
-		const newRefreshToken = await signRefreshToken(userEmail);
+		const newAccessToken = await signAccessToken(userId,userEmail);
+		const newRefreshToken = await signRefreshToken(userId,userEmail);
 
 		res.send({ accessToken: newAccessToken, refreshToken: newRefreshToken });
 	} catch (err) {
@@ -160,11 +160,11 @@ router.post("/logout", async (req, res, next) => {
 		if (!refreshToken) {
 			next(createError.BadRequest());
 		}
-		const email = await verifyRefreshToken(refreshToken);
-		if (!email) {
+		const  {userId,userEmail} = await verifyRefreshToken(refreshToken);
+		if (!userEmail) {
 			next(createError.BadRequest());
 		}
-		const response = await deleteRefreshToken(email);
+		const response = await deleteRefreshToken(userEmail);
 		if (response) {
 			res.status(202).json({
 				status: 202,
