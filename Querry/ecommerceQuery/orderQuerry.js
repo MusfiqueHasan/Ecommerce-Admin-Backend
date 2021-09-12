@@ -83,7 +83,7 @@ async function userAllOrder(email) {
   return PromiseModule.readData(sqlQuery);
 }
 async function userPendingOrder(email) {
-  const sqlQuery = `SELECT orderedproduct.product_name,orderedproduct.variants,orderedproduct.qty,orderedproduct.price,orderdata.order_status as status, orderdata.order_date FROM orderdata INNER JOIN orderedproduct ON orderdata.id=orderedproduct.orderId and user_email = '${email}' and orderedproduct.status='On hold' ORDER by order_date DESC`;
+  const sqlQuery = `SELECT  orderedproduct.id,orderedproduct.product_name,orderedproduct.variants,orderedproduct.qty,orderedproduct.price,orderdata.order_status as status, orderdata.order_date FROM orderdata INNER JOIN orderedproduct ON orderdata.id=orderedproduct.orderId and user_email = '${email}' and orderedproduct.status='On hold' ORDER by order_date DESC`;
   return PromiseModule.readData(sqlQuery);
 }
 
@@ -105,7 +105,7 @@ async function savePreOrder(
     productType,
     brand,
     qty,
-    "0",
+    "On hold",
     phoneNumber,
   ];
 
@@ -113,7 +113,7 @@ async function savePreOrder(
 }
 
 async function pandingPreOrders(email) {
-  const sqlQuery = `SELECT * from preorder where user_email = '${email}' and status = '0' ORDER by order_date DESC`;
+  const sqlQuery = `SELECT * from preorder where user_email = '${email}' ORDER by order_date DESC`;
   return PromiseModule.readData(sqlQuery);
 }
 
@@ -123,20 +123,20 @@ async function getAllOrders() {
 }
 
 async function getOrderInformationById(orderId) {
-  const sqlQuery = `SELECT * from orderedproduct where orderId = ${orderId} `;
+  const sqlQuery =` SELECT * from orderedproduct where orderId = ${orderId}` ;
   return PromiseModule.readData(sqlQuery);
 }
 async function getUserInformationOfUser(orderId) {
-  const sqlQuery = `SELECT  orderdata.order_date,orderdata.user_email,orderdata.order_date,orderdata.order_status,orderdata.order_date,orderdata.pay_option,orderdata.pay_medium,orderdata.pay_phoneNumber,orderdata.transactionId,orderdata.message,orderdata.division,orderdata.city,orderdata.houseNo,orderdata.landmark,orderdata.postCode,orderdata.phonenumber,orderdata.total_price,orderdata.shipping_cost,orderdata.id ,user_info.first_name,user_info.last_name,user_info.email,user_info.phone_number,orderdata.user_fullname FROM orderdata,user_info WHERE user_info.id = orderdata.user_id And orderdata.id = ${orderId}`;
-  return PromiseModule.readData(sqlQuery);
+  const sqlQuery = `SELECT  orderdata.order_date,orderdata.user_email,orderdata.order_date,orderdata.order_status,orderdata.order_date,orderdata.pay_option,orderdata.pay_medium,orderdata.pay_phoneNumber,orderdata.transactionId,orderdata.message,orderdata.division,orderdata.city,orderdata.houseNo,orderdata.landmark,orderdata.postCode,orderdata.phonenumber,orderdata.total_price,orderdata.shipping_cost,orderdata.id ,user_info.first_name,user_info.last_name,user_info.email,user_info.phone_number,orderdata.user_fullname FROM orderdata,user_info WHERE user_info.id = orderdata.user_id And orderdata.id = ${orderId};
+  return PromiseModule.readData(sqlQuery)`;
 }
 
 async function updateOrderStatus(orderId, data) {
-  const sqlUpdate = "UPDATE `orderdata` SET `order_status`=(?) WHERE id = (?)";
+  const sqlUpdate = "UPDATE orderdata SET `order_status`=(?) WHERE id = (?)";
   return PromiseModule.createUpdateDelete(sqlUpdate, [data, orderId]);
 }
 async function updatePreOrderStatus(orderId, status) {
-  const sqlUpdate = "UPDATE `preorder` SET `status`=(?) WHERE id = (?)";
+  const sqlUpdate = "UPDATE preorder SET `status`=(?) WHERE id = (?)";
   return PromiseModule.createUpdateDelete(sqlUpdate, [status, orderId]);
 }
 
