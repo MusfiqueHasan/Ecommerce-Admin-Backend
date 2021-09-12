@@ -12,7 +12,7 @@ const { func } = require("joi");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-	res.send("Ecommerce Route");
+  res.send("Ecommerce Route");
 });
 
 router.post("/checkout", async (req, res, next) => {

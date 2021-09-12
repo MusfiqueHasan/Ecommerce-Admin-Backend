@@ -64,6 +64,24 @@ routes.get("/categories/:id", async (req, res) => {
     return res.status(400).json({ msg: "Something Went Wrong" });
   }
 });
+routes.patch("/categories/:id", async (req, res) => {
+  const {id} = req.params
+  const {categoryData } = req.body
+
+
+  if (!Utils.isIdValid(id))
+  return res.status(404).json({ massage: "Category is not found" });
+
+  try {
+    const response = await CategoriesQuery.updateCategory([categoryData.name,categoryData.parent_id,categoryData.description,Utils.getTimeStamp(),id]);
+    return res.status(200).json({
+      status: "success",
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({ msg: "Something Went Wrong" });
+  }
+});
 
 routes.delete("/categories/:id", async (req, res) => {
   try {

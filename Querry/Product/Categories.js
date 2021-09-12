@@ -3,7 +3,9 @@ const Categories = {
   getCategories,
   addCategories,
   removeACategory,
-  getCategoriesBy
+  getCategoriesBy,
+
+  updateCategory
 };
 
 async function getCategories() {
@@ -23,7 +25,7 @@ async function addCategories(
   parent_id,
   description,
   inserted_at,
-  updated_at
+  updated_at,
 ) {
   const sqlInsert =
     "Insert Into categories (name,parent_id,inserted_at,updated_at,description) VALUES (?,?,?,?,?)";
@@ -39,4 +41,8 @@ async function removeACategory(category_id) {
   return PromiseModule.createUpdateDelete(sqlDelete, deleted_data);
 }
 
+async function updateCategory(category_Update){
+  const  sqlUpdate = `Update  categories set name = ?,parent_id=?, description = ?, updated_at=? where category_id = ?`
+  return PromiseModule.createUpdateDelete(sqlUpdate,category_Update)
+}
 module.exports = Categories;
