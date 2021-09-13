@@ -1,4 +1,5 @@
 const express = require("express");
+const HTTPStatus = require("../../../HTTPStatus");
 const InventoryQuery = require("../../../Querry/Product/Inventory");
 const ProductsQuery = require("../../../Querry/Product/Products");
 const Utils = require("../../../Utils/Utils");
@@ -11,10 +12,10 @@ routes.get("/inventories", async (req, res) => {
       massage: "success",
       results: [...response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -26,10 +27,10 @@ routes.get("/inventories/variations/:id", async (req, res) => {
         massage: "success",
         results: [...response],
       };
-      res.status(200).json(jsonObject);
+      res.status(HTTPStatus.OK).json(jsonObject);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ massage: "Internal Server Error!" });
+      res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
     }
   });
   
@@ -72,12 +73,12 @@ routes.patch("/inventories/:id", async (req, res) => {
     console.log(updatedData);
     await ProductsQuery.updateProductManageStockStatus(updatedData);
 
-    res.status(200).json({
+    res.status(HTTPStatus.OK).json({
       massage: "Success",
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 

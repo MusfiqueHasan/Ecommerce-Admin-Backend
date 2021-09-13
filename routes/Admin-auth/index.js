@@ -58,7 +58,7 @@ routes.post("/register", async (req, res, next) => {
 						hashPassword
 					);
                     if(resData){
-                        res.status(200).json({
+                        res.status(HTTPStatus.OK).json({
                             status: "successfull",
                             message: `New ${newStaffRole} account created`,
                         });
@@ -98,7 +98,7 @@ routes.post("/login", async (req, res, next) => {
 					const refreshToken = await signRefreshToken(email);
 					// now send token
 
-					res.status(200).json({
+					res.status(HTTPStatus.OK).json({
 						status: "successfull",
 						message: `Wellcome back ${email}`,
                         email:email,

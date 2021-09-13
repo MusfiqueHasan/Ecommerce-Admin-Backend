@@ -4,16 +4,17 @@ const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require("../../config");
 // const clinet = require("../redis/init_redis");
 // const client = require("../redis/init_redis");
 // create token
-async function signAccessToken(userId) {
+async function signAccessToken(userId,userEmail) {
 	return new Promise((resolve, reject) => {
 		const authData = {
 			aud: userId,
+			audEmail:userEmail
 		};
 		console.log("type", typeof userId);
 		const secret = ACCESS_TOKEN_SECRET;
 		const options = {
 			expiresIn: "1d",
-			issuer: "ourwebsite.com",
+			issuer: "BayOfSstyle.com",
 		};
 		JWT.sign(authData, secret, options, (err, token) => {
 			if (err) {
@@ -43,16 +44,17 @@ async function verifyAccessToken(req, res, next) {
 }
 
 // create refresh token
-async function signRefreshToken(userId) {
+async function signRefreshToken(userId,userEmail) {
 	return new Promise((resolve, reject) => {
 		const authData = {
 			aud: userId,
+			audEmail:userEmail
 		};
 
 		const secret = REFRESH_TOKEN_SECRET;
 		const options = {
 			expiresIn: "1d",
-			issuer: "ourwebsite.com",
+			issuer: "BayOfStyle.com",
 		};
 		JWT.sign(authData, secret, options, (err, token) => {
 			if (err) {
@@ -83,7 +85,8 @@ async function verifyRefreshToken(refreshtoken) {
 				return;
 			}
 			const userId = authData.aud;
-			return resolve(userId);
+			const userEmail = authData.audEmail
+			return resolve({userId,userEmail});
 
 			// console.log(authData);
 
@@ -118,10 +121,19 @@ async function deleteRefreshToken(userId) {
 	});
 }
 
+async function matchTokenInfo(userId,tokenInfo){
+	const {aud,audEmail} = tokenInfo
+	console.log('matchTokn',userId)
+	if( userId == aud){
+		return true
+	}
+	return false
+}
 module.exports = {
 	signAccessToken,
 	verifyAccessToken,
 	signRefreshToken,
 	verifyRefreshToken,
 	deleteRefreshToken,
+	matchTokenInfo,
 };

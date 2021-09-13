@@ -3,6 +3,7 @@ const routes = express.Router();
 const Utils = require("../../Utils/Utils");
 const CalendarQuery = require("../../Querry/Calender/Calender");
 const { CalenderEvent } = require("../../Modles/Calendars");
+const HTTPStatus = require("../../HTTPStatus");
 
 // /calendar/events
 routes.get("/calendar/events/:id", async (req, res) => {
@@ -22,10 +23,10 @@ routes.get("/calendar/events/:id", async (req, res) => {
       massage: "Success",
       results: [...calenderEventList],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -65,10 +66,10 @@ routes.post("/calender/add-event/:id", async (req, res) => {
       massage: "Successfully Inserted!",
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error" });
   }
 });
 
@@ -109,10 +110,10 @@ routes.patch("/calendar/update-event", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -127,10 +128,10 @@ routes.delete("/calendar/events/:userId/:eventId", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 

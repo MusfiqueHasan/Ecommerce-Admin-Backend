@@ -5,6 +5,7 @@ const Utils = require("../../Utils/Utils");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const HTTPStatus = require("../../HTTPStatus");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -36,10 +37,10 @@ routes.get("/files", async (req, res) => {
       results: [...response],
     };
 
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error" });
   }
 });
 
@@ -62,10 +63,10 @@ routes.post("/file-upload", upload.single("file"), async (req, res) => {
       size: size,
       file_id: response.insertId,
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Something Went Wrong" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ msg: "Something Went Wrong" });
   }
 });
 
@@ -76,10 +77,10 @@ routes.delete("/files/:id", async (req, res) => {
     const jsonData = {
       massage: "Successfully Removed",
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error)
-    res.status(500).json({ massage: "Internal Server Error" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error" });
   }
 });
 

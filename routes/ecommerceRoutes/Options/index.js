@@ -1,7 +1,9 @@
 const express = require("express");
+const HTTPStatus = require("../../../HTTPStatus");
 const routes = express.Router();
 const OptionsQuery = require("../../../Querry/Product/Options");
 const Utils = require("../../../Utils/Utils");
+
 // get options
 routes.get("/options", async (req, res) => {
   try {
@@ -10,9 +12,9 @@ routes.get("/options", async (req, res) => {
       massage: "success",
       results: [...response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -36,9 +38,9 @@ routes.post("/option", async (req, res) => {
         option_name: option_name,
       },
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -56,10 +58,9 @@ routes.delete("/options", async (req, res) => {
     if (response.affectedRows < 1) {
       return res.status(404).json({ massage: "Option is not found" });
     }
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 module.exports = routes;

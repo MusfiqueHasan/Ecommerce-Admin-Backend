@@ -1,5 +1,6 @@
 const express = require("express");
 const PromiseModule = require("../../../helpers/Promise/PromiseModule");
+const HTTPStatus = require("../../../HTTPStatus");
 const routes = express.Router();
 const OrderQuery = require("../../../Querry/ecommerceQuery/orderQuerry");
 const InventoryQuery = require("../../../Querry/Product/Inventory");
@@ -15,10 +16,10 @@ routes.get("/orders", async (req, res) => {
       massage: "Success",
       results: [...response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -40,10 +41,10 @@ routes.get("/orders/:id", async (req, res) => {
       },
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -99,10 +100,10 @@ routes.patch("/orders/:id", async (req, res) => {
       massage: "Success Updated!",
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -113,9 +114,9 @@ routes.get("/pre-orders", async (req, res) => {
       massage: "Success",
       results: [...response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -136,10 +137,10 @@ routes.patch("/pre-orders/:id", async (req, res) => {
       massage: "Success Updated!",
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -155,10 +156,10 @@ routes.delete("/pre-orders/:id", async (req, res) => {
       massage: "Success Updated!",
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 

@@ -11,6 +11,7 @@ const {
 	decreyptPassword,
 } = require("../../helpers/ValidationSchema/encrypt");
 const {
+	matchTokenInfo,
 	signAccessToken,
 	signRefreshToken,
 	verifyAccessToken,
@@ -26,7 +27,7 @@ router.post("/register", async (req, res, next) => {
 		console.log(req.body);
 		const { name, phonenumber, email, password } =
 			await registerSchema.validateAsync(req.body);
-
+        
 		// if (!email || !password) throw createError.BadRequest();
 
 		// check user exist in database by email
@@ -46,18 +47,19 @@ router.post("/register", async (req, res, next) => {
 				email,
 				hashPassword
 			);
-
+            const userId = response.insertId
+            
 			// generate access token for user
 			if (!response) {
 				throw createError.InternalServerError();
 			}
-			const accessToken = await signAccessToken(email);
+			const accessToken = await signAccessToken(userId,email);
 
 			// generate refresh token for user
-			const refreshToken = await signRefreshToken(email);
+			const refreshToken = await signRefreshToken(userId,email);
 			// console.log("response", typeof toString(insertId));
 			// now send sucess message
-			res.status(201).json({
+			res.status(HTTPStatus.CREATED).json({
 				status: "Successful",
 				message: "account created successfully",
 				email:email,
@@ -85,13 +87,13 @@ router.post("/login", async (req, res, next) => {
 			const isMatch = await decreyptPassword(password, UserExist[0].password);
 			if (isMatch === true) {
 				// successfully match now create token
-				const accessToken = await signAccessToken(email);
+				const accessToken = await signAccessToken(UserExist[0].id,email);
 
 				// generate refresh token for user
-				const refreshToken = await signRefreshToken(email);
+				const refreshToken = await signRefreshToken(UserExist[0].id,email);
 				// now send token
 
-				res.status(200).json({
+				res.status(HTTPStatus.OK).json({
 					status: "successfull",
 					message: `Wellcome back ${email}`,
 					id:UserExist[0].id,
@@ -123,11 +125,11 @@ router.post("/refresh-token", async (req, res, next) => {
 			next(createError.BadRequest());
 		}
 		// get email
-		const email = await verifyRefreshToken(refreshToken);
+		const {userId,userEmail} = await verifyRefreshToken(refreshToken);
 		// create new pair of accessToken and Refresh Token
 		// console.log(email);
-		const newAccessToken = await signAccessToken(email);
-		const newRefreshToken = await signRefreshToken(email);
+		const newAccessToken = await signAccessToken(userId,userEmail);
+		const newRefreshToken = await signRefreshToken(userId,userEmail);
 
 		res.send({ accessToken: newAccessToken, refreshToken: newRefreshToken });
 	} catch (err) {
@@ -135,17 +137,34 @@ router.post("/refresh-token", async (req, res, next) => {
 	}
 });
 
+router.get('/testToken/:id', verifyAccessToken,async(req,res,next)=>{
+	const userId= req.params.id
+	const {authData} = req
+	const data =await matchTokenInfo(userId,authData)
+	if(data){
+	res.status(HTTPStatus.OK).json({
+		message:"Authorized User"
+	})
+    
+	}
+	else{
+		next(createError.Unauthorized())
+	}
+	
+   
+})
+
 router.post("/logout", async (req, res, next) => {
 	try {
 		const { refreshToken } = req.body;
 		if (!refreshToken) {
 			next(createError.BadRequest());
 		}
-		const email = await verifyRefreshToken(refreshToken);
-		if (!email) {
+		const  {userId,userEmail} = await verifyRefreshToken(refreshToken);
+		if (!userEmail) {
 			next(createError.BadRequest());
 		}
-		const response = await deleteRefreshToken(email);
+		const response = await deleteRefreshToken(userEmail);
 		if (response) {
 			res.status(202).json({
 				status: 202,

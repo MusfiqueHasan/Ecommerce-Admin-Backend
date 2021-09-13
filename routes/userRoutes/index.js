@@ -1,4 +1,5 @@
 const express = require("express");
+const HTTPStatus = require("../../HTTPStatus");
 const { UserModel } = require("../../Modles/Users");
 const routes = express.Router();
 const UserQuery = require("../../Querry/User");
@@ -13,10 +14,10 @@ routes.get("/users", async (req, res) => {
       total_user: response.length,
       results: response.map(user => UserModel(user)),
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -34,10 +35,10 @@ routes.get("/users/:id", async (req, res) => {
       total_user: response.length,
       results: [UserModel(response[0])],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 

@@ -6,7 +6,7 @@ const Ratings = {
   removeReview,
   getRatingByCount,
   updateReview,
-  getReviewById
+  getReviewById,
 };
 
 // sql query to get all data
@@ -36,12 +36,11 @@ async function removeReview(reviewId) {
 
 async function updateReview(data) {
   const sqlUpdate = `UPDATE product_reviews SET isApproved=? WHERE product_reviews.product_review_id = ?`;
-  return PromiseModule.createUpdateDelete(sqlUpdate,data)
+  return PromiseModule.createUpdateDelete(sqlUpdate, data);
 }
 
-async function getReviewById(id){
-  const sqlSearch =
-  `Select * From product_reviews,user_info where user_info.email = product_reviews.user_email And product_reviews.product_id = ${id} And product_reviews.isApproved = 1`;
-return PromiseModule.readData(sqlSearch);
+async function getReviewById(id) {
+  const sqlSearch = `Select * From product_reviews,user_info where user_info.email = product_reviews.user_email And product_reviews.product_id = ${id} And product_reviews.isApproved = 1 ORDER BY product_reviews.product_review_id DESC `;
+  return PromiseModule.readData(sqlSearch);
 }
 module.exports = Ratings;

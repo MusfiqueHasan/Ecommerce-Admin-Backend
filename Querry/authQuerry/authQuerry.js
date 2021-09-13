@@ -1,8 +1,10 @@
 const PromiseModule = require("../../helpers/Promise/PromiseModule");
+const { getTimeStamp } = require("../../Utils/Utils");
 const authQuerry = {
 	saveUser,
 	isUserExist,
 	isUserNameExist,
+	isUserExistByUserId,
 	updatePassword
 };
 async function saveUser(name, phoneNumber, eamil, password) {
@@ -16,6 +18,12 @@ async function saveUser(name, phoneNumber, eamil, password) {
 async function isUserExist(email, phone_Number) {
 	const phoneNumber = phone_Number ? phone_Number : "";
 	const sqlQuery = `SELECT * FROM user_info WHERE email = '${email}' or phone_number = '${phoneNumber}'`;
+	return PromiseModule.readData(sqlQuery);
+}
+
+async function isUserExistByUserId(userId) {
+
+	const sqlQuery = `SELECT * FROM user_info WHERE id = '${userId}'`;
 	return PromiseModule.readData(sqlQuery);
 }
 

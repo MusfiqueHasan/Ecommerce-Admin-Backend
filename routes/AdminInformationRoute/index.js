@@ -1,4 +1,5 @@
 const express = require("express");
+const HTTPStatus = require("../../HTTPStatus");
 const AdminInfoQuery = require("../../Querry/AdminInfo");
 const routes = express.Router();
 const Utils = require("../../Utils/Utils");
@@ -16,9 +17,9 @@ routes.get("/admin-info", async (req, res) => {
         paymentDetails: [...paymentInfo],
       },
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -35,10 +36,10 @@ routes.patch("/admin-info/general", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -57,10 +58,10 @@ routes.patch("/admin-info/paymentDetails", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
