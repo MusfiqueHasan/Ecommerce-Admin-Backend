@@ -3,6 +3,7 @@ const routes = express.Router();
 const ProductQuery = require("../../../Querry/Product/Products");
 
 const { ParentProductModel } = require("../../../Modles/Products");
+const HTTPStatus = require("../../../HTTPStatus");
 
 routes.get("/get-products", async (req, res) => {
   const { page, limit } = req.query;
@@ -23,7 +24,7 @@ routes.get("/get-products", async (req, res) => {
         products: [...productData],
       },
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Something Went Wrong" });
@@ -42,7 +43,7 @@ routes.get("/get-featured-product", async (req, res) => {
         products: [...response],
       },
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Something Went Wrong" });
@@ -66,7 +67,7 @@ routes.get("/get-popular-product", async (req, res) => {
         products: [...response],
       },
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Something Went Wrong" });
@@ -105,9 +106,9 @@ routes.get("/products", async (req, res) => {
       total_products: product_data_response.length,
       products: [...productData],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -165,10 +166,10 @@ routes.get("/products/:slug", async (req, res) => {
       product: productData,
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -182,10 +183,10 @@ routes.get("/products/price/:ids", async (req, res) => {
       product: [...response],
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -215,9 +216,9 @@ routes.get("/newArrival", async (req, res, next) => {
       total_products: product_data_response.length,
       products: [...productData],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 routes.get("/popularProducts", async (req, res, next) => {
@@ -248,9 +249,9 @@ routes.get("/popularProducts", async (req, res, next) => {
       total_products: product_data_response.length,
       products: [...productData],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -281,9 +282,9 @@ routes.get("/featureProducts", async (req, res, next) => {
       total_products: product_data_response.length,
       products: [...productData],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -314,9 +315,9 @@ routes.get('/discounted-products',async(req,res)=>{
       total_products: product_data_response.length,
       products: [...productData],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 })
 
@@ -339,7 +340,7 @@ routes.get("/related-products",async(req,res,next)=>{
         products: [...productData],
       },
     };
-    res.status(200).json(jsonData); 
+    res.status(HTTPStatus.OK).json(jsonData); 
    }
    catch(err){
       console.log(err)

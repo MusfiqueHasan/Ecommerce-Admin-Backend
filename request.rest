@@ -520,3 +520,6 @@ GET http://localhost:5000/api/discounted-products
 
 ###
 GET http://localhost:5000/api/related-products?categoryId=82&productId=231
+
+###
+GET http://localhost:5000/api/shipping

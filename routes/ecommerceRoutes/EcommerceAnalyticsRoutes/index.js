@@ -1,4 +1,5 @@
 const express = require("express");
+const HTTPStatus = require("../../../HTTPStatus");
 const EcommerceAnalyticsQuery = require("../../../Querry/EcommerceAnalytics");
 const routes = express.Router();
 
@@ -17,9 +18,9 @@ routes.get('/inventory',async(req,res)=>{
             massage:'Success',
             results:resultData
         }
-        res.status(200).json(jsonObject)
+        res.status(HTTPStatus.OK).json(jsonObject)
     }catch(error){
-        res.status(500).json({massage:"Internal Server Error"})
+        res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({massage:"Internal Server Error"})
     }
 })
 

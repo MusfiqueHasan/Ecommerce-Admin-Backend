@@ -60,7 +60,7 @@ router.post("/update/generalInfo", async (req, res, next) => {
 				phoneNumber,
 				userId
 			);
-			res.status(200).json({
+			res.status(HTTPStatus.OK).json({
 				message: "updated successfully",
 			});
 		}
@@ -73,7 +73,7 @@ router.get("/:userId", async (req, res, next) => {
 	const { userId } = req.params;
 	const result = await userQuerry.getUserInfo(userId);
 	if (result) {
-		res.status(200).json(result);
+		res.status(HTTPStatus.OK).json(result);
 	} else {
 		throw createError.Unauthorized();
 	}
@@ -94,7 +94,7 @@ router.post("/update/password", async (req, res, next) => {
 					hashPassword
 				);
 				if (passUpdate) {
-					res.status(200).json({
+					res.status(HTTPStatus.OK).json({
 						message: "password update successfully",
 					});
 				} else throw createError.InternalServerError();
@@ -145,7 +145,7 @@ router.post("/update/address", async (req, res, next) => {
 			);
 			if (updatedata) {
 				// console.log(updatedata);
-				res.status(200).json({
+				res.status(HTTPStatus.OK).json({
 					message: "updated successfully",
 				});
 			} else {

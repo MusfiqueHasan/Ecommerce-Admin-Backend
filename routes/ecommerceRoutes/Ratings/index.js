@@ -3,6 +3,7 @@ const routes = express.Router();
 const Utils = require("../../../Utils/Utils");
 const ReviewQuery = require("../../../Querry/Product/Ratings");
 const { Ratings } = require("../../../Modles/Reviews");
+const HTTPStatus = require("../../../HTTPStatus");
 
 routes.get("/ratings", async (req, res) => {
   try {
@@ -11,10 +12,10 @@ routes.get("/ratings", async (req, res) => {
       massage: "Success",
       results: response.map(item => Ratings(item)),
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -29,10 +30,10 @@ routes.get("/ratings/:id", async (req, res) => {
       massage: "Success",
       results: response.map(item => Ratings(item)),
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -43,9 +44,9 @@ routes.get("/rating/total", async (req, res) => {
       massage: "Success",
       results: [...response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -59,10 +60,10 @@ routes.delete("/ratings/:id", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -77,10 +78,10 @@ routes.patch("/ratings/:id", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -117,9 +118,9 @@ routes.post("/rating", async (req, res) => {
     const jsonObject = {
       massage: "Please wait for admin approval!",
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 

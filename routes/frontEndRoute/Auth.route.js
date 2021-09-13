@@ -59,7 +59,7 @@ router.post("/register", async (req, res, next) => {
 			const refreshToken = await signRefreshToken(userId,email);
 			// console.log("response", typeof toString(insertId));
 			// now send sucess message
-			res.status(201).json({
+			res.status(HTTPStatus.CREATED).json({
 				status: "Successful",
 				message: "account created successfully",
 				email:email,
@@ -93,7 +93,7 @@ router.post("/login", async (req, res, next) => {
 				const refreshToken = await signRefreshToken(UserExist[0].id,email);
 				// now send token
 
-				res.status(200).json({
+				res.status(HTTPStatus.OK).json({
 					status: "successfull",
 					message: `Wellcome back ${email}`,
 					id:UserExist[0].id,
@@ -142,7 +142,7 @@ router.get('/testToken/:id', verifyAccessToken,async(req,res,next)=>{
 	const {authData} = req
 	const data =await matchTokenInfo(userId,authData)
 	if(data){
-	res.status(200).json({
+	res.status(HTTPStatus.OK).json({
 		message:"Authorized User"
 	})
     

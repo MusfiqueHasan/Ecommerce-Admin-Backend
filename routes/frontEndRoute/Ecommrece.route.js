@@ -108,7 +108,7 @@ router.post("/checkout", async (req, res, next) => {
 				// console.log(saveItem)
 			});
 
-			res.status(200).json({
+			res.status(HTTPStatus.OK).json({
 				status: "successfull",
 				message: "Thanks for order",
 			});
@@ -189,7 +189,7 @@ router.post("/checkout", async (req, res, next) => {
 // 				// console.log(saveItem)
 // 			});
 
-// 			res.status(200).json({
+// 			res.status(HTTPStatus.OK).json({
 // 				status: "successfull",
 // 				message: "Thanks for order",
 // 			});
@@ -204,7 +204,7 @@ router.get("/user-order/all/:userId", async (req, res, next) => {
 	const userId = req.params.userId;
 	try{
 		const allOrders = await orderQuerry.userAllOrder(userId);
-		res.status(200).json(allOrders);
+		res.status(HTTPStatus.OK).json(allOrders);
 	}
 	catch(err){
 		next(err)
@@ -215,7 +215,7 @@ router.get("/user-order/pending/:userId", async (req, res, next) => {
 	try {
 		const userId = req.params.userId;
 		const allOrders = await orderQuerry.userPendingOrder(userId);
-		res.status(200).json({ allOrders });
+		res.status(HTTPStatus.OK).json({ allOrders });
 	} catch (err) {
 		next(err);
 	}
@@ -225,7 +225,7 @@ router.get("/pre-order/pending/:userId", async (req, res, next) => {
 	// console.log(email);
 	const pandingPreOrders = await orderQuerry.pandingPreOrders(userId);
 	console.log(pandingPreOrders);
-	res.status(200).json({ pandingPreOrders });
+	res.status(HTTPStatus.OK).json({ pandingPreOrders });
 });
 router.post("/pre-order", async (req, res, next) => {
 	try {
@@ -255,7 +255,7 @@ router.post("/pre-order", async (req, res, next) => {
 				phoneNumber
 			);
 			if (preOrdersaved) {
-				res.status(200).json({
+				res.status(HTTPStatus.OK).json({
 					status: "successfull",
 					message: "Thanks for order",
 				});

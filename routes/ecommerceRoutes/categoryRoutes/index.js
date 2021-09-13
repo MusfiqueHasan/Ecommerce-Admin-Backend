@@ -1,7 +1,9 @@
 const express = require("express");
+const HTTPStatus = require("../../../HTTPStatus");
 const routes = express.Router();
 const CategoriesQuery = require("../../../Querry/Product/Categories");
 const Utils = require("../../../Utils/Utils");
+
 
 routes.post("/category", async (req, res) => {
   const { categoryData } = req.body;
@@ -24,16 +26,16 @@ routes.post("/category", async (req, res) => {
       description: description,
       parent_id: parent_id,
     };
-    return res.status(200).json(jsonData);
+    return res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
-    return res.status(500).json({ msg: "Internal Server Error" });
+    return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" });
   }
 });
 
 routes.get("/categories", async (req, res) => {
   try {
     const response = await CategoriesQuery.getCategories();
-    return res.status(200).json({
+    return res.status(HTTPStatus.OK).json({
       status: "success",
       data: {
         total_categories: response.length,
@@ -52,7 +54,7 @@ routes.get("/categories/:id", async (req, res) => {
 
   try {
     const response = await CategoriesQuery.getCategoriesBy(id);
-    return res.status(200).json({
+    return res.status(HTTPStatus.OK).json({
       status: "success",
       data: {
         total_categories: response.length,
@@ -74,7 +76,7 @@ routes.patch("/categories/:id", async (req, res) => {
 
   try {
     const response = await CategoriesQuery.updateCategory([categoryData.name,categoryData.parent_id,categoryData.description,Utils.getTimeStamp(),id]);
-    return res.status(200).json({
+    return res.status(HTTPStatus.OK).json({
       status: "success",
     });
   } catch (error) {
@@ -88,12 +90,12 @@ routes.delete("/categories/:id", async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const response = await CategoriesQuery.removeACategory(id);
-    return res.status(200).json({
+    return res.status(HTTPStatus.OK).json({
       status: "success",
       msg: "Successfully remove item",
     });
   } catch (error) {
-    return res.status(500).json({ msg: "Something Went Wrong" });
+    return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ msg: "Something Went Wrong" });
   }
 });
 

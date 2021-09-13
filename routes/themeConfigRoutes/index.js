@@ -9,7 +9,7 @@ routes.get("/slider-image", async (req, res, next) => {
         const sliderImages=JSON.parse(sliderdata[0].value)
     
         // console.log(sliderdata[0].value)
-        res.status(200).json({
+        res.status(HTTPStatus.OK).json({
             message:'Successfull',
             totalImage:sliderImages.length,
             images:sliderImages,})

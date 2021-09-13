@@ -4,6 +4,7 @@ const Utils = require("../../../Utils/Utils");
 const AttributesQuery = require("../../../Querry/Product/Attributes");
 const OptionsQuery = require("../../../Querry/Product/Options");
 const { AttributeOptionModel } = require("../../../Modles/Attributes");
+const HTTPStatus = require("../../../HTTPStatus");
 // get attributes
 routes.get("/attributes", async (req, res) => {
   try {
@@ -20,9 +21,9 @@ routes.get("/attributes", async (req, res) => {
       massage: "success",
       results: [...attribute_option_response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -46,9 +47,9 @@ routes.post("/attribute", async (req, res) => {
         attribute_name: attribute_name,
       },
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error" });
   }
 });
 
@@ -82,7 +83,7 @@ routes.get("/product-attributes/:id", async (req, res) => {
       },
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error)
     res.status(400).json({ massage: error.massage });
@@ -99,9 +100,9 @@ routes.delete("/attributes/:id", async (req, res) => {
     if (response.affectedRows < 1) {
       return res.status(404).json({ massage: "Attribute is not found" });
     }
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error" });
   }
 });
 

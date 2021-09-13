@@ -2,6 +2,7 @@ const express = require("express");
 const routes = express.Router();
 const Utils = require("../../../Utils/Utils");
 const InvoiceQuery = require("../../../Querry/Product/Invocie");
+const HTTPStatus = require("../../../HTTPStatus");
 
 routes.get("/invoices/lastId", async (req, res) => {
   try {
@@ -13,9 +14,9 @@ routes.get("/invoices/lastId", async (req, res) => {
         invoice_id: invoice_id,
       },
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -27,10 +28,10 @@ routes.get("/invoices", async (req, res) => {
       massage: "Success",
       results: [...response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -41,9 +42,9 @@ routes.get("/invoices/clients", async (req, res) => {
       massage: "Success",
       results: [...response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -62,10 +63,10 @@ routes.get("/invoices/:id", async (req, res) => {
         ...response[0],
       },
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 routes.put("/invoices/update/:id", async (req, res) => {
@@ -92,10 +93,10 @@ routes.put("/invoices/update/:id", async (req, res) => {
         ...response[0],
       },
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -131,9 +132,9 @@ routes.post("/invoice", async (req, res) => {
         invoice_id: response.insertId,
       },
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -189,10 +190,10 @@ routes.post("/invoices/client", async (req, res) => {
       },
     };
 
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -206,10 +207,10 @@ routes.delete("/invoices/:id", async (req, res) => {
     if (response.affectedRows < 1) {
       return res.status(404).json({ massage: "Invoice is not found" });
     }
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 

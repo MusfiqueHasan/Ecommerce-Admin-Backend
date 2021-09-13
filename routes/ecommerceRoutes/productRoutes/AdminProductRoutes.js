@@ -15,6 +15,7 @@ const {
 } = require("../../../Modles/Products");
 
 const { parentProduct } = require("../../../middleware");
+const HTTPStatus = require("../../../HTTPStatus");
 
 routes.get("/get-products", async (req, res) => {
   const { page, limit } = req.query;
@@ -27,7 +28,7 @@ routes.get("/get-products", async (req, res) => {
         products: [...response],
       },
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Something Went Wrong" });
@@ -46,7 +47,7 @@ routes.get("/get-featured-product", async (req, res) => {
         products: [...response],
       },
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Something Went Wrong" });
@@ -70,7 +71,7 @@ routes.get("/get-popular-product", async (req, res) => {
         products: [...response],
       },
     };
-    res.status(200).json(jsonData);
+    res.status(HTTPStatus.OK).json(jsonData);
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Something Went Wrong" });
@@ -96,9 +97,9 @@ routes.get("/products", async (req, res) => {
       total_products: product_data_response.length,
       products: [...product_data_response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -122,9 +123,9 @@ routes.get("/products/:id", async (req, res) => {
       product: parentProduct,
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 routes.get("/edit/products/:id", async (req, res) => {
@@ -167,9 +168,9 @@ routes.get("/edit/products/:id", async (req, res) => {
       results: product,
     };
 
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(500).json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -303,10 +304,10 @@ routes.post("/product", parentProduct, async (req, res) => {
         updated_at: updated_at,
       },
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Something Went Wrong" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Something Went Wrong" });
   }
 });
 
@@ -329,10 +330,10 @@ routes.get("/invoice/search", async (req, res) => {
       total_products: product_data_response.length,
       products: [...product_data_response],
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -346,10 +347,10 @@ routes.patch("/popular/:id", async (req, res) => {
     const jsonObject = {
       massage: "success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -362,10 +363,10 @@ routes.patch("/featured/:id", async (req, res) => {
     const jsonObject = {
       massage: "success",
     };
-    res.status(200).json(jsonObject);
+    res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 

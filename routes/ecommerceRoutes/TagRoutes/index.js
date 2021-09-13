@@ -1,4 +1,5 @@
 const express = require("express");
+const HTTPStatus = require("../../../HTTPStatus");
 const TagQuery = require("../../../Querry/Product/ProductInfoTag");
 const routes = express.Router();
 const Utils = require("../../../Utils/Utils");
@@ -10,11 +11,11 @@ routes.get("/tags", async (req, res) => {
       massage: "Success",
       results: [...response],
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
     console.log(error);
 
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -31,10 +32,10 @@ routes.get("/tags/:id", async (req, res) => {
         ...response[0],
       },
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -48,10 +49,10 @@ routes.delete("/tags/:id", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -74,11 +75,11 @@ routes.post("/tag", async (req, res) => {
     const jsonObject = {
       massage: "Success",
     };
-    res.status(201).json(jsonObject);
+    res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
     console.log(error);
 
-    res.status(500).json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
