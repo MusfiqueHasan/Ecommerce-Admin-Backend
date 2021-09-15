@@ -15,26 +15,28 @@ routes.get("/inventories", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
   }
 });
 
 routes.get("/inventories/variations/:id", async (req, res) => {
-    const {id} = req.params
-    try {
-      const response = await InventoryQuery.getVariationsInventory(id);
-      const jsonObject = {
-        massage: "success",
-        results: [...response],
-      };
-      res.status(HTTPStatus.OK).json(jsonObject);
-    } catch (error) {
-      console.log(error);
-      res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
-    }
-  });
-  
-  
+  const { id } = req.params;
+  try {
+    const response = await InventoryQuery.getVariationsInventory(id);
+    const jsonObject = {
+      massage: "success",
+      results: [...response],
+    };
+    res.status(HTTPStatus.OK).json(jsonObject);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
+  }
+});
 
 routes.patch("/inventories/:id", async (req, res) => {
   const { id } = req.params;
@@ -44,6 +46,7 @@ routes.patch("/inventories/:id", async (req, res) => {
   const allowBackOrders = req.body.data.allowBackOrders;
   const quantity = req.body.data.quantity;
   const stock_threshold = req.body.data.stock_threshold;
+  const sku = req.body.data.sku || null;
   if (manageStock === true && allowBackOrders === null)
     return res.status(404).json({ massage: "Select Back Orders Type" });
   if (manageStock === true && quantity === null)
@@ -70,15 +73,17 @@ routes.patch("/inventories/:id", async (req, res) => {
       await InventoryQuery.updateStock(stockUpdateData);
     }
     const updatedData = [manageStock, inventory_status, id];
-    console.log(updatedData);
     await ProductsQuery.updateProductManageStockStatus(updatedData);
-
+    sku && (await ProductsQuery.updateProductSkuById([sku, id]));
+    
     res.status(HTTPStatus.OK).json({
       massage: "Success",
     });
   } catch (error) {
     console.log(error);
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
   }
 });
 

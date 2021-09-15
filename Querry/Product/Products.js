@@ -30,6 +30,16 @@ const Products = {
   featuredProducts,
   discountedProducts,
   getRelatedProductForUser,
+  removeProductFromShipping,
+  removeAllProductFromShippingById,
+  updateProductShippingStatusById,
+  updateProductBasicInfoById,
+  updateProductDetailsInfoById,
+  deleteProductFromCategoriesById,
+  updateProductPriceById,
+  updateProductSkuById,
+  removeProduct,
+  removeProductVariants,
 };
 
 async function addProducts(productDetails) {
@@ -55,7 +65,7 @@ async function addProductToCategories(categories) {
 
 async function addProductToShipping(shipping) {
   const sqlInsert =
-    "Insert into product_shipping(product_id,shipping_cost,	shipping_details,updated_at,inserted_at) Values ?";
+    "Insert into product_shipping(shipping_id,product_id) Values ?";
 
   return PromiseModule.createUpdateDelete(sqlInsert, shipping);
 }
@@ -125,9 +135,9 @@ async function getProductsByName(productName) {
 }
 
 async function getProductsForUsers(pageNumber, productLimit, category) {
-  console.log()
+  console.log();
   let sqlSearch =
-    category === '-1'
+    category === "-1"
       ? "SELECT p.product_id,p.isTaxable,p.isDisableDiscount,p.slug,p.hasFreeShipping,p.featured_img,p.regular_price,p.discount_price,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id And p.product_status_id = 1 And p.view_on_website = 1  INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.product_id"
       : `SELECT p.product_id,p.isTaxable,p.isDisableDiscount,p.slug,p.hasFreeShipping,p.featured_img,p.regular_price,p.discount_price,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id And p.product_status_id = 1 And p.view_on_website = 1  INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id and pp.category_id = ${category} LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.product_id`;
 
@@ -202,28 +212,80 @@ async function getProductPriceAndStockStatusById(id) {
   return PromiseModule.readData(sqlSearch);
 }
 
-async function getNewArivalProduct(){
-  const sqlSearch = `SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.inserted_at  LIMIT 25`
-  return PromiseModule.readData(sqlSearch)
+async function getNewArivalProduct() {
+  const sqlSearch = `SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.inserted_at  LIMIT 25`;
+  return PromiseModule.readData(sqlSearch);
 }
-async function popularProducts(){
-  const sqlSearch = `SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id and p.view_on_website  = 1 and p.product_status_id = 1 and p.popular_product=1 INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id `
-  return PromiseModule.readData(sqlSearch)
-}
-
-async function featuredProducts(){
-  const sqlSearch=`SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id and p.view_on_website  = 1 and p.product_status_id = 1 and p.featured_product = 1 INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id`
-  return PromiseModule.readData(sqlSearch)
+async function popularProducts() {
+  const sqlSearch = `SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id and p.view_on_website  = 1 and p.product_status_id = 1 and p.popular_product=1 INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id `;
+  return PromiseModule.readData(sqlSearch);
 }
 
-async function discountedProducts(){
-  const sqlSearch=`SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id  and p.view_on_website  = 1 and p.product_status_id = 1 and p.discount_price is Not null and p.discount_price !=0 INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.discount_price  ASC `
-  return PromiseModule.readData(sqlSearch)
+async function featuredProducts() {
+  const sqlSearch = `SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id and p.view_on_website  = 1 and p.product_status_id = 1 and p.featured_product = 1 INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id`;
+  return PromiseModule.readData(sqlSearch);
 }
 
-async function getRelatedProductForUser(categoryId,productId){
-  const sqlQuery = `SELECT p.product_id,p.isTaxable,p.isDisableDiscount,p.slug,p.hasFreeShipping,p.featured_img,p.regular_price,p.discount_price,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id And p.product_status_id = 1 And p.view_on_website = 1  INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id and pp.category_id = ${categoryId} and pp.product_id != ${productId} LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY RAND()
-  LIMIT 4`
-  return PromiseModule.readData(sqlQuery)
+async function discountedProducts() {
+  const sqlSearch = `SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id  and p.view_on_website  = 1 and p.product_status_id = 1 and p.discount_price is Not null and p.discount_price !=0 INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.discount_price  ASC `;
+  return PromiseModule.readData(sqlSearch);
 }
+
+async function getRelatedProductForUser(categoryId, productId) {
+  const sqlQuery = `SELECT p.product_id,p.isTaxable,p.isDisableDiscount,p.slug,p.hasFreeShipping,p.featured_img,p.regular_price,p.discount_price,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id And p.product_status_id = 1 And p.view_on_website = 1  INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id and pp.category_id = ${categoryId} and pp.product_id != ${productId} LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY RAND() LIMIT 4`;
+
+  return PromiseModule.readData(sqlQuery);
+}
+
+async function removeProductFromShipping(deletedProductShippingId) {
+  const sqlDelete = `Delete from product_shipping where shipping_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlDelete, deletedProductShippingId);
+}
+
+async function removeAllProductFromShippingById(id) {
+  const sqlDelete = `Delete from product_shipping where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlDelete, id);
+}
+
+async function updateProductShippingStatusById(updatedShippingData) {
+  const sqlDelete = `Update product set hasFreeShipping = ? where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlDelete, updatedShippingData);
+}
+
+async function updateProductBasicInfoById(updatedBasicInfo) {
+  const sqlUpdate = `Update product set sku = ?, slug = ?, product_status_id = ?, view_on_website = ?, featured_img = ?,updated_at = ? where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlUpdate, updatedBasicInfo);
+}
+
+async function updateProductDetailsInfoById(updatedProductDetailsInfo) {
+  const sqlUpdate = `Update product_details set product_name = ?,short_description = ?, long_description = ?, product_gallery = ?, updated_at = ? where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlUpdate, updatedProductDetailsInfo);
+}
+
+async function deleteProductFromCategoriesById(deletedCategories) {
+  const sqlDelete = `Delete from product_categories where (category_id, product_id) in (?)`;
+  return PromiseModule.createUpdateDelete(sqlDelete, deletedCategories);
+}
+
+async function updateProductPriceById(updatedPriceData) {
+  const sqlUpdate = `Update product set regular_price = ?, discount_price = ? where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlUpdate, updatedPriceData);
+}
+
+async function updateProductSkuById(updatedSku) {
+  const sqlUpdate = `Update product set sku = ? where product_id = ?`;
+  return PromiseModule.createUpdateDelete(sqlUpdate, updatedSku);
+}
+
+async function removeProduct(productId) {
+  const sqlDeleteStatement = `Delete from product where product_id = ${productId}; Delete from product_details where product_id = ${productId}; Delete from product_categories where product_id = ${productId}; Delete from product_options where product_id = ${productId}; Delete from product_reviews where product_id = ${productId}; Delete from product_shipping where product_id = ${productId}; Delete from product_tags where product_id = ${productId}; Delete from product_attribute where product_id = ${productId}; Delete from prduct_inventory where product_id = ${productId};`;
+  return PromiseModule.multipleQueryStatement(sqlDeleteStatement);
+}
+
+async function removeProductVariants(productId) {
+  const sqlDeleteStatement = `Delete product,product_variants,prduct_inventory from product Inner Join product_variants On product_variants.product_variant_id = product.product_id Left Join prduct_inventory on product.product_id = prduct_inventory.product_id Where product.parent_id = ${productId}`;
+
+  return PromiseModule.multipleQueryStatement(sqlDeleteStatement);
+}
+
 module.exports = Products;

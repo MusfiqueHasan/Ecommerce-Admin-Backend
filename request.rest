@@ -100,15 +100,40 @@ GET http://localhost:5000/api/products?page=1&category=80
 GET http://localhost:5000/api/product-attributes/239
 
 ###
-GET http://localhost:5000/api/admin/edit/products/239
+GET http://localhost:5000/api/admin/edit/products/256
 
 
 ###
-GET http://localhost:5000/api/admin/products/231
+GET http://localhost:5000/api/admin/products/256
+
+
+###
+DELETE  http://localhost:5000/api/admin/products/231
+
+
+###
+PATCH  http://localhost:5000/api/admin/products/basicInfo/256
+Content-Type: application/json
+
+{
+    "product_name":"ABCD",
+    
+}
 
 ###
 GET http://localhost:5000/api/products/kurtiasss
 
+
+###
+PATCH  http://localhost:5000/api/admin/products/shipping/256
+Content-Type: application/json
+
+{
+    "deletedProductShipping":[],
+    "insertedProductShipping":[],
+    "newHasFreeShipping":false,
+    "previousHasFreeShipping":true
+}
 ###
 POST http://localhost:5000/api/admin/product
 Content-Type: application/json
@@ -523,3 +548,30 @@ GET http://localhost:5000/api/related-products?categoryId=82&productId=231
 
 ###
 GET http://localhost:5000/api/shipping
+
+###
+POST http://localhost:5000/api/shipping
+Content-Type: application/json
+
+{
+    "shipping_name":"CHECK",
+    "shipping_type": "1",
+    "shipping_zone": ["DHAKA,BANGLADESH","CHITTAGONG,BANGLADESH"],
+    "shipping_rate": 100
+}
+
+
+###
+DELETE  http://localhost:5000/api/shipping/2
+
+
+###
+PATCH  http://localhost:5000/api/shipping/3
+Content-Type: application/json
+
+{
+    "shipping_name":"CHECK1",
+    "shipping_type": "2",
+    "shipping_zone": ["DHAKA,BANGLADESH","CHITTAGONG,BANGLADESH"],
+    "shipping_rate": 100
+}

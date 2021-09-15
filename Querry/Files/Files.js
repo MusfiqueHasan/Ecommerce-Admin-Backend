@@ -13,7 +13,7 @@ async function insertFile(file_name, mime_type, inserted_at, size) {
 }
 
 async function getFiles() {
-  const sqlSearch = `Select * from files`;
+  const sqlSearch = `Select * from files ORDER BY files.file_id DESC`;
   return PromiseModule.readData(sqlSearch);
 }
 async function removeFile(id){

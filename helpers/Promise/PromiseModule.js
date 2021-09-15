@@ -3,7 +3,20 @@ const PromiseModule = {
   createUpdateDelete,
   readData,
   sendMail,
+  multipleQueryStatement,
 };
+
+async function multipleQueryStatement(sqlQuery) {
+  return new Promise((resolve, reject) => {
+    pool.query(sqlQuery, (error, rows, fields) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
 
 async function readData(sqlQuery) {
   return new Promise((resolve, reject) => {

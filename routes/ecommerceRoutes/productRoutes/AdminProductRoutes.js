@@ -16,6 +16,7 @@ const {
 
 const { parentProduct } = require("../../../middleware");
 const HTTPStatus = require("../../../HTTPStatus");
+const { ProductShippingClassModel } = require("../../../Modles/Shipping");
 
 routes.get("/get-products", async (req, res) => {
   const { page, limit } = req.query;
@@ -95,11 +96,13 @@ routes.get("/products", async (req, res) => {
     const jsonObject = {
       massage: "success",
       total_products: product_data_response.length,
-      products: [...product_data_response],
+      products: [...product_data_response].reverse(),
     };
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: error.massage });
   }
 });
 
@@ -125,22 +128,46 @@ routes.get("/products/:id", async (req, res) => {
 
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error" });
   }
 });
+
+routes.delete("/products/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!Utils.isIdValid(id))
+    return res.status(404).json({ massage: "Product is not found" });
+
+  try {
+    await ProductQuery.removeProduct(id);
+    await ProductQuery.removeProductVariants(id);
+    const jsonObject = {
+      massage: "Success",
+    };
+
+    res.status(HTTPStatus.OK).json(jsonObject);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error" });
+  }
+});
+
 routes.get("/edit/products/:id", async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+
   try {
     const response = await ProductQuery.getSingleProductDetailsAdmin(id);
-    console.log(response);
     const productDetails = response[0];
     let shippingDetails = null;
     let inventoryDetails = null;
     if (!productDetails.hasFreeShipping) {
       const shipping_response = await ShippingQuery.getShippingDetails(id);
-      console.log(shipping_response);
-      shippingDetails = shipping_response[0];
+      shippingDetails = shipping_response.map(item =>
+        ProductShippingClassModel(item)
+      );
     }
     if (productDetails.manageStock) {
       const inventory_response = await InventoryQuery.getInventoryById(id);
@@ -170,7 +197,10 @@ routes.get("/edit/products/:id", async (req, res) => {
 
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
+    console.log(error);
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: error.massage });
   }
 });
 
@@ -240,15 +270,7 @@ routes.post("/product", parentProduct, async (req, res) => {
 
   // product shipping details
   const shippingDetails = !hasFreeShipping
-    ? [
-        [
-          product_id,
-          shipping_cost,
-          product.shipping_details || "",
-          updated_at,
-          inserted_at,
-        ],
-      ]
+    ? shipping_cost.map(shipping_id => [shipping_id, product_id])
     : null;
   try {
     //// HAVE TO OPTIMIZE HERE
@@ -307,7 +329,177 @@ routes.post("/product", parentProduct, async (req, res) => {
     res.status(HTTPStatus.CREATED).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Something Went Wrong" });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error" });
+  }
+});
+
+routes.patch("/products/basicInfo/:id", async (req, res) => {
+  const { id } = req.params;
+  const product_name = req.body.product_name;
+  const short_description = req.body.short_description;
+  const long_description = req.body.long_description;
+  const product_gallery = req.body.product_gallery;
+  const updated_at = req.body.updated_at || Utils.getTimeStamp();
+  const sku = req.body.sku;
+  const slug = req.body.slug;
+  const product_status_id = req.body.product_status_id;
+  const view_on_website = req.body.view_on_website;
+  const featured_img = req.body.featured_img;
+  const newCategories = req.body.newCategories || null;
+  const deletedCategories = req.body.deletedCategories || null;
+  const inserted_at = updated_at;
+  const productsToCategories = newCategories
+    ? newCategories.map(item => [item, parseInt(id), inserted_at, updated_at])
+    : null;
+
+  const deletedCategoriesFromProduct = deletedCategories
+    ? deletedCategories.map(category => [category, parseInt(id)])
+    : null;
+
+  console.log(productsToCategories, deletedCategories);
+  const productBasicInfoData = [
+    sku,
+    slug,
+    product_status_id,
+    view_on_website,
+    featured_img,
+    updated_at,
+    parseInt(id),
+  ];
+
+  const productDetailsData = [
+    product_name,
+    short_description,
+    long_description,
+    product_gallery,
+    updated_at,
+    parseInt(id),
+  ];
+
+  try {
+    productsToCategories &&
+      productsToCategories.length > 0 &&
+      (await ProductQuery.addProductToCategories([productsToCategories]));
+    deletedCategoriesFromProduct &&
+      deletedCategories.length > 0 &&
+      (await ProductQuery.deleteProductFromCategoriesById([
+        deletedCategoriesFromProduct,
+      ]));
+    const productBasicInfoResponse =
+      await ProductQuery.updateProductBasicInfoById(productBasicInfoData);
+    const productDetailsInfoResponse =
+      await ProductQuery.updateProductDetailsInfoById(productDetailsData);
+
+    const jsonObject = {
+      massage: "Updated!",
+    };
+    res.status(HTTPStatus.OK).json(jsonObject);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
+  }
+});
+
+routes.patch("/products/priceInfo/:id", async (req, res) => {
+  const { id } = req.params;
+  const regular_price = req.body.regular_price;
+  const discount_price = req.body.discount_price;
+
+  try {
+    await ProductQuery.updateProductPriceById([
+      regular_price,
+      discount_price,
+      id,
+    ]);
+    const jsonObject = {
+      massage: "Updated!",
+    };
+    res.status(HTTPStatus.OK).json(jsonObject);
+  } catch (error) {
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
+    console.log(error);
+  }
+});
+
+routes.patch("/products/inventory/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+routes.patch("/products/shipping/:id", async (req, res) => {
+  const { id } = req.params;
+  const deletedProductShipping = req.body.deletedProductShipping || [];
+  const insertedProductShipping = req.body.insertedProductShipping || [];
+  const newHasFreeShipping = req.body.newHasFreeShipping;
+  const previousHasFreeShipping =
+    req.body.previousHasFreeShipping === 1 ||
+    req.body.previousHasFreeShipping === true
+      ? true
+      : false;
+
+  const deletedProductShippingData = deletedProductShipping.map(id => [id]);
+  const insertedProductShippingData = insertedProductShipping.map(
+    shipping_id => [shipping_id, id]
+  );
+  console.log(req.body);
+  if (
+    newHasFreeShipping === false &&
+    previousHasFreeShipping === true &&
+    insertedProductShippingData.length === 0
+  )
+    return res
+      .status(HTTPStatus.BAD_REQUEST)
+      .json({ massage: "Select a shipping class" });
+  try {
+    if (
+      newHasFreeShipping === previousHasFreeShipping &&
+      newHasFreeShipping === false
+    ) {
+      deletedProductShippingData.length > 0 &&
+        (await ProductQuery.removeProductFromShipping([
+          deletedProductShipping,
+        ]));
+      insertedProductShippingData.length > 0 &&
+        (await ProductQuery.addProductToShipping([
+          insertedProductShippingData,
+        ]));
+    }
+    if (newHasFreeShipping === false && previousHasFreeShipping === true) {
+      insertedProductShippingData.length > 0 &&
+        (await ProductQuery.addProductToShipping([
+          insertedProductShippingData,
+        ]));
+    }
+    if (newHasFreeShipping === true && previousHasFreeShipping === false) {
+      await ProductQuery.removeAllProductFromShippingById([id]);
+    }
+    await ProductQuery.updateProductShippingStatusById([
+      newHasFreeShipping,
+      id,
+    ]);
+
+    const response = await ShippingQuery.getShippingDetails(id);
+    const jsonObject = {
+      massage: "Updated",
+      results: response.map(shipping_details =>
+        ProductShippingClassModel(shipping_details)
+      ),
+    };
+    res.status(HTTPStatus.OK).json(jsonObject);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error" });
   }
 });
 
@@ -333,7 +525,9 @@ routes.get("/invoice/search", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -350,14 +544,16 @@ routes.patch("/popular/:id", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
   }
 });
 
 routes.patch("/featured/:id", async (req, res) => {
   const { id } = req.params;
   const params = req.body.featured;
-  console.log(params)
+  console.log(params);
   try {
     const response = await ProductQuery.updateFeaturedProducts(id, params);
     const jsonObject = {
@@ -366,7 +562,9 @@ routes.patch("/featured/:id", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "Internal Server Error!" });
   }
 });
 
