@@ -7,7 +7,9 @@ const {
 	orderdItemsSchema,
 	paymentValidation,
 } = require("../../helpers/ValidationSchema/authSchema");
+
 const { func } = require("joi");
+const HTTPStatus = require("../../HTTPStatus");
 //const { json } = require("express");
 const router = express.Router();
 
@@ -45,9 +47,9 @@ router.post("/checkout", async (req, res, next) => {
 				"Please give your Phone Number & Transaction Id"
 			);
 		}
-		const resp = await orderedItems.map(async (item) => {
-			await orderdItemsSchema.validateAsync(item);
-		});
+		// const resp = await orderedItems.map(async (item) => {
+		// 	await orderdItemsSchema.validateAsync(item);
+		// });
 		// check user exist
 		const UserExist = await authQuerry.isUserExistByUserId(userId);
 		if (UserExist.length <= 0) {
@@ -83,30 +85,30 @@ router.post("/checkout", async (req, res, next) => {
 			const orderId = orderStored.insertId;
 			// now save each ordered product
 
-			orderedItems.map(async (item) => {
-				const variants = item.variants ? item.variants : "";
-				try {
-					const saveItem = await orderQuerry.saveOrderedItems(
-						orderId,
-						item.productId,
-						item.name,
-						variants,
-						item.qty,
-						item.price
-					);
-				} catch (err) {
-					console.log(err);
-					next(err);
-				}
+			// orderedItems.map(async (item) => {
+			// 	const variants = item.variants ? item.variants : "";
+			// 	try {
+			// 		const saveItem = await orderQuerry.saveOrderedItems(
+			// 			orderId,
+			// 			item.productId,
+			// 			item.name,
+			// 			variants,
+			// 			item.qty,
+			// 			item.price
+			// 		);
+			// 	} catch (err) {
+			// 		console.log(err);
+			// 		next(err);
+			// 	}
 
-				// if (!saveItem) {
-				// 	res.status().json({
-				// 		status: "Error",
-				// 		message: `Something went Wrong with this product ${item.name}. Contact with Bay of Syle.`,
-				// 	});
-				// }
-				// console.log(saveItem)
-			});
+			// 	// if (!saveItem) {
+			// 	// 	res.status().json({
+			// 	// 		status: "Error",
+			// 	// 		message: `Something went Wrong with this product ${item.name}. Contact with Bay of Syle.`,
+			// 	// 	});
+			// 	// }
+			// 	// console.log(saveItem)
+			// });
 
 			res.status(HTTPStatus.OK).json({
 				status: "successfull",
@@ -114,7 +116,9 @@ router.post("/checkout", async (req, res, next) => {
 			});
 		}
 	} catch (err) {
+		console.log(err)
 		if (err.isJoi == true) {
+			
 			// err.status = 422;
 			next(createError.UnprocessableEntity(err.message));
 		}

@@ -31,7 +31,7 @@ const checkOutSchema = joi.object({
 const orderdItemsSchema = joi.object({
 	productId: joi.number().min(1).required(),
 	name: joi.string().min(2).max(100).required(),
-	qty: joi.number().greater(1).required(),
+	qty: joi.number().greater(0).required(),
 	variants: joi.string().min(2),
 	price: joi.number().greater(10).required(),
 });
