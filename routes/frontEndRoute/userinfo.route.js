@@ -11,6 +11,7 @@ const {
 	decreyptPassword,
 } = require("../../helpers/ValidationSchema/encrypt");
 const { date } = require("joi");
+const HTTPStatus = require("../../HTTPStatus");
 
 const storage = multer.diskStorage({
 	destination: "./upload/images",
