@@ -10,9 +10,9 @@ const {
 const { func } = require("joi");
 //const { json } = require("express");
 const router = express.Router();
-
+const HTTPStatus = require("../../HTTPStatus");
 router.get("/", (req, res) => {
-  res.send("Ecommerce Route");
+	res.send("Ecommerce Route");
 });
 
 router.post("/checkout", async (req, res, next) => {
@@ -202,14 +202,12 @@ router.post("/checkout", async (req, res, next) => {
 
 router.get("/user-order/all/:userId", async (req, res, next) => {
 	const userId = req.params.userId;
-	try{
+	try {
 		const allOrders = await orderQuerry.userAllOrder(userId);
-		res.status(HTTPStatus.OK).json(allOrders);
+		res.status(HTTPStatus.OK).json({ allOrders });
+	} catch (err) {
+		next(err);
 	}
-	catch(err){
-		next(err)
-	}
-	
 });
 router.get("/user-order/pending/:userId", async (req, res, next) => {
 	try {
@@ -221,7 +219,7 @@ router.get("/user-order/pending/:userId", async (req, res, next) => {
 	}
 });
 router.get("/pre-order/pending/:userId", async (req, res, next) => {
-	const userId= req.params.userId;
+	const userId = req.params.userId;
 	// console.log(email);
 	const pandingPreOrders = await orderQuerry.pandingPreOrders(userId);
 	console.log(pandingPreOrders);
@@ -267,5 +265,21 @@ router.post("/pre-order", async (req, res, next) => {
 		next(err);
 	}
 });
-
+router.get("/shippingCost/:ids", async (req, res, next) => {
+	const productIds = req.params.ids;
+	// console.log(productIds)
+	try {
+		const getShippingCost = await orderQuerry.getSingleProductShippingCost(
+			productIds
+		);
+		if (getShippingCost) {
+			res.status(HTTPStatus.OK).json({
+				status: "successfull",
+				data: getShippingCost,
+			});
+		}
+	} catch (err) {
+		next(err);
+	}
+});
 module.exports = router;

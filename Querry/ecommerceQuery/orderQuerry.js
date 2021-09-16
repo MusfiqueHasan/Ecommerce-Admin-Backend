@@ -14,6 +14,7 @@ const orderQuerry = {
 	getAllPreOrders,
 	updatePreOrderStatus,
 	deletePreOrderById,
+	getSingleProductShippingCost,
 };
 async function saveOrder(
 	userId,
@@ -52,7 +53,7 @@ async function saveOrder(
 		totalCost,
 		shippingCost,
 		address,
-    country,
+		country,
 	];
 	return PromiseModule.createUpdateDelete(sqlQuery, orderData);
 }
@@ -71,12 +72,11 @@ async function saveOrderedItems(
 	return PromiseModule.createUpdateDelete(sqlQuery, itemsData);
 }
 async function userAllOrder(userId) {
-	const sqlQuery = `SELECT orderedproduct.product_name,orderedproduct.variants,orderedproduct.qty,orderedproduct.price,orderedproduct.status, orderdata.order_date FROM orderdata INNER JOIN orderedproduct ON orderdata.id=orderedproduct.orderId and user_id = '${userId}' ORDER by order_date DESC`;
+	const sqlQuery = `SELECT orderdata.id,orderedproduct.product_name,orderedproduct.variants,orderedproduct.qty,orderedproduct.price,orderdata.order_status as status , orderdata.order_date FROM orderdata INNER JOIN orderedproduct ON orderdata.id=orderedproduct.orderId and user_id = '${userId}' ORDER by order_date DESC`;
 	return PromiseModule.readData(sqlQuery);
 }
 async function userPendingOrder(userId) {
-	
-	const sqlQuery = `SELECT orderedproduct.id,orderedproduct.product_name,orderedproduct.variants,orderedproduct.qty,orderedproduct.price,orderdata.order_status as status ,orderdata.order_date FROM orderdata INNER JOIN orderedproduct ON orderdata.id=orderedproduct.orderId and orderdata.user_id = '${userId}' and orderdata.order_status='On hold' ORDER by order_date DESC`;
+	const sqlQuery = `SELECT orderdata.id,orderedproduct.product_name,orderedproduct.variants,orderedproduct.qty,orderedproduct.price,orderdata.order_status as status ,orderdata.order_date FROM orderdata INNER JOIN orderedproduct ON orderdata.id=orderedproduct.orderId and orderdata.user_id = '${userId}' and orderdata.order_status='On hold' ORDER by order_date DESC`;
 	return PromiseModule.readData(sqlQuery);
 }
 
@@ -143,5 +143,9 @@ async function getAllPreOrders() {
 async function deletePreOrderById(id) {
 	const sqlQuery = `DELETE FROM preorder WHERE id = (?)`;
 	return PromiseModule.createUpdateDelete(sqlQuery, [id]);
+}
+async function getSingleProductShippingCost(productIds) {
+	const sqlQuery = `SELECT * FROM product_shipping INNER JOIN shipping ON shipping_id = shipping.shipping_class_id and product_id in (${productIds})`;
+	return PromiseModule.readData(sqlQuery);
 }
 module.exports = orderQuerry;
