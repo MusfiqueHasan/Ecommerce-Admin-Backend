@@ -3,6 +3,8 @@ const routes = express.Router();
 const createError = require("http-errors");
 const { valid } = require("joi");
 const AdminAuthQuerry = require("../../Querry/admin_querry");
+
+const HTTPStatus = require("../../HTTPStatus");
 const {
 	encryptPassword,
 	decreyptPassword,
@@ -118,7 +120,7 @@ routes.post("/login", async (req, res, next) => {
 			throw createError.Unauthorized("Invalid User");
 		}
 	} catch (err) {
-		// console.log(err)
+		console.log(err)
 		// if (err.isJoi === true)
 		// 	next(createError.BadRequest("Invalid email/password"));
 		next(err);
