@@ -12,7 +12,6 @@ const { func } = require("joi");
 const HTTPStatus = require("../../HTTPStatus");
 //const { json } = require("express");
 const router = express.Router();
-const HTTPStatus = require("../../HTTPStatus");
 router.get("/", (req, res) => {
 	res.send("Ecommerce Route");
 });
@@ -85,30 +84,30 @@ router.post("/checkout", async (req, res, next) => {
 			const orderId = orderStored.insertId;
 			// now save each ordered product
 
-			// orderedItems.map(async (item) => {
-			// 	const variants = item.variants ? item.variants : "";
-			// 	try {
-			// 		const saveItem = await orderQuerry.saveOrderedItems(
-			// 			orderId,
-			// 			item.productId,
-			// 			item.name,
-			// 			variants,
-			// 			item.qty,
-			// 			item.price
-			// 		);
-			// 	} catch (err) {
-			// 		console.log(err);
-			// 		next(err);
-			// 	}
+			orderedItems.map(async (item) => {
+				const variants = item.variants ? item.variants : "";
+				try {
+					const saveItem = await orderQuerry.saveOrderedItems(
+						orderId,
+						item.productId,
+						item.name,
+						variants,
+						item.qty,
+						item.price
+					);
+				} catch (err) {
+					console.log(err);
+					next(err);
+				}
 
-			// 	// if (!saveItem) {
-			// 	// 	res.status().json({
-			// 	// 		status: "Error",
-			// 	// 		message: `Something went Wrong with this product ${item.name}. Contact with Bay of Syle.`,
-			// 	// 	});
-			// 	// }
-			// 	// console.log(saveItem)
-			// });
+				// if (!saveItem) {
+				// 	res.status().json({
+				// 		status: "Error",
+				// 		message: `Something went Wrong with this product ${item.name}. Contact with Bay of Syle.`,
+				// 	});
+				// }
+				// console.log(saveItem)
+			});
 
 			res.status(HTTPStatus.OK).json({
 				status: "successfull",
