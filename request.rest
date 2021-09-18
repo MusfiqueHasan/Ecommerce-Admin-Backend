@@ -354,7 +354,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/ecommrece/user-order/all/5
+GET http://localhost:5000/api/ecommrece/user-order/all/7
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
 
 ###
@@ -368,14 +368,14 @@ Content-Type: application/json
 {
     "userId":5,
     "email":"nakib2@gmail.com",
-    "productName":"iphone 14 pro max",
+    "productName":"iphone 15 pro max",
     "productDetails":"ordering iphone",
     "qty":2,
     "phoneNumber":"01710203288"
 }
 
 ###
-GET http://localhost:5000/api/ecommrece/pre-order/pending/5
+GET http://localhost:5000/api/ecommrece/pre-order/pending/7
 
 
 ###
@@ -471,7 +471,7 @@ GET http://localhost:5000/api/inventories
 GET http://localhost:5000/api/inventories/variations/235
 
 ###
-GET http://localhost:5000/api/products/price/235
+GET http://localhost:5000/api/products/price/235,233
 
 ###
 GET http://localhost:5000/api/ecommerce/analytics/inventory
@@ -575,3 +575,6 @@ Content-Type: application/json
     "shipping_zone": ["DHAKA,BANGLADESH","CHITTAGONG,BANGLADESH"],
     "shipping_rate": 100
 }
+
+###
+GET http://localhost:5000/api/ecommrece/shippingCost/235,233
