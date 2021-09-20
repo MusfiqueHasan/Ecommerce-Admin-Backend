@@ -16,7 +16,7 @@ const pool = createPool({
   password: PASSWORD,
   database: DATABASE,
   connectionLimit: CONNECTION_LIMIT,
-  multipleStatements: true,
+  multipleStatements: true
 });
 
 const transporter = nodemailer.createTransport({

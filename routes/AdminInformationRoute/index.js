@@ -29,9 +29,10 @@ routes.patch("/admin-info/general", async (req, res) => {
   const address = req.body.address;
   const contact_no = req.body.contact_no;
   const schedule = req.body.schedule;
+  const about_us = req.body.about_us || '';
 
   try {
-    const adminInfo = [email, address, contact_no, schedule, id];
+    const adminInfo = [email, address, contact_no, schedule,about_us, id];
     const response = await AdminInfoQuery.updateAdminGeneralInfo(adminInfo);
     const jsonObject = {
       massage: "Success",

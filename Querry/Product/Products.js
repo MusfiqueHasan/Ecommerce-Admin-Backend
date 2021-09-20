@@ -40,6 +40,7 @@ const Products = {
   updateProductSkuById,
   removeProduct,
   removeProductVariants,
+  removeProductDetails
 };
 
 async function addProducts(productDetails) {
@@ -98,7 +99,7 @@ async function addProductGallery(product_gallery) {
 
 async function getProducts(pageNumber, productLimit) {
   let sqlSearch =
-    "SELECT p.product_id,p.slug,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.product_id";
+    "SELECT p.product_id,p.slug,p.sku,p.isTaxable,p.isDisableDiscount,p.hasFreeShipping,p.featured_img,p.view_on_website,p.regular_price,p.popular_product,p.featured_product, p.discount_price,p.product_status_id,p.updated_at,p.inventory_status,pd.product_name,Product_attribute.attribute_id,Product_attribute.option_name,p.productType, Product_attribute.option_id, Product_attribute.attribute_name,pp.category_id,pp.name as category_name FROM product as p INNER JOIN product_details as pd ON p.product_id = pd.product_id INNER JOIN (SELECT categories.category_id,categories.name,product_categories.product_id from product_categories,categories WHERE product_categories.category_id = categories.category_id )  as pp ON pp.product_id = p.product_id LEFT JOIN ( SELECT pa.attribute_id, pa.product_id, attributes.attribute_name,options.option_id,options.option_name FROM product_attribute as pa, attributes,options,product_options WHERE pa.attribute_id = attributes.attribute_id AND options.option_id =product_options.option_id AND pa.product_id = product_options.product_id   ) as Product_attribute On Product_attribute.product_id = p.product_id ORDER BY p.product_id";
 
   if (pageNumber) {
     // limit
@@ -278,8 +279,13 @@ async function updateProductSkuById(updatedSku) {
 }
 
 async function removeProduct(productId) {
-  const sqlDeleteStatement = `Delete from product where product_id = ${productId}; Delete from product_details where product_id = ${productId}; Delete from product_categories where product_id = ${productId}; Delete from product_options where product_id = ${productId}; Delete from product_reviews where product_id = ${productId}; Delete from product_shipping where product_id = ${productId}; Delete from product_tags where product_id = ${productId}; Delete from product_attribute where product_id = ${productId}; Delete from prduct_inventory where product_id = ${productId};`;
+  const sqlDeleteStatement = `Delete from product_categories where product_id = ${productId}; Delete from product_options where product_id = ${productId}; Delete from product_reviews where product_id = ${productId}; Delete from product_shipping where product_id = ${productId}; Delete from product_tags where product_id = ${productId}; Delete from product_attribute where product_id = ${productId}; Delete from prduct_inventory where product_id = ${productId};`;
   return PromiseModule.multipleQueryStatement(sqlDeleteStatement);
+}
+
+async function removeProductDetails(productId){
+  const sqlDeleteStatement = `Delete from product where product_id = ${productId}; Delete from product_details where product_id = ${productId};`
+  return PromiseModule.multipleQueryStatement(sqlDeleteStatement)
 }
 
 async function removeProductVariants(productId) {

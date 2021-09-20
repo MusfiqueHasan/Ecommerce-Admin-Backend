@@ -17,7 +17,7 @@ async function getPaymentDetails() {
   return PromiseModule.readData(sqlSearch);
 }
 async function updateAdminGeneralInfo(adminInfo) {
-  const sqlUpdate = `Update admin_informations Set email = ?, address = ?, contact_no = ?,schedule = ? where  id = ?`;
+  const sqlUpdate = `Update admin_informations Set email = ?, address = ?, contact_no = ?,schedule = ?,about_us=? where  id = ?`;
   return PromiseModule.createUpdateDelete(sqlUpdate, adminInfo);
 }
 async function updateAdminPaymentInfo(paymentInfo) {

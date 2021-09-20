@@ -140,6 +140,7 @@ routes.delete("/products/:id", async (req, res) => {
     return res.status(404).json({ massage: "Product is not found" });
 
   try {
+    await ProductQuery.removeProductDetails(id);
     await ProductQuery.removeProduct(id);
     await ProductQuery.removeProductVariants(id);
     const jsonObject = {
