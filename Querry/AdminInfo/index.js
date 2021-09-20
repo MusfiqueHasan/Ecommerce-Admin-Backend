@@ -6,6 +6,7 @@ const AdminInfo = {
   updateAdminGeneralInfo,
   updateAdminPaymentInfo,
   getSliderImg,
+  updateSliderImg,
 };
 
 async function getAdminInfo() {
@@ -33,9 +34,15 @@ async function updateAdminPaymentInfo(paymentInfo) {
   return PromiseModule.createUpdateDelete(query, paymentInfo);
 }
 
-async function getSliderImg(){
+async function getSliderImg() {
   const sqlQuerry = `SELECT * FROM theme_config WHERE name='slider-image'`;
-  return PromiseModule.readData(sqlQuerry)
+  return PromiseModule.readData(sqlQuerry);
+}
+
+async function updateSliderImg(sliderData) {
+  const sqlUpdate = `Update theme_config set value=?,updated_date =? where name='slider-image'`;
+
+  return PromiseModule.createUpdateDelete(sqlUpdate, sliderData);
 }
 
 module.exports = AdminInfo;
