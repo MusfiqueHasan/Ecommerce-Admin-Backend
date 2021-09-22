@@ -43,12 +43,14 @@ async function createUpdateDelete(sqlQuery, sqlValue) {
 }
 
 async function sendMail(mailOptions) {
-  return transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      reject(error);
-    } else {
-      resolve(info);
-    }
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(info);
+      }
+    });
   });
 }
 module.exports = PromiseModule;
