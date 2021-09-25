@@ -217,3 +217,11 @@ response:
 {
   "massage": "success"
 }
+
+### delete any category by it's ID
+DELETE http://localhost:5000/api/category/category
+Content-Type: application/json
+
+{
+    "id" : "4"
+}
