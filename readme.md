@@ -88,3 +88,132 @@ response:
     ]
   }
 }
+
+### get all categories
+GET http://localhost:5000/api/category/categories
+
+response:
+{
+  "massage": "success",
+  "results": [
+    {
+      "category_id": 1,
+      "name": "Kurti",
+      "parent_id": -1000,
+      "inserted_at": "2021-09-25T14:55:06.000Z",
+      "updated_at": "2021-09-19T11:13:46.000Z",
+      "description": ""
+    },
+    {
+      "category_id": 2,
+      "name": "Pakistani Kurti",
+      "parent_id": 1,
+      "inserted_at": "2021-09-19T11:14:09.000Z",
+      "updated_at": "2021-09-19T11:14:09.000Z",
+      "description": ""
+    },
+    {
+      "category_id": 3,
+      "name": "panjabi",
+      "parent_id": -1000,
+      "inserted_at": "2021-09-25T14:56:11.000Z",
+      "updated_at": "0000-00-00 00:00:00",
+      "description": ""
+    },
+    {
+      "category_id": 4,
+      "name": "saree",
+      "parent_id": -1000,
+      "inserted_at": "2021-09-25T14:56:11.000Z",
+      "updated_at": "0000-00-00 00:00:00",
+      "description": ""
+    },
+    {
+      "category_id": 5,
+      "name": "indian panjabi",
+      "parent_id": 3,
+      "inserted_at": "2021-09-25T15:02:10.000Z",
+      "updated_at": "0000-00-00 00:00:00",
+      "description": ""
+    }
+  ]
+}
+
+### get all parent categories
+
+GET http://localhost:5000/api/category/parent-categories
+
+response:
+
+{
+  "massage": "success",
+  "results": [
+    {
+      "category_id": 1,
+      "name": "Kurti",
+      "parent_id": -1000,
+      "inserted_at": "2021-09-25T14:55:06.000Z",
+      "updated_at": "2021-09-19T11:13:46.000Z",
+      "description": ""
+    },
+    {
+      "category_id": 3,
+      "name": "panjabi",
+      "parent_id": -1000,
+      "inserted_at": "2021-09-25T14:56:11.000Z",
+      "updated_at": "0000-00-00 00:00:00",
+      "description": ""
+    },
+    {
+      "category_id": 4,
+      "name": "saree",
+      "parent_id": -1000,
+      "inserted_at": "2021-09-25T14:56:11.000Z",
+      "updated_at": "0000-00-00 00:00:00",
+      "description": ""
+    }
+  ]
+}
+
+### create a new category
+POST http://localhost:5000/api/category/new-category
+Content-Type: application/json
+
+{
+    "data":{
+        "category_name" : "dhuti",
+        "parent_id" : "",
+        "description" : "whatever"
+    }
+}
+
+response:
+{
+  "massage": "success",
+  "results": {
+    "name": "dhuti",
+    "parent_id": -1000,
+    "inserted_at": 0,
+    "updated_at": 0,
+    "description": "whatever"
+  }
+}
+
+### update any category
+
+PATCH  http://localhost:5000/api/category/category
+Content-Type: application/json
+
+{
+    "data":{
+        "id" : "8",
+        "category_name" : "dhuti",
+        "parent_id" : "",
+        "description" : "whatever"
+    }
+}
+
+response:
+{
+  "massage": "success"
+}

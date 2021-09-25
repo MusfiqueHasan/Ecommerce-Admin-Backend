@@ -580,3 +580,42 @@ GET http://localhost:5000/api/ecommrece/shippingCost/235,233
 
 ###
 GET http://localhost:5000/api/blog/blogs
+
+###
+GET http://localhost:5000/api/category/categories
+
+###
+GET http://localhost:5000/api/category/parent-categories
+
+###
+POST http://localhost:5000/api/category/new-category
+Content-Type: application/json
+
+{
+    "data":{
+        "category_name" : "dhuti",
+        "parent_id" : "",
+        "description" : "whatever"
+    }
+}
+
+###
+PATCH  http://localhost:5000/api/category/category
+Content-Type: application/json
+
+{
+    "data":{
+        "id" : "8",
+        "category_name" : "dhuti panjabi",
+        "parent_id" : "",
+        "description" : "what"
+    }
+}
+
+###
+DELETE http://localhost:5000/api/category/category
+Content-Type: application/json
+
+{
+    "id" : "4"
+}
