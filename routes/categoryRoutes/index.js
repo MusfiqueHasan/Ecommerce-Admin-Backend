@@ -60,12 +60,13 @@ routes.post("/new-category" , async(req , res) => {
     }
 })
 
-routes.patch("/category" , async(req,res) => {
+routes.patch("/category/:id" , async(req,res) => {
     try {
         const inputCategory = UpatedCategoryModel(req.body.data);
         console.log(inputCategory);
         if(inputCategory.id && inputCategory.name){
             const response = await CategoryQuerry.updateCategory(inputCategory);
+            // console.log(response);
             const jsonObject = {
                 massage : "success"
             };
@@ -88,7 +89,7 @@ routes.delete("/category", async(req,res) => {
             };
             res.status(HTTPStatus.OK).json(jsonObject);
         } else {
-            throw createError.BadRequest("Invalid ID number");
+            return res.status(HTTPStatus.BAD_REQUEST);
         }
     } catch (error) {
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({massage : "INTERNAL_SERVER_ERROR"});

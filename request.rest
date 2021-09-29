@@ -94,8 +94,7 @@ DELETE http://localhost:5000/api/options/2
 # GET http://localhost:5000/api/products?view_type=1
 ///products
 ###
-GET http://localhost:5000/api/products?page=1&category=80
-
+GET http://localhost:5000/api/products
 ###
 GET http://localhost:5000/api/product-attributes/239
 
@@ -582,6 +581,9 @@ GET http://localhost:5000/api/ecommrece/shippingCost/235,233
 GET http://localhost:5000/api/blog/blogs
 
 ###
+GET http://localhost:5000/api/blog/categories
+
+###
 GET http://localhost:5000/api/category/categories
 
 ###
@@ -604,14 +606,11 @@ PATCH  http://localhost:5000/api/category/category
 Content-Type: application/json
 
 {
-    "data":{
-        "id" : "8",
-        "category_name" : "dhuti panjabi",
-        "parent_id" : "",
-        "description" : "what"
-    }
+    "id" : "8",
+    "category_name" : "dhuti panjabi",
+    "parent_id" : "",
+    "description" : "what"
 }
-
 ###
 DELETE http://localhost:5000/api/category/category
 Content-Type: application/json

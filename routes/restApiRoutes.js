@@ -19,11 +19,11 @@ routes.use(CalenderRoute);
 routes.use(FrontEndRoute);
 routes.use(EmailRoute);
 routes.use(UserRoute);
+routes.use(BlogRoute);
 routes.use("/themeConfig", themeConfig);
 routes.use("/admin", AdminInfoRoute);
 routes.use("/adminAuth", AdminAuthRoute);
 routes.use("/marketing", MarketingRoute);
-routes.use("/blog",BlogRoute);
 routes.use("/category",CategoryRoute);
 
 module.exports = routes;
