@@ -1,7 +1,7 @@
 const express = require("express");
 const routes = express.Router();
 const HTTPStatus = require("../../../HTTPStatus");
-const BlogQuerry = require("../../../Querry/BlogQuerry/BlogQuerry");
+const BlogQuerry = require("../../../Querry/BlogQuerry/CategoryQuerry");
 
 routes.get("/categories" ,async (req,res) => {
     try {
