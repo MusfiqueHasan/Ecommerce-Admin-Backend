@@ -13,9 +13,7 @@ async function getAllCategories() {
 }
 
 async function createNewCategory(inputArray) {
-    console.log(inputArray,"line 22");
     const sqlQuerry = "INSERT INTO blog_categories (category_name, parent_category, updated_at, inserted_at, description) Values?";
-    // const inputArray = [inputCategory.name , inputCategory.parent_id,inputCategory.inserted_at,inputCategory.updated_at,inputCategory.description];
     return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);
 }
 

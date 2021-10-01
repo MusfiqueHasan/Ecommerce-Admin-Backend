@@ -9,7 +9,7 @@ routes.get("/categories" ,async (req,res) => {
     try {
         const response = await BlogQuerry.getAllCategories();
         const jsonObject = {
-            message : "succeess",
+            message : "success",
             results : response
         }
         res.status(HTTPStatus.OK).json(jsonObject);
@@ -21,12 +21,13 @@ routes.get("/categories" ,async (req,res) => {
 routes.post("/categories" ,async(req,res) => {
 
     const {
-        category_name ,
-        parent_id , 
-        description
-    } = req.body;
+        name ,
+        description,
+        parent_id
+    } = req.body.categoryData;
 
     const parent_category  = parent_id ? parent_id : null;
+    const category_name = name;
     const updated_at = getTimeStamp();
     const inserted_at = getTimeStamp();
 
@@ -42,9 +43,8 @@ routes.post("/categories" ,async(req,res) => {
     ];
 
     try {
-        console.log("hola");
         const response = await BlogQuerry.createNewCategory([inputArray]);
-        res.status(HTTPStatus.OK).json({message : "Success"});
+        res.status(HTTPStatus.OK).json({message : "success"});
     } catch (error) {
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({message : "INTERNAL SERVER ERROR"});
     }
@@ -53,12 +53,13 @@ routes.post("/categories" ,async(req,res) => {
 routes.patch("/categories/:id",async(req,res) => {
     const {id} = req.params;
     const {
-        category_name ,
-        parent_id , 
-        description
-    } = req.body;
+        name ,
+        description,
+        parent_id
+    } = req.body.categoryData;
 
     const category_id = id ? id : null;
+    const category_name = name;
     const parent_category  = parent_id ? parent_id : null;
     const updated_at = getTimeStamp();
 
@@ -74,7 +75,6 @@ routes.patch("/categories/:id",async(req,res) => {
         category_id
     ]
     try {
-        console.log("hola");
         const response = await BlogQuerry.updateCategory(newCategoryArray);
         res.status(HTTPStatus.OK).json({message : "success"});
     } catch (error) {

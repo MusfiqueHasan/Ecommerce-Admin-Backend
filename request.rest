@@ -595,19 +595,23 @@ POST http://localhost:5000/api/blog/categories
 Content-Type: application/json
 
 {
-    "category_name" : "pant",
-    "parent_id" : "",
-    "description" : "whatever"
+    "categoryData":{
+        "name":"Bagss", 
+        "description":"", 
+        "parent_id":80
+    }
 }
 
 ###
-PATCH  http://localhost:5000/api/blog/categories/4
+PATCH  http://localhost:5000/api/blog/categories/9
 Content-Type: application/json
 
 {
-    "category_name" : "pant",
-    "parent_id" : "",
-    "description" : "whatever updated"
+    "categoryData":{
+        "name":"Bag", 
+        "description":"updated", 
+        "parent_id":80
+    }
 }
 ###
-DELETE http://localhost:5000/api/blog/categories/4
+DELETE http://localhost:5000/api/blog/categories/9
