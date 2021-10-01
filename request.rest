@@ -580,8 +580,6 @@ GET http://localhost:5000/api/ecommrece/shippingCost/235,233
 ###
 GET http://localhost:5000/api/blog/blogs
 
-###
-GET http://localhost:5000/api/blog/categories
 
 ###
 GET http://localhost:5000/api/category/categories
@@ -590,12 +588,15 @@ GET http://localhost:5000/api/category/categories
 GET http://localhost:5000/api/category/parent-categories
 
 ###
-POST http://localhost:5000/api/category/new-category
+GET http://localhost:5000/api/blog/categories
+
+###
+POST http://localhost:5000/api/blog/categories
 Content-Type: application/json
 
 {
     "data":{
-        "category_name" : "dhuti",
+        "category_name" : "pant",
         "parent_id" : "",
         "description" : "whatever"
     }
