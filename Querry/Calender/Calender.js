@@ -17,6 +17,7 @@ async function getEvent(userId, calendar) {
 }
 
 async function insertEvent(insertedData) {
+  console.log(insertedData);
   const sqlInsert =
     "Insert Into calender (title,start,end,allDay,url,calendar,location,description) Values?";
   return PromiseModule.createUpdateDelete(sqlInsert, insertedData);

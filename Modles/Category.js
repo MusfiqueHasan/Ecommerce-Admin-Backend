@@ -1,15 +1,19 @@
 const { getTimeStamp } = require("../Utils/Utils");
 
 const NewCategoryModel = (category_name,parent_id,description) =>{
+    
+    
     const newCategory = { 
-        name : category_name || null,
-        parent_id : parent_id || null,
-        inserted_at : getTimeStamp(),
+        category_id : null,
+        category_name : category_name || null,
+        parent_category : parent_id  ? parent_id : null,
         updated_at : getTimeStamp(),
+        inserted_at : getTimeStamp(),
         description : description || null
     };
+    console.log("completed");
     const newCategoryArray = [
-        newCategory.name,
+        newCategory.category_name,
         newCategory.parent_id,
         newCategory.inserted_at,
         newCategory.updated_at,
