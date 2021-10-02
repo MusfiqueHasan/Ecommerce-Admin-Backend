@@ -11,8 +11,6 @@ const apis = require("./routes/allApiRoutes");
 app.use(express.json({ type: "application/json" }));
 app.use(express.urlencoded({ extended: true }));
 
-
-
 const port = PORT || 5000;
 app.use(cors());
 app.use(apis);

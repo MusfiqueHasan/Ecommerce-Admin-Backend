@@ -19,9 +19,7 @@ routes.get("/orders", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res
-      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-      .json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -46,9 +44,7 @@ routes.get("/orders/:id", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res
-      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-      .json({ massage: error.massage });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: error.massage });
   }
 });
 
@@ -59,7 +55,6 @@ routes.patch("/orders/:id", async (req, res) => {
   const orders = req.body.orders;
   const html = req.body.html;
   const previous_status = req.body.previous_status;
-  const user_email = req.body.user_email || null;
 
   const increasedQuantity = ["Completed", "Processing", "Pending Payment"];
   const decreasedQuantity = ["On hold", "Cancelled", "Failed", "Refund"];
@@ -89,10 +84,10 @@ routes.patch("/orders/:id", async (req, res) => {
   if (orders.length === 0)
     return res.status(404).json({ massage: "Order item is empty" });
   const mailOptions = {
-    to: user_email,
-    subject: "Order Status",
+    to: "ratulbhowmick66@gmail.com",
+    subject: "Hello World",
     html: html,
-    text: "Order Status",
+    text: "TEST MAIL BODY",
   };
   try {
     const response = await OrderQuery.updateOrderStatus(id, order_status);
@@ -100,7 +95,7 @@ routes.patch("/orders/:id", async (req, res) => {
       (await InventoryQuery.updateInventory(orders, quantityTypeStatus));
 
     await InventoryQuery.updateStockStatus(orders);
-    user_email && (await PromiseModule.sendMail(mailOptions));
+    // await PromiseModule.sendMail(mailOptions);
     const jsonObject = {
       massage: "Success Updated!",
     };
@@ -108,9 +103,7 @@ routes.patch("/orders/:id", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res
-      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-      .json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -123,9 +116,7 @@ routes.get("/pre-orders", async (req, res) => {
     };
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
-    res
-      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-      .json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -149,9 +140,7 @@ routes.patch("/pre-orders/:id", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res
-      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-      .json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
@@ -170,9 +159,7 @@ routes.delete("/pre-orders/:id", async (req, res) => {
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {
     console.log(error);
-    res
-      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-      .json({ massage: "Internal Server Error!" });
+    res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ massage: "Internal Server Error!" });
   }
 });
 
