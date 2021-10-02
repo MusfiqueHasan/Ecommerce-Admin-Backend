@@ -94,8 +94,7 @@ DELETE http://localhost:5000/api/options/2
 # GET http://localhost:5000/api/products?view_type=1
 ///products
 ###
-GET http://localhost:5000/api/products?page=1&category=80
-
+GET http://localhost:5000/api/products
 ###
 GET http://localhost:5000/api/product-attributes/239
 
@@ -117,7 +116,6 @@ Content-Type: application/json
 
 {
     "product_name":"ABCD",
-    
 }
 
 ###
@@ -580,33 +578,61 @@ Content-Type: application/json
 GET http://localhost:5000/api/ecommrece/shippingCost/235,233
 
 ###
-GET http://localhost:5000/api/email-templates
-
-
-###
-DELETE  http://localhost:5000/api/email-templates/1
-
+GET http://localhost:5000/api/blog/categories
 
 ###
-POST  http://localhost:5000/api/email-templates
+POST http://localhost:5000/api/blog/categories
 Content-Type: application/json
 
 {
-    "template_name":"Test",
-    "emails":[
-        "ratulbhowmick66@gmail.com"
-    ]
+    "categoryData":{
+        "name":"Bagss", 
+        "description":"", 
+        "parent_id":80
+    }
 }
 
-
 ###
-PATCH   http://localhost:5000/api/email-templates/3
+PATCH  http://localhost:5000/api/blog/categories/9
 Content-Type: application/json
 
 {
-    "template_name":"Test3",
-    "emails":[
-        "ratulbhowmick65@gmail.com"
-    ]
+    "categoryData":{
+        "name":"Bag", 
+        "description":"updated", 
+        "parent_id":80
+    }
+}
+###
+DELETE http://localhost:5000/api/blog/categories/9
+
+
+
+###
+GET http://localhost:5000/api/blog/categories
+
+###
+POST http://localhost:5000/api/blog/categories
+Content-Type: application/json
+
+{
+    "categoryData":{
+        "name":"Bagss", 
+        "description":"", 
+        "parent_id":80
+    }
 }
 
+###
+PATCH  http://localhost:5000/api/blog/categories/9
+Content-Type: application/json
+
+{
+    "categoryData":{
+        "name":"Bag", 
+        "description":"updated", 
+        "parent_id":80
+    }
+}
+###
+DELETE http://localhost:5000/api/blog/categories/9
