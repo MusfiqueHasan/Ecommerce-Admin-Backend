@@ -58,15 +58,15 @@ routes.patch("/categories/:id",async(req,res) => {
     const {id} = req.params;
     const {
         name ,
-        description,
         parent_id
     } = req.body.categoryData;
 
-    const category_id = id ? id : null;
-    const category_name = name;
     const parent_category  = parent_id ? parent_id : null;
+    const category_name = name;
     const updated_at = getTimeStamp();
+    const inserted_at = getTimeStamp();
 
+    const description = req.body.categoryData.description || ""; 
     if(!category_id){
         return res.status(HTTPStatus.BAD_REQUEST).json({message : "category id not found"});
     }
