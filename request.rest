@@ -596,7 +596,7 @@ Content-Type: application/json
 
 {
     "categoryData":{
-        "name":"Bagss", 
+        "name":"Bagss YASD", 
         "description":"", 
         "parent_id":80
     }

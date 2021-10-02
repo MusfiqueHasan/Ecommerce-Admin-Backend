@@ -22,7 +22,6 @@ routes.post("/categories" ,async(req,res) => {
 
     const {
         name ,
-        description,
         parent_id
     } = req.body.categoryData;
 
@@ -30,10 +29,8 @@ routes.post("/categories" ,async(req,res) => {
     const category_name = name;
     const updated_at = getTimeStamp();
     const inserted_at = getTimeStamp();
-    
-    if(!description){
-        description = "";
-    }
+
+    const description = req.body.categoryData.description || ""; 
 
     const newCategoryArray = [
         category_name,
