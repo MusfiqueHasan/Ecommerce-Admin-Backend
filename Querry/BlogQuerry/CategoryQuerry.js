@@ -8,7 +8,7 @@ const CategoryQuerry = {
 }
 
 async function getAllCategories() {
-    const sqlQuerry = `SELECT * FROM blog_categories `;  ///// will be in descending order
+    const sqlQuerry = `SELECT * FROM blog_categories ORDER BY category_id DESC`;  ///// will be in descending order
     return PromiseModule.readData(sqlQuerry);
 }
 
