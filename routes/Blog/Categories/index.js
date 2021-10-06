@@ -8,9 +8,17 @@ const { getTimeStamp } = require("../../../Utils/Utils");
 routes.get("/categories", async (req, res) => {
   try {
     const response = await BlogQuerry.getAllCategories();
+    const categories = response.map(item => {
+      return {
+        category_id: item.category_id,
+        name: item.category_name,
+        description: item.description,
+        parent_id: item.parent_category,
+      }
+    })
     const jsonObject = {
       massage: "success",
-      results: response,
+      results: categories,
     };
     res.status(HTTPStatus.OK).json(jsonObject);
   } catch (error) {

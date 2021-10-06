@@ -617,22 +617,22 @@ Content-Type: application/json
 
 {
     "categoryData":{
-        "name":"Bagss", 
-        "description":"", 
-        "parent_id":80
+        "name":"food", 
+        "description":"top 10 food items", 
+        "parent_id":null
     }
 }
 
 ###
-PATCH  http://localhost:5000/api/blog/categories/9
+PATCH  http://localhost:5000/api/blog/categories/12
 Content-Type: application/json
 
 {
     "categoryData":{
         "name":"Bag", 
         "description":"updated", 
-        "parent_id":80
+        "parent_id":null
     }
 }
 ###
-DELETE http://localhost:5000/api/blog/categories/9
+DELETE http://localhost:5000/api/blog/categories/15
