@@ -577,9 +577,6 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/api/ecommrece/shippingCost/235,233
 
-###
-GET http://localhost:5000/api/blog/blogs
-
 
 ###
 GET http://localhost:5000/api/category/categories
@@ -615,3 +612,21 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:5000/api/blog/categories/9
+
+###
+GET http://localhost:5000/api/blogs
+
+###
+POST http://localhost:5000/api/blogs
+Content-Type: application/json
+
+{
+    "title" : "Old culture with new styles",
+    "slug" : "old-culture-with-new-styles",
+    "blogContent" : "Old is always a gold. Always should be",
+    "status" : 1,
+    "id" : 29,
+    "blogImaage" : "",
+    "blogCategoryList": [1,2,3]
+}
+
