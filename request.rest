@@ -627,7 +627,8 @@ Content-Type: application/json
     "status" : 1,
     "id" : 29,
     "blogImaage" : "",
-    "blogCategoryList": [4,5,6]
+    "blogCategoryList": [4,5,6],
+    "images" : "images"
 }
 
 ###

@@ -4,14 +4,14 @@ const Utils = require("../Utils/Utils");
 
 const saveBlog = async(req,res,next) => {
     const content = req.body.blogContent || "";
-    const images = req.body.blogImaage || "";
+    const images = req.body.images || "";
     const updated_at = Utils.getTimeStamp();
     const inserted_at = Utils.getTimeStamp();
     const {
         title,
         slug,
         status,
-        id ////////////////////////////
+        id, ////////////////////////////
     } = req.body;
 
     if(!title && !slug && !status && !id){
