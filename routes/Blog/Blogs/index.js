@@ -9,32 +9,49 @@ const { getTimeStamp } = require("../../../Utils/Utils");
 
 routes.get("/blogs", async(req,res) => {
     try {
-        const response = await BlogQuerry.getAllBlogs();
-        
-        // const blogData = response.map(async (item) => {
-        //     const categoryArray = await BlogQuerry.getCategoryList(item.blog_id);
-        //     return BlogEvent(item,categoryArray);
-        //     // console.log(item.blog_id);
-        // })
-
-        let blogList = [];
-        
-        for(let i = 0 ; i < response.length ; i++){
-            blogList.push(BlogEvent(response[i]));
-            const category_response = await BlogQuerry.getCategoryList(response[i].blog_id);
-            blogList[i].catagory = category_response;
+        const response = await BlogQuerry.getAllBlogDetails();
+        if(response.length === 0){
+            const jsonObject = {
+                massage : "SUCCESS",
+                results : response,
+            }
+            res.status(HTTPStatus.OK).json(jsonObject);
         }
+        let previousValue = BlogEvent(response[0]);
+        let blogList = [];
+        let indexResponse = 0, indexBlogList = 0;
+        previousValue.catagory.push({
+            category_id: response[0].category_id,
+            category_name: response[0].category_name
+        })
+        blogList.push(previousValue);
+        for (indexResponse = 1; indexResponse < response.length; indexResponse++) {
+            let currentValue = response[indexResponse];
 
-        // console.log(blogList);
-
-        // const response_categoryList = await BlogQuerry.getCategoryList(1055);
+            if(previousValue.blog_id == currentValue.blog_id){
+                blogList[indexBlogList].catagory.push({
+                    category_id: currentValue.category_id,
+                    category_name: currentValue.category_name
+                });
+            }
+            else {
+                previousValue = currentValue;
+                const prototype = BlogEvent(currentValue);
+                prototype.catagory.push({
+                    category_id: currentValue.category_id,
+                    category_name: currentValue.category_name
+                })
+                blogList.push(prototype);
+                indexBlogList++;
+            }
+        }
         const jsonObject = {
             massage : "SUCCESS",
             results : blogList,
-            // results : response_categoryList
         }
         res.status(HTTPStatus.OK).json(jsonObject);
     } catch (error) {
+        console.log(error);
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({massage : "INTERNAL_SERVER_ERROR"});
     }
 })
@@ -81,17 +98,18 @@ routes.patch("/blogs/:blog_id", async(req,res) => {
         content,
         status,
         id,
-        images,
-        blog_id
+        images
     ];
 
     try {
         // console.log(updatedBlogArray);
-        const response = await BlogQuerry.updateBlogDetails(updatedBlogArray);
+        const response = await BlogQuerry.updateBlogDetails(blog_id,updatedBlogArray);
         const jsonObject = {
             massage : "success"
         };
+        res.status(HTTPStatus.OK).json({jsonObject});
     } catch (error) {
+        console.log(error);
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({massage : "INTERNAL_SERVER_ERROR"});
     }
 })
