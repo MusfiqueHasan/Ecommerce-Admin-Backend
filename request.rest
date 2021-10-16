@@ -621,13 +621,13 @@ POST http://localhost:5000/api/blogs
 Content-Type: application/json
 
 {
-    "title" : "Old culture with new styles",
-    "slug" : "old-culture-with-new-styles",
+    "title" : "come on dude",
+    "slug" : "come-on-dude",
     "blogContent" : "hjVcDJCJD",
     "status" : 1,
     "id" : 29,
     "blogImaage" : "",
-    "blogCategoryList": [4,5,6],
+    "blogCategoryList": [1,2],
     "images" : "images"
 }
 
@@ -636,7 +636,7 @@ PATCH http://localhost:5000/api/blogs/1055
 Content-Type: application/json
 
 {
-    "title" : "High valued individual",
+    "title" : "High valued individual - HVI",
     "slug" : "high-valued-individual",
     "blogContent" : "hjVcDJCJD",
     "status" : 1,
