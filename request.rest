@@ -1,0 +1,650 @@
+###
+GET http://localhost:5000/api/categories
+
+###
+
+
+POST http://localhost:5000/api/category
+Content-Type: application/json
+
+{
+    "categoryData":{
+        "name":"Bagss", 
+        "description":"", 
+        "parent_id":80
+    }
+}
+
+###
+PATCH  http://localhost:5000/api/categories/80
+Content-Type: application/json
+
+{
+    "categoryData":{
+        "name":"Bag", 
+        "description":"", 
+        "parent_id":80
+    }
+}
+###
+
+DELETE http://localhost:5000/api/categories/76
+
+###
+POST http://localhost:5000/api/add-product
+Content-Type: application/json
+
+{
+    "product":{
+        "categories":[
+            {
+                "value": 77,
+                "label": "Shoes"
+            },
+            {
+                "value": 79,
+                "label": "Bags"
+            }
+        ]
+    }
+}
+
+###
+GET http://localhost:5000/api/attributes
+
+
+###
+GET http://localhost:5000/api/attributes
+
+###
+GET http://localhost:5000/api/attributes/1
+
+
+###
+POST  http://localhost:5000/api/attribute
+Content-Type: application/json
+
+{
+    "attribute_name": "Val"
+}
+
+###
+DELETE http://localhost:5000/api/attributes/12
+
+
+///options
+###
+GET http://localhost:5000/api/options
+
+###
+POST  http://localhost:5000/api/option
+Content-Type: application/json
+
+{
+    "option_name": "Half",
+    "attribute_id": 11
+}
+
+###
+DELETE http://localhost:5000/api/options/2
+
+
+
+# for client side
+# GET http://localhost:5000/api/products?view_type=1
+///products
+###
+GET http://localhost:5000/api/products
+###
+GET http://localhost:5000/api/product-attributes/239
+
+###
+GET http://localhost:5000/api/admin/edit/products/256
+
+
+###
+GET http://localhost:5000/api/admin/products/256
+
+
+###
+DELETE  http://localhost:5000/api/admin/products/231
+
+
+###
+PATCH  http://localhost:5000/api/admin/products/basicInfo/256
+Content-Type: application/json
+
+{
+    "product_name":"ABCD",
+}
+
+###
+GET http://localhost:5000/api/products/kurtiasss
+
+
+###
+PATCH  http://localhost:5000/api/admin/products/shipping/256
+Content-Type: application/json
+
+{
+    "deletedProductShipping":[],
+    "insertedProductShipping":[],
+    "newHasFreeShipping":false,
+    "previousHasFreeShipping":true
+}
+###
+POST http://localhost:5000/api/admin/product
+Content-Type: application/json
+{
+    "product":{
+        "sku": "WTCH-GR-GD5",
+    "product_name": "Watch Golden",
+    "view_on_website":true,
+    "featured_product": true,
+    "popular_product": false,
+     "regular_price":1990,
+     "discount_price":1200,
+     "product_status_id":1,
+     "short_description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae",
+    "   ":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae \n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tempor lacus non ultricies feugiat. Cras a urna at lorem maximus tempor. In hac habitasse platea dictumst. Duis quis sapien pretium, eleifend quam sit amet, molestie sem. In hac habitasse platea dictumst. Nam ultricies ac leo vel ultricies. Duis eget lacinia nulla, vitae viverra eros. Sed finibus erat quis tristique lacinia. Nullam quis porttitor nulla, ac auctor mi. Aliquam erat volutpat. Vestibulum sed cursus risus, sed ultrices nunc. Fusce sed mi auctor, consectetur est non, efficitur augue. Sed at pellentesque orci. Mauris turpis libero, viverra ut nisi vel, commodo viverra nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae",
+    "attribute_id":[
+        {
+            "attribute_id":6,
+            "attribute_name":"Color"
+        },
+        {
+            "attribute_id":7,
+            "attribute_name":"Size"
+        }
+    ],
+    "variants":[
+        {
+            "sku": "WTCH-GR-GD2",
+            "regular_price":1990,
+            "discount_price":1200,
+            "quantity": 3,
+            "combinations":"13"
+            
+        },
+        {
+            "sku": "WTCH-GB-GD1",
+            "regular_price":1900,
+            "discount_price":1100,
+            "quantity": 1,
+            "combinations":"15"
+        }
+    ]
+    }
+}
+
+### 
+GET http://localhost:5000/api/invoices/clients
+
+###
+GET http://localhost:5000/api/invoices/50005
+
+### 
+GET http://localhost:5000/api/invoices
+
+### 
+DELETE  http://localhost:5000/api/invoices/5
+
+### 
+GET http://localhost:5000/api/invoices/lastId
+
+###
+POST http://localhost:5000/api/invoices/client
+Content-Type: application/json
+
+{
+    "customer_name":"Akashsad asd ",
+    "customer_email":"nakib1@gmail.com",
+    "customer_address":"Asadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks d Asadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks dAsadj jashdjk kjsd hkjash dkjsh dkjh sjkdhaks d",
+    "customer_country":"Bangladesh",
+    "customer_contact": "0151529018"
+}
+
+###
+GET http://localhost:5000/api/admin/invoice/search?name=w
+
+###
+POST http://localhost:5000/api/rating
+Content-Type: application/json
+
+{
+    "ratings" :2,
+    "comment": "very bad Products very bad Productsvery bad Productsvery bad Productsvery bad Products very bad Products very bad Products very bad Products very bad Products very bad Products very bad Products very bad Products very bad Productsvery bad Productsvery bad Productsvery bad Productsvery bad Productsvery bad Products very bad Productsvery bad Products very bad Products very bad Products very bad Products very bad Products",
+    "user_email":"nakib1@gmail.com",
+    "product_id":233
+}
+
+###
+GET http://localhost:5000/api/ratings
+
+
+###
+GET  http://localhost:5000/api/ratings/233
+
+###
+DELETE  http://localhost:5000/api/ratings/1
+
+###
+GET http://localhost:5000/api/rating/total
+
+###
+GET http://localhost:5000/api/calendar/events/1?calendar='Business'
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+
+
+
+###
+GET http://localhost:5000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYkBnbWFpbC5jb20iLCJpYXQiOjE2MzEwMjkyOTAsImV4cCI6MTYzMTExNTY5MCwiaXNzIjoiQwemF5T2ZTc3R5bGUuY29tIn0.V8tMYRkQZ1KaLKc6U5yiB9Wuchd6tviMbbXh7-lsRs
+###
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"nakib@gmail.com",
+    "password":"1234"
+}
+
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "name":"nakib",
+    "phonenumber":"093123288",
+    "email":"akram95@gmail.com",
+    "password":"1234"
+}
+
+###
+POST http://localhost:5000/api/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOjMsImF1ZEVtYWlsIjoibmFraWJAZ21haWwuY29tIiwiaWF0IjoxNjMxMzYzMTczLCJleHAiOjE2MzE0NDk1NzMsImlzcyI6IkJheU9mU3R5bGUuY29tIn0.wC4ItY0O4e-1pkCOg5iChjg0QOHTR_wuVp0vAJVmv3I"
+}
+
+###
+GET http://localhost:5000/api/auth/testToken/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOjMsImF1ZEVtYWlsIjoibmFraWJAZ21haWwuY29tIiwiaWF0IjoxNjMxMzYzMjMwLCJleHAiOjE2MzE0NDk2MzAsImlzcyI6IkJheU9mU3N0eWxlLmNvbSJ9.6i0dZzSvmVHBJUcDH0aRF_fjYllHIYhdwmC8qg32dt4
+
+
+###
+GET http://localhost:5000/api/ecommrece
+
+###
+POST http://localhost:5000/api/ecommrece/checkout
+Content-Type: application/json
+
+{
+    "userId":12,
+    "email":"nakib@gmail.com",
+	"fullName":"nakib1",
+	"phoneNumber":"0171203211",
+    "country":"Bangladesh",
+	"division":"dhaka",
+	"city":"dhaka",
+	"address":"Dhanmondi Uttara dhaka",
+	"payOption":"Cash on Delivery",
+	"payMedium":"",
+	"message":"qwee",
+	"payPhnNumber":"",
+	"transId":null,
+    "orderedItems":[
+     {
+         "productId":0,
+         "qty":2,
+         "price":320,
+         "variants":"[l,red]",
+         "name":"apple watchA"
+     },
+     {
+         "productId":2,
+         "qty":2,
+         "price":320,
+         "name":"apple watchB"
+     }
+    ],
+    "totalCost":1200,
+    "shippingCost":0
+}
+
+
+###
+POST http://localhost:5000/api/ecommrece/order
+Content-Type: application/json
+
+{
+    "email":"nakib@gmail.com",
+	"fullName":"nakib",
+	"phoneNumber":"017120321",
+    "country":"Bangladesh",
+	"division":"dhaka",
+	"city":"dhaka",
+	"address":"Dhanmondi Uttara dhaka",
+	"payOption":"1",
+	"payMedium":"1",
+	"message":"order",
+	"payPhnNumber":"01323131",
+	"transId":"afdwad",
+    "orderedItems":[
+     {
+         "productId":1,
+         "qty":2,
+         "price":320,
+         "variants":"[l,red]",
+         "name":"apple watchA"
+     },
+     {
+         "productId":2,
+         "qty":2,
+         "price":320,
+         "name":"apple watchB"
+     }
+    ],
+    "totalCost":1200,
+    "shippingCost":30
+}
+
+###
+GET http://localhost:5000/api/ecommrece/user-order/all/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+
+###
+GET http://localhost:5000/api/ecommrece/user-order/pending/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNTkwLCJleHAiOjE2MjkwNTA2MDUsImlzcyI6Im91cndlYnNpdGUuY29tIn0.HEvGQlgEbF3xigtJ5vIQMTSSWcUNZgUIUm9z6vN5A4A
+
+###
+POST http://localhost:5000/api/ecommrece/pre-order 
+Content-Type: application/json
+
+{
+    "userId":5,
+    "email":"nakib2@gmail.com",
+    "productName":"iphone 15 pro max",
+    "productDetails":"ordering iphone",
+    "qty":2,
+    "phoneNumber":"01710203288"
+}
+
+###
+GET http://localhost:5000/api/ecommrece/pre-order/pending/7
+
+
+###
+GET http://localhost:5000/api/orders
+
+
+
+###
+GET http://localhost:5000/api/orders/40001
+
+
+
+###
+POST http://localhost:5000/api/send-email
+Content-Type: application/json
+
+{
+    "to": "ratulbhowmick66@gmail.com",
+    "subject": "Hello World",
+    "html": "Mail of test sendmail ",
+    "text": "TEST MAIL BODY"
+}
+
+###
+GET http://localhost:5000/api/pre-orders
+
+
+###
+
+GET http://localhost:5000/api/files
+###
+
+GET http://localhost:5000/api/tags/9001
+
+
+###
+
+GET http://localhost:5000/api/users
+
+###
+GET http://localhost:5000/api/users/12
+
+
+
+# user info 
+###
+POST http://localhost:5000/api/userinfo/update/generalInfo
+Content-Type: application/json
+
+{
+    "userId":12,
+    "firstName":"akram1",
+    "lastName":"hossain1",
+    "userName":"nakin55",
+    "phoneNumber":"01932345"
+
+}
+###
+POST  http://localhost:5000/api/userinfo/update/password
+Content-Type: application/json
+
+{
+    "userId":10,
+    "email":"nakib16@gmail.com",
+    "password":"1234",
+    "newPassword":"1234"
+}
+
+###
+POST http://localhost:5000/api/userinfo/update/address
+Content-Type: application/json
+
+{
+    "userId":14,
+    "country":"Bangladesh",
+    "city":"Dhaka",
+    "division":"Dhaka",
+    "address":"Uttara Dhaka 12/A"
+}
+
+###
+GET http://localhost:5000/api/userinfo/10
+Authorization: Bearer updateGeneralInfosdadsad
+
+###
+GET http://localhost:5000/api/admin/admin-info
+
+###
+GET http://localhost:5000/api/inventories
+
+
+###
+GET http://localhost:5000/api/inventories/variations/235
+
+###
+GET http://localhost:5000/api/products/price/235,233
+
+###
+GET http://localhost:5000/api/ecommerce/analytics/inventory
+
+###
+POST http://localhost:5000/api/adminAuth/register
+Content-Type: application/json
+
+{
+    "adminRole":"Admin",
+	"adminEmail":"nakib11@gmail.com",
+	"newStaffUsername":"nakib124",
+	"newStaffEmail":"nakib1343@gmail.com",
+	"newStaffPassword":"1234",
+	"newStaffRole":"Admin"
+}
+
+###
+POST http://localhost:5000/api/adminAuth/login
+Content-Type: application/json
+
+{
+    "email":"nakib3@gmail.com",
+    "role":"Staff",
+    "password":"1234"
+}
+
+###
+POST  http://localhost:5000/api/adminAuth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjNAZ21haWwuY29tIiwiaWF0IjoxNjMwMzIzNjMwLCJleHAiOjE2MzAzMjM2NjAsImlzcyI6Im91cndlYnNpdGUuY29tIn0.aIWzl_6hCMtrktjkMJkMmUFIEqNaL1t2mOHO0-YLOeE"
+
+}
+
+###
+POST http://localhost:5000/api/adminAuth/logout
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjJAZ21haWwuY29tIiwiaWF0IjoxNjI5MDUwNjI0LCJleHAiOjE2MjkwNTA2NTQsImlzcyI6Im91cndlYnNpdGUuY29tIn0.gqb2vwqH3X4nLdRROeSRasU2SOudabJ2b3BAmWicgNM"
+}
+
+
+###
+GET http://localhost:5000/api/adminAuth/checkadminRoute
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJuYWtpYjNAZ21haWwuY29tIiwiaWF0IjoxNjMwMzI0Mzk5LCJleHAiOjE2MzAzMjQ0MjksImlzcyI6Im91cndlYnNpdGUuY29tIn0.MBurN67w5A6GZoN7K5Yid8XLwk1-YMne1RoKnchKdxo
+
+
+
+###
+GET http://localhost:5000/api/themeConfig/slider-image
+
+###
+GET http://localhost:5000/api/products
+
+###
+GET http://localhost:5000/api/newArrival/
+
+###
+
+GET http://localhost:5000/api/popularProducts
+
+###
+GET http://localhost:5000/api/featureProducts
+
+
+###
+GET http://localhost:5000/api/discounted-products
+
+###
+GET http://localhost:5000/api/related-products?categoryId=82&productId=231
+
+###
+GET http://localhost:5000/api/shipping
+
+###
+POST http://localhost:5000/api/shipping
+Content-Type: application/json
+
+{
+    "shipping_name":"CHECK",
+    "shipping_type": "1",
+    "shipping_zone": ["DHAKA,BANGLADESH","CHITTAGONG,BANGLADESH"],
+    "shipping_rate": 100
+}
+
+
+###
+DELETE  http://localhost:5000/api/shipping/2
+
+
+###
+PATCH  http://localhost:5000/api/shipping/3
+Content-Type: application/json
+
+{
+    "shipping_name":"CHECK1",
+    "shipping_type": "2",
+    "shipping_zone": ["DHAKA,BANGLADESH","CHITTAGONG,BANGLADESH"],
+    "shipping_rate": 100
+}
+
+###
+GET http://localhost:5000/api/ecommrece/shippingCost/235,233
+
+
+###
+GET http://localhost:5000/api/category/categories
+
+###
+GET http://localhost:5000/api/category/parent-categories
+
+###
+GET http://localhost:5000/api/blog/categories
+
+###
+POST http://localhost:5000/api/blog/categories
+Content-Type: application/json
+
+{
+    "categoryData":{
+        "name":"Bagss YASD", 
+        "description":"", 
+        "parent_id":80
+    }
+}
+
+###
+PATCH  http://localhost:5000/api/blog/categories/9
+Content-Type: application/json
+
+{
+    "categoryData":{
+        "name":"Bag", 
+        "description":"updated", 
+        "parent_id":80
+    }
+}
+###
+DELETE http://localhost:5000/api/blog/categories/9
+
+###
+GET http://localhost:5000/api/blogs
+
+###
+POST http://localhost:5000/api/blogs
+Content-Type: application/json
+
+{
+    "title" : "come on dude",
+    "slug" : "come-on-dude",
+    "blogContent" : "hjVcDJCJD",
+    "status" : 1,
+    "id" : 29,
+    "blogImaage" : "",
+    "blogCategoryList": [1,2],
+    "images" : "images"
+}
+
+###
+PATCH http://localhost:5000/api/blogs/1055
+Content-Type: application/json
+
+{
+    "title" : "High valued individual - HVI",
+    "slug" : "high-valued-individual",
+    "blogContent" : "hjVcDJCJD",
+    "status" : 1,
+    "id" : 29,
+    "blogImaage" : "",
+    "blog_id" : 1055,
+    "blogCategoryList": [1,2,3]
+}
+
+###
+DELETE http://localhost:5000/api/blogs/1053
