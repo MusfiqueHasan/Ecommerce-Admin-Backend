@@ -7,6 +7,7 @@ const BlogQuerry = {
     postNewBlog,
     saveBlogCategoryRelation,
     updateBlogDetails,
+    deleteCategoriesByCategoryId,
     deleteRelation,
     deleteBlog,
 }
@@ -37,8 +38,12 @@ async function saveBlogCategoryRelation(inputArray) {
 }
 
 async function updateBlogDetails(blog_id,inputArray) {
-    const sqlQuerry = `UPDATE blog SET title = ? , slug = ? , updated_at = ? , content = ? , product_status_id = ? , id = ? , images = ? WHERE blog_id = ${blog_id}`;
+    const sqlQuerry = `UPDATE blog SET title =?,slug=?,updated_at=?,content=?,product_status_id=?,id=?,images=? WHERE blog_id = ${blog_id} ;`;
     return PromiseModule.createUpdateDelete(sqlQuerry, inputArray);
+}
+async function deleteCategoriesByCategoryId(inputDeletedCategories) {
+    const sqlQuerry = "DELETE FROM category_blog_relation WHERE (blog_id,category_id) IN (?)";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputDeletedCategories);
 }
 
 async function deleteRelation(inputData) {

@@ -632,18 +632,19 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:5000/api/blogs/1055
+PATCH http://localhost:5000/api/blogs/1056
 Content-Type: application/json
 
 {
     "title" : "High valued individual - HVI",
-    "slug" : "high-valued-individual",
+    "slug" : "high-valued-individual-hvi",
     "blogContent" : "hjVcDJCJD",
     "status" : 1,
     "id" : 29,
     "blogImaage" : "",
     "blog_id" : 1055,
-    "blogCategoryList": [1,2,3]
+    "insertedCategories": [10,12,13],
+    "deletedCategories" : []
 }
 
 ###

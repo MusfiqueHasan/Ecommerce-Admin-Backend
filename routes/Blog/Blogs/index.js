@@ -34,7 +34,6 @@ routes.get("/blogs", async(req,res) => {
             if(previousValue.blog_id == currentValue.blog_id){
                 blogList[indexBlogList].catagory.push(categoryDetails);
             }
-            ///asdasd
             else {
                 previousValue = currentValue;
                 const prototype = BlogEvent(currentValue);
@@ -75,6 +74,7 @@ routes.post("/blogs", saveBlog, async(req,res) => {
 })
 
 routes.patch("/blogs/:blog_id", async(req,res) => {
+    const {blog_id} = req.params;
     const content = req.body.blogContent || "";
     const images = req.body.blogImaage || "";
     const updated_at = Utils.getTimeStamp();
@@ -82,8 +82,9 @@ routes.patch("/blogs/:blog_id", async(req,res) => {
         title,
         slug,
         status,
-        blog_id,
-        id ////////////////////////////
+        id,
+        insertedCategories,
+        deletedCategories
     } = req.body;
 
     if(!title && !slug && !status && !id){
@@ -98,10 +99,23 @@ routes.patch("/blogs/:blog_id", async(req,res) => {
         id,
         images
     ];
+    const inputInsertedCategories = insertedCategories ? insertedCategories.map(item =>{
+        return [blog_id,item];
+    }) : null;
+    const inputDeletedCategories = deletedCategories ? deletedCategories.map(item =>{
+        return [blog_id,item];
+    }) : null;
+
 
     try {
-        // console.log(updatedBlogArray);
-        const response = await BlogQuerry.updateBlogDetails(blog_id,updatedBlogArray);
+        await BlogQuerry.updateBlogDetails(blog_id,updatedBlogArray);
+
+        if(deletedCategories.length > 0){
+            await BlogQuerry.deleteCategoriesByCategoryId([inputDeletedCategories]);
+        }
+        if(insertedCategories.length > 0){
+            await BlogQuerry.saveBlogCategoryRelation([inputInsertedCategories]);
+        }
         const jsonObject = {
             massage : "success"
         };
@@ -115,8 +129,8 @@ routes.patch("/blogs/:blog_id", async(req,res) => {
 routes.delete("/blogs/:blog_id" , async(req,res) => {
     const {blog_id} = req.params;
     try {
-        const response = await BlogQuerry.deleteRelation(blog_id);
-        response = await BlogQuerry.deleteBlog(blog_id);
+        await BlogQuerry.deleteRelation(blog_id);
+        await BlogQuerry.deleteBlog(blog_id);
         const jsonObject = {
             massage : "success"
         }
