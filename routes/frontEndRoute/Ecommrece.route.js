@@ -35,7 +35,20 @@ router.post("/checkout", async (req, res, next) => {
 			orderedItems,
 			totalCost,
 			shippingCost,
+			orderTypeId
 		} = await checkOutSchema.validateAsync(req.body);
+
+		let orderType_id = orderTypeId
+		if (!orderTypeId) {
+			let order_type_name = "From website"
+			const ordertypeIdtemp = await orderQuerry.getDefaultOrderType(order_type_name)
+			const data = {
+				results: ordertypeIdtemp.map(item => {
+					return { order_type_id: item.order_type_id }
+				})
+			}
+			orderType_id = data.results[0].order_type_id
+		}
 		const validpayment = await paymentValidation(
 			payOption,
 			transId,
@@ -68,6 +81,7 @@ router.post("/checkout", async (req, res, next) => {
 				fullName,
 				phoneNumber,
 				productId,
+				orderType_id,
 				country,
 				division,
 				city,
@@ -270,7 +284,7 @@ router.post("/pre-order", async (req, res, next) => {
 });
 router.get("/shippingCost/:ids", async (req, res, next) => {
 	const productIds = req.params.ids;
-	// console.log(productIds)
+	console.log(productIds)
 	try {
 		const getShippingCost = await orderQuerry.getSingleProductShippingCost(
 			productIds

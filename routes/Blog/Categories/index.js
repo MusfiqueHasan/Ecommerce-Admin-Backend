@@ -36,9 +36,7 @@ routes.post("/categories", async (req, res) => {
   const updated_at = getTimeStamp();
   const inserted_at = getTimeStamp();
 
-  if (!description) {
-    description = "";
-  }
+
 
   const newCategoryArray = [
     category_name,

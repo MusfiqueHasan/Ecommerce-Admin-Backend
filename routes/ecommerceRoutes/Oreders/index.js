@@ -163,4 +163,118 @@ routes.delete("/pre-orders/:id", async (req, res) => {
   }
 });
 
+routes.get("/order-type", async (req, res) => {
+  try {
+    const response = await OrderQuery.getAllOrderType();
+    const ordertypes = response.map(item => {
+      return {
+        value: item.order_type_id,
+        label: item.order_type_name,
+        inserted_at: item.inserted_at,
+        updated_at: item.updated_at
+      }
+    })
+    const jsonObject = {
+      massage: "success",
+      results: ordertypes,
+    };
+    res.status(HTTPStatus.OK).json(jsonObject);
+  } catch (error) {
+      res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({massage : "INTERNAL_SERVER_ERROR"});
+  }
+})
+
+routes.post("/order-type", async (req, res) => {
+  const order_type_name = req.body.order_type_name;
+  const inserted_at = Utils.getTimeStamp();
+
+  if (order_type_name === "From website") {
+    return res
+      .status(HTTPStatus.BAD_REQUEST)
+      .json({ massage: "Order type name is invalid" });
+  }
+
+  const newOrderTypeArray = [
+    order_type_name,
+    inserted_at,
+  ];
+
+  const inputArray = [newOrderTypeArray];
+
+  try {
+    const response = await OrderQuery.addOrderType([inputArray]);
+    const jsonData = {
+      order_type_id: response.insertId,
+      order_type_name: order_type_name,
+    };
+    res.status(HTTPStatus.OK).json(jsonData);
+  } catch (error) {
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "INTERNAL SERVER ERROR" });
+  }
+});
+
+routes.patch("/order-type/:id", async (req, res) => {
+  const { id } = req.params;
+  const order_type_name = req.body.order_type_name;
+  const updated_at = Utils.getTimeStamp();
+  const inserted_at = Utils.getTimeStamp();
+  const order_type_id = id;
+
+  if (!order_type_id) {
+    return res
+      .status(HTTPStatus.BAD_REQUEST)
+      .json({ massage: "Order type id not found" });
+  }
+
+  if (order_type_id === "1" && order_type_name === "From website") {
+    return res
+      .status(HTTPStatus.BAD_REQUEST)
+      .json({ massage: "This order type is not editable" });
+  }
+
+  const newOrderTypeArray = [
+    order_type_name,
+    updated_at,
+    order_type_id,
+  ];
+  try {
+    const response = await OrderQuery.updateOrderType(newOrderTypeArray);
+
+    res.status(HTTPStatus.OK).json({ status: "success" });
+  } catch (error) {
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "INTERNAL SERVER ERROR" });
+  }
+});
+
+routes.delete("/order-type/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const order_type_id = id;
+
+  if (!order_type_id) {
+    return res
+      .status(HTTPStatus.BAD_REQUEST)
+      .json({ massage: "Order type id not found" });
+  }
+
+  if (order_type_id === "1" && order_type_name === "From website") {
+    return res
+      .status(HTTPStatus.BAD_REQUEST)
+      .json({ massage: "You can not delete this order type" });
+  }
+
+  try {
+    const response = await OrderQuery.deleteOrderType(order_type_id);
+    res.status(HTTPStatus.OK).json({ massage: "success" });
+  } catch (error) {
+    res
+      .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+      .json({ massage: "INTERNAL SERVER ERROR" });
+  }
+});
+
 module.exports = routes;

@@ -1,6 +1,9 @@
 const Utils = require("../Utils/Utils");
 const Products = require("../Querry/Product/Products");
 const { ProductModel } = require("../Modles/Products");
+const { getTimeStamp } = require("../Utils/Utils");
+const HTTPStatus = require("../HTTPStatus");
+const BlogQuerry = require("../Querry/BlogQuerry/BlogQuerry");
 
 const parentProduct = async (req, res, next) => {
   const updated_at = (inserted_at = Utils.getTimeStamp());
@@ -43,4 +46,8 @@ const parentProduct = async (req, res, next) => {
 
   next();
 };
-module.exports = { parentProduct };
+
+
+module.exports = { 
+  parentProduct,
+};

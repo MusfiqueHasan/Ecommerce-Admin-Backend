@@ -27,6 +27,7 @@ const checkOutSchema = joi.object({
 	orderedItems: joi.array().min(1).required(),
 	totalCost: joi.number().greater(100).required(),
 	shippingCost: joi.number().min(5).greater(5).allow(0),
+	orderTypeId: joi.number().min(0).allow(null, ""),
 });
 const orderdItemsSchema = joi.object({
 	productId: joi.number().min(1).required(),

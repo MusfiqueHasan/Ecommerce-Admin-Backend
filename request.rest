@@ -103,7 +103,7 @@ GET http://localhost:5000/api/admin/edit/products/256
 
 
 ###
-GET http://localhost:5000/api/admin/products/256
+GET http://localhost:5000/api/admin/products
 
 
 ###
@@ -255,9 +255,9 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-    "name":"nakib",
-    "phonenumber":"093123288",
-    "email":"akram95@gmail.com",
+    "name":"three",
+    "phonenumber":"01333333333",
+    "email":"three@gmail.com",
     "password":"1234"
 }
 
@@ -282,9 +282,9 @@ POST http://localhost:5000/api/ecommrece/checkout
 Content-Type: application/json
 
 {
-    "userId":12,
+    "userId": 1,
     "email":"nakib@gmail.com",
-	"fullName":"nakib1",
+	"fullName":"nakib 1",
 	"phoneNumber":"0171203211",
     "country":"Bangladesh",
 	"division":"dhaka",
@@ -311,7 +311,8 @@ Content-Type: application/json
      }
     ],
     "totalCost":1200,
-    "shippingCost":0
+    "shippingCost":0,
+    "orderTypeId": 1,
 }
 
 
@@ -575,7 +576,14 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/ecommrece/shippingCost/235,233
+GET http://localhost:5000/api/ecommrece/shippingCost/14,8,7
+
+
+###
+GET http://localhost:5000/api/category/categories
+
+###
+GET http://localhost:5000/api/category/parent-categories
 
 ###
 GET http://localhost:5000/api/blog/categories
@@ -586,9 +594,9 @@ Content-Type: application/json
 
 {
     "categoryData":{
-        "name":"Bagss", 
-        "description":"", 
-        "parent_id":80
+        "name":"rewrer", 
+        "description":"dvsdvdv", 
+        "parent_id":null
     }
 }
 
@@ -604,35 +612,62 @@ Content-Type: application/json
     }
 }
 ###
-DELETE http://localhost:5000/api/blog/categories/9
-
-
+DELETE http://localhost:5000/api/blog/categories/23
 
 ###
-GET http://localhost:5000/api/blog/categories
+GET http://localhost:5000/api/blogs
 
 ###
-POST http://localhost:5000/api/blog/categories
+POST http://localhost:5000/api/blogs
 Content-Type: application/json
 
 {
-    "categoryData":{
-        "name":"food", 
-        "description":"top 10 food items", 
-        "parent_id":null
-    }
+    "title" : "food quest8",
+    "slug" : "food-quest4",
+    "blogContent" : "adsawverbvdadvavadvdvdasvasvweasdvcsd",
+    "status" : 2,
+    "id" : 29,
+    "blogImaage" : "",
+    "blogCategoryList": [1,2,3],
+    "images" : "images"
 }
 
 ###
-PATCH  http://localhost:5000/api/blog/categories/12
+PATCH http://localhost:5000/api/blogs/1055
 Content-Type: application/json
 
 {
-    "categoryData":{
-        "name":"Bag", 
-        "description":"updated", 
-        "parent_id":null
-    }
+    "title" : "High valued individual",
+    "slug" : "high-valued-individual",
+    "blogContent" : "hjVcDJCJD",
+    "status" : 1,
+    "id" : 29,
+    "blogImaage" : "",
+    "blog_id" : 1055,
+    "blogCategoryList": [1,2,3]
 }
+
 ###
-DELETE http://localhost:5000/api/blog/categories/15
+DELETE http://localhost:5000/api/blogs/1059
+
+###
+GET http://localhost:5000/api/order-type
+
+###
+POST http://localhost:5000/api/order-type
+Content-Type: application/json
+
+{
+    "order_type_name":"From website2"
+}
+
+###
+PATCH http://localhost:5000/api/order-type/1
+Content-Type: application/json
+
+{
+    "order_type_name":"From customer"
+}
+
+###
+DELETE http://localhost:5000/api/order-type/4

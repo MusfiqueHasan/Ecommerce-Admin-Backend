@@ -25,7 +25,7 @@ router.post("/register", async (req, res, next) => {
 
 	try {
 		// validate eamil , password using joi
-		console.log(req.body);
+		//console.log(req.body);
 		const { name, phonenumber, email, password } =
 			await registerSchema.validateAsync(req.body);
         
@@ -49,6 +49,7 @@ router.post("/register", async (req, res, next) => {
 				hashPassword
 			);
             const userId = response.insertId
+			console.log(res)
             
 			// generate access token for user
 			if (!response) {
@@ -63,7 +64,10 @@ router.post("/register", async (req, res, next) => {
 			res.status(HTTPStatus.CREATED).json({
 				status: "Successful",
 				message: "account created successfully",
+				id: response.insertId,
 				email:email,
+				phone_number: phonenumber,
+				name: name,
 				accessToken: accessToken,
 				refreshToken: refreshToken,
 			});

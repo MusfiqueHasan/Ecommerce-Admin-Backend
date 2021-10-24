@@ -15,6 +15,11 @@ const orderQuerry = {
 	updatePreOrderStatus,
 	deletePreOrderById,
 	getSingleProductShippingCost,
+	getAllOrderType,
+	addOrderType,
+	updateOrderType,
+	deleteOrderType,
+	getDefaultOrderType
 };
 async function saveOrder(
 	userId,
@@ -22,6 +27,7 @@ async function saveOrder(
 	fullName,
 	phoneNumber,
 	productId,
+	orderType_id,
 	country,
 	division,
 	city,
@@ -35,13 +41,14 @@ async function saveOrder(
 	shippingCost
 ) {
 	const sqlQuery =
-		"INSERT INTO orderdata (user_id,user_fullname,user_email,phonenumber,productId,order_status,pay_option,pay_medium,pay_phoneNumber,transactionId,message,division,city,total_price,shipping_cost,address,country) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		"INSERT INTO orderdata (user_id,user_fullname,user_email,phonenumber,productId,order_type,order_status,pay_option,pay_medium,pay_phoneNumber,transactionId,message,division,city,total_price,shipping_cost,address,country) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	const orderData = [
 		userId,
 		fullName,
 		email,
 		phoneNumber,
 		productId,
+		orderType_id,
 		"On hold",
 		payOption,
 		payMedium,
@@ -148,4 +155,30 @@ async function getSingleProductShippingCost(productIds) {
 	const sqlQuery = `SELECT * FROM product_shipping INNER JOIN shipping ON shipping_id = shipping.shipping_class_id and product_id in (${productIds})`;
 	return PromiseModule.readData(sqlQuery);
 }
+
+async function getAllOrderType() {
+	const sqlSearch = `SELECT * FROM order_type ORDER BY order_type_id DESC`;
+	return PromiseModule.readData(sqlSearch);
+}
+
+async function addOrderType(inputArray) {
+    const sqlQuerry = "INSERT INTO order_type (order_type_name, inserted_at) Values?";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);
+}
+
+async function updateOrderType(inputArray) {
+    const sqlQuerry = "UPDATE order_type SET order_type_name = ? , updated_at = ?  WHERE order_type_id = ?";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);    
+}
+
+async function deleteOrderType(inputArray) {
+    const sqlQuerry = `DELETE FROM order_type WHERE order_type_id = ?`;
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);    
+}
+
+async function getDefaultOrderType(order_type_name) {
+	const sqlSearch = `SELECT order_type_id FROM order_type WHERE order_type_name='${order_type_name}'`;
+	return PromiseModule.readData(sqlSearch);
+}
+
 module.exports = orderQuerry;

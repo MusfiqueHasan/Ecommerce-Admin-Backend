@@ -1,45 +1,50 @@
-// const PromiseModule = require("../../helpers/Promise/PromiseModule");
+const PromiseModule = require("../../helpers/Promise/PromiseModule");
 
-// const BlogQuerry = {
-//     getAllBlogs,
-//     getAllCategories,
-//     getAllParentCategories,
-//     createNewCategory,
-//     updateCategory,
-//     deleteCategory
-// }
+const BlogQuerry = {
+    getAllBlogs,
+    getCategoryList,
+    postNewBlog,
+    saveBlogCategoryRelation,
+    updateBlogDetails,
+    deleteRelation,
+    deleteBlog,
+}
 
-// async function getAllCategories() {
-//     const sqlQuerry = `SELECT * FROM blog_categories`;
-//     return PromiseModule.readData(sqlQuerry);
-// }
+async function getAllBlogs(){
+    const sqlQuerry = `SELECT blog_id,title,slug,images,content,blog.inserted_at AS inserted_at,blog.updated_at AS updated_at,name as status,id as userId,fullName as username FROM blog NATURAL JOIN admin_auth,product_status WHERE blog.id = admin_auth.id AND blog.product_status_id = product_status.product_status_id`;
+    return PromiseModule.readData(sqlQuerry);
+}
 
-// async function getAllParentCategories() {
-//     const sqlQuerry = `SELECT * FROM categories WHERE parent_id < 0`;
-//     return PromiseModule.readData(sqlQuerry);
-// }
+async function getCategoryList(inputData) {
+    const sqlQuerry = `SELECT category_id,category_name FROM category_blog_relation NATURAL JOIN blog_categories WHERE blog_id = ${inputData}`;
+    return PromiseModule.readData(sqlQuerry);
+}
 
-// async function createNewCategory(inputCategory) {
-//     const sqlQuerry = `INSERT INTO categories (name, parent_id, inserted_at, updated_at, description) VALUES ?`;
-//     const inputArray = [inputCategory.name , inputCategory.parent_id,inputCategory.inserted_at,inputCategory.updated_at,inputCategory.description];
-//     return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);
-// }
+async function postNewBlog(inputArray) {
+    const sqlQuerry = "INSERT INTO blog (title, slug, updated_at, inserted_at, content, product_status_id, id, images) VALUES?";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);
+}
 
-// async function updateCategory(inputCategory) {
-//     const sqlQuerry = `UPDATE categories SET name = ? AND parent_id = ? AND updated_at = ? AND description = ? WHERE categories.category_id = ?`;
-//     const inputArray = [inputCategory.name , inputCategory.parent_id, inputCategory.updated_at,inputCategory.description , inputCategory.id];
-//     return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);    
-// }
+async function saveBlogCategoryRelation(inputArray) {
+    const sqlQuerry = "INSERT INTO category_blog_relation (blog_id, category_id) VALUES?";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);
+}
 
-// async function deleteCategory(inputdata) {
-//     const sqlQuerry = `DELETE FROM categories WHERE categories.category_id = ?`;
-//     const inputArray = [inputdata];
-//     return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);    
-// }
+async function updateBlogDetails(inputArray) {
+    console.log(inputArray);
+    const sqlQuerry = "UPDATE blog SET title = ? , slug = ? , updated_at = ? , content = ? prodeuct_status = ? , id = ? , images = ? WHERE `blog`.`blog_id` = ?";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputArray);
+}
 
-// async function getAllBlogs() {
-//     const sqlSearch = `SELECT * FROM blog `;
-//     return PromiseModule.readData(sqlSearch);
-// }
+async function deleteRelation(inputData) {
+    const sqlQuerry = "DELETE FROM `category_blog_relation` WHERE blog_id = ?";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputData);
+}
 
-// module.exports = BlogQuerry
+async function deleteBlog(inputData) {
+    const sqlQuerry = "DELETE FROM `blog` WHERE blog_id = ?";
+    return PromiseModule.createUpdateDelete(sqlQuerry,inputData);
+}
+
+
+module.exports = BlogQuerry
