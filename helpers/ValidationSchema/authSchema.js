@@ -48,10 +48,20 @@ const paymentValidation = (payOption, transId, phoneNumber) => {
 	}
 	return true;
 };
+
+const permissionSchema = joi.object({
+	user_id: joi.number().min(1).required(),
+	routing_id: joi.string().required(),
+	read_operation: joi.string().min(4).max(5).required(),
+	update_operation: joi.string().min(4).max(5).required(),
+	delete_operation: joi.string().min(4).max(5).required(),
+});
+
 module.exports = {
 	registerSchema,
 	loginSchema,
 	checkOutSchema,
 	orderdItemsSchema,
 	paymentValidation,
+	permissionSchema,
 };

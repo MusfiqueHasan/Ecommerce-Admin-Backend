@@ -34,6 +34,7 @@ async function createUpdateDelete(sqlQuery, sqlValue) {
   return new Promise((resolve, reject) => {
     pool.query(sqlQuery, sqlValue, (error, rows, fields) => {
       if (error) {
+        console.log(error)
         reject(error);
       } else {
         resolve(rows);

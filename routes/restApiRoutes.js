@@ -13,6 +13,7 @@ const themeConfig = require("./themeConfigRoutes");
 const MarketingRoute = require("./marketing");
 const BlogRoute = require("./Blog")
 const CategoryRoute = require("./categoryRoutes");
+const PermissionRoute = require("./permission");
 routes.use(EcommerceRoutes);
 routes.use(FileRoutes);
 routes.use(CalenderRoute);
@@ -20,6 +21,7 @@ routes.use(FrontEndRoute);
 routes.use(EmailRoute);
 routes.use(UserRoute);
 routes.use(BlogRoute);
+routes.use(PermissionRoute);
 routes.use("/themeConfig", themeConfig);
 routes.use("/admin", AdminInfoRoute);
 routes.use("/adminAuth", AdminAuthRoute);

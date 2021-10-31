@@ -476,6 +476,9 @@ GET http://localhost:5000/api/products/price/235,233
 GET http://localhost:5000/api/ecommerce/analytics/inventory
 
 ###
+GET http://localhost:5000/api/adminAuth/admin-auth
+
+###
 POST http://localhost:5000/api/adminAuth/register
 Content-Type: application/json
 
@@ -658,7 +661,7 @@ POST http://localhost:5000/api/order-type
 Content-Type: application/json
 
 {
-    "order_type_name":"From website2"
+    "order_type_name":"From website9"
 }
 
 ###
@@ -671,3 +674,36 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:5000/api/order-type/4
+
+###
+GET http://localhost:5000/api/permission
+
+###
+GET http://localhost:5000/api/permission/29
+
+###
+POST http://localhost:5000/api/permission
+Content-Type: application/json
+
+{
+    "user_id": 29,
+    "routing_id": "blog",
+    "read_operation": "false",
+    "update_operation": "True",
+    "delete_operation": "False"
+}
+
+###
+PATCH http://localhost:5000/api/permission/15
+Content-Type: application/json
+
+{
+    "user_id": 29,
+    "routing_id": "blog",
+    "read_operation": "True",
+    "update_operation": "True",
+    "delete_operation": "True"
+}
+
+###
+DELETE http://localhost:5000/api/permission/15

@@ -1,10 +1,16 @@
 const PromiseModule = require("../../helpers/Promise/PromiseModule");
 
 const adminAuthQuerry = {
+	getAdminAuthInfo,
 	checkAdmin,
 	checkAdminUsernameEmail,
 	saveStaff,
 };
+
+async function getAdminAuthInfo() {
+	const sqlQuery = `SELECT * FROM admin_auth ORDER BY id DESC`;
+	return PromiseModule.readData(sqlQuery);
+}
 
 async function checkAdmin(role, email) {
     console.log(role,email)

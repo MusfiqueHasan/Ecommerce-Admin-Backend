@@ -16,6 +16,22 @@ const {
 	verifyRefreshToken,
 	deleteRefreshToken,
 } = require("../../helpers/jwt_helper/jwt_token");
+
+routes.get("/admin-auth", async (req, res) => {
+	try {
+		const response = await AdminAuthQuerry.getAdminAuthInfo();
+		const jsonObject = {
+			massage: "success",
+			results: response,
+		};
+		res.status(HTTPStatus.OK).json(jsonObject);
+	} catch (error) {
+		res
+			.status(HTTPStatus.INTERNAL_SERVER_ERROR)
+			.json({ massage: "INTERNAL SERVER ERROR"});
+	}
+})
+
 routes.post("/register", async (req, res, next) => {
 	try {
 		// validate eamil , password using joi
